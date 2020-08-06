@@ -30,6 +30,8 @@ Executing it will yield:
 
 In those types of challenges, I would advise you to manually fuzz inputs. By sending special characters and strings with an invalid length, you might get an interesting error message. Keep in mind that the first step is the understand what the software is expecting as inputs.
 
+But it's not going to help here :) (would be too easy)
+
 ### Reverse Engineering Obfuscated Code
 ---
 FCSC 2020
