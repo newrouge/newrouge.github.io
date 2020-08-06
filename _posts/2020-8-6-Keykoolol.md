@@ -95,6 +95,49 @@ What is in `rodata` ?
 ```
 As expected, we can see the strings used by the binary to indicate us the validity of the entry. But what is after offset `0x000000c0` ? The data seems jibberish and not interpretable, but is it random ?
 
+Let's extract `rodata` segment using `dd`, and analyze its entropy with `binwalk -E`:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/zoom_ent.png)
+{: refdef}
+
+`rodata`'s entropy seems to be around 0.897; this is far not enough to qualify as random data. Though you probably already noticed that, in the sample, there were distingushable patterns. The `NULL` byte is very recuring, also the pattern `0006` appears four times, and `0c00` appears twice.
+
+For instance, this is what the entropy of random data should look like:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/max_ent.png)
+{: refdef}
+
+It's slightly above 0.97, so there is a noticeable difference withe the previous value.
+
+# Part 3: Binary disassembly
+
+Let's quickly examine the `main` function of the binary:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/main.png)
+{: refdef}
+
+We can see a call to the function in charge of the validation of the serial, and then a conditional jump that will either print a valid response, or a negative one. There is no surprise here, we also can see those strings at the beginning of `rodata`.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/zoom_main.png)
+{: refdef}
+
+
+The interesting point here is that, if there was not online check (and that is a likely scenario with proprietary software), getting a valid prompt is a trivial as replacing a 0x74 JZ with a 0x75 JNZ after the validation function returns. But we will address micropatching in another post.
+
+So now, to the main part ! Let's reverse this `check_serial` function.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/check_serial.png)
+{: refdef}
+
+grazpfo#$eq!!!
+
+OK I'm assuming that if you are still reading this it is because you are used to seeing horrible things in IDA (and I have come to learn since that this one is actually a nice one...)
+
 ### Reverse Engineering Obfuscated Code
 ---
 FCSC 2020
