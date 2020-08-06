@@ -47,48 +47,48 @@ The file is an 16Ko ELF file.
 
 The command `file` gives:
 ```
-  keykoolol: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, 
-             interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, 
-             BuildID[sha1]=1422aa3ad6edad4cc689ec6ed5d9fd4e6263cd72,
-             stripped
+keykoolol: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, 
+           interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, 
+           BuildID[sha1]=1422aa3ad6edad4cc689ec6ed5d9fd4e6263cd72,
+           stripped
 ```
 Nothing tremendously interesting here, the sections though will reveal more interesting things (using `readelf -e`):
 
 ```
-        [14] .text             PROGBITS         0000000000000730  00000730
-             0000000000001ce2  0000000000000000  AX       0     0     16
-        [16] .rodata           PROGBITS         0000000000002420  00002420
-             00000000000004c0  0000000000000000   A       0     0     32
-        [24] .bss              NOBITS           0000000000203020  00003010
-             0000000000002868  0000000000000000  WA       0     0     32
+[14] .text             PROGBITS         0000000000000730  00000730
+     0000000000001ce2  0000000000000000  AX       0     0     16
+[16] .rodata           PROGBITS         0000000000002420  00002420
+     00000000000004c0  0000000000000000   A       0     0     32
+[24] .bss              NOBITS           0000000000203020  00003010
+     0000000000002868  0000000000000000  WA       0     0     32
 ```
 
-So `text` contains our code, but `rodata` and `bss` are quite large. 1216 bytes for `rodata` and 10Ko for `bss` ? Something smells fishy
+So `text` contains our code, but `rodata` and `bss` are quite large. 1216 bytes for `rodata` and 10Ko for `bss` ? Something smells fishy.
 
 What is in `rodata` ?
 
 ```
-    00000000: 0100 0200 5b2b 5d20 5573 6572 6e61 6d65  ....[+] Username
-    00000010: 3a20 000a 005b 2b5d 2053 6572 6961 6c3a  : ...[+] Serial:
-    00000020: 2020 2000 5b3e 5d20 5661 6c69 6420 7365     .[>] Valid se
-    00000030: 7269 616c 2100 5b3e 5d20 4e6f 7720 636f  rial!.[>] Now co
-    00000040: 6e6e 6563 7420 746f 2074 6865 2072 656d  nnect to the rem
-    00000050: 6f74 6520 7365 7276 6572 2061 6e64 2067  ote server and g
-    00000060: 656e 6572 6174 6520 7365 7269 616c 7320  enerate serials 
-    00000070: 666f 7220 7468 6520 6769 7665 6e20 7573  for the given us
-    00000080: 6572 6e61 6d65 732e 005b 215d 2049 6e63  ernames..[!] Inc
-    00000090: 6f72 7265 6374 2073 6572 6961 6c2e 0000  orrect serial...
-    000000a0: 0004 0000 0000 0000 0000 0000 0000 0000  ................
-    000000b0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
-    000000c0: 6e18 b017 c9f5 bf08 7400 000a 3752 0a00  n.......t...7R..
-    000000d0: 9895 1c00 7403 0006 881c 0008 7400 000a  ....t.......t...
-    000000e0: 3f9e 0800 5694 1c00 ad06 180c c60f 2002  ?...V......... .
-    000000f0: 8802 0006 8997 0c00 7c02 080c c973 1c00  ........|....s..
-    00000100: 5b00 190c 7c00 0006 fa1b 0c00 f701 1000  [...|...........
-    00000110: a7f3 1f0c 4b19 100c fc00 0006 5a41 0c00  ....K.......ZA..
-    00000120: 0995 1c00 8e08 180c 280b 2602 e802 0006  ........(.&.....
-    00000130: 6434 7bff 050c 0002 afb4 68ff de24 f21a  d4{.......h..$..
-    00000140: 0588 f40c fd5c dd12 c049 df13 b982 d01d  .....\...I......
+00000000: 0100 0200 5b2b 5d20 5573 6572 6e61 6d65  ....[+] Username
+00000010: 3a20 000a 005b 2b5d 2053 6572 6961 6c3a  : ...[+] Serial:
+00000020: 2020 2000 5b3e 5d20 5661 6c69 6420 7365     .[>] Valid se
+00000030: 7269 616c 2100 5b3e 5d20 4e6f 7720 636f  rial!.[>] Now co
+00000040: 6e6e 6563 7420 746f 2074 6865 2072 656d  nnect to the rem
+00000050: 6f74 6520 7365 7276 6572 2061 6e64 2067  ote server and g
+00000060: 656e 6572 6174 6520 7365 7269 616c 7320  enerate serials 
+00000070: 666f 7220 7468 6520 6769 7665 6e20 7573  for the given us
+00000080: 6572 6e61 6d65 732e 005b 215d 2049 6e63  ernames..[!] Inc
+00000090: 6f72 7265 6374 2073 6572 6961 6c2e 0000  orrect serial...
+000000a0: 0004 0000 0000 0000 0000 0000 0000 0000  ................
+000000b0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+000000c0: 6e18 b017 c9f5 bf08 7400 000a 3752 0a00  n.......t...7R..
+000000d0: 9895 1c00 7403 0006 881c 0008 7400 000a  ....t.......t...
+000000e0: 3f9e 0800 5694 1c00 ad06 180c c60f 2002  ?...V......... .
+000000f0: 8802 0006 8997 0c00 7c02 080c c973 1c00  ........|....s..
+00000100: 5b00 190c 7c00 0006 fa1b 0c00 f701 1000  [...|...........
+00000110: a7f3 1f0c 4b19 100c fc00 0006 5a41 0c00  ....K.......ZA..
+00000120: 0995 1c00 8e08 180c 280b 2602 e802 0006  ........(.&.....
+00000130: 6434 7bff 050c 0002 afb4 68ff de24 f21a  d4{.......h..$..
+00000140: 0588 f40c fd5c dd12 c049 df13 b982 d01d  .....\...I......
 ```
 
 ### Reverse Engineering Obfuscated Code
