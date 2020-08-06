@@ -126,7 +126,7 @@ We can see a call to the function in charge of the validation of the serial, and
 {: refdef}
 
 
-The interesting point here is that, if there was not online check (and that is a likely scenario with proprietary software), getting a valid prompt is a trivial as replacing a 0x74 JZ with a 0x75 JNZ after the validation function returns. But we will address micropatching in another post.
+The interesting point here is that, if there was no online check (and that is a likely scenario with proprietary software), getting a valid prompt is a trivial as replacing a 0x74 JZ with a 0x75 JNZ after the validation function returns. But we will address micropatching in another post.
 
 So now, to the main part ! Let's reverse this `check_serial` function.
 
