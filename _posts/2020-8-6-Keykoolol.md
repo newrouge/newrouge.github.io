@@ -43,11 +43,24 @@ Let's go roughly through the steps we will have to follow:
 
 # Part 2: ELF analysis
 
-```shell
+The file is an 16Ko ELF file.
+
+The command `file` gives:
+```
   keykoolol: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, 
              interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, 
              BuildID[sha1]=1422aa3ad6edad4cc689ec6ed5d9fd4e6263cd72,
              stripped
+```
+Nothing tremendously interesting here, the sections though will reveal more interesting things (using `readelf -e`):
+
+```
+        [14] .text             PROGBITS         0000000000000730  00000730
+             0000000000001ce2  0000000000000000  AX       0     0     16
+        [16] .rodata           PROGBITS         0000000000002420  00002420
+             00000000000004c0  0000000000000000   A       0     0     32
+        [24] .bss              NOBITS           0000000000203020  00003010
+             0000000000002868  0000000000000000  WA       0     0     32
 ```
 
 ### Reverse Engineering Obfuscated Code
