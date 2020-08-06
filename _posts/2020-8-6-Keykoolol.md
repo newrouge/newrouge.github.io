@@ -136,6 +136,7 @@ So now, to the main part ! Let's reverse this `check_serial` function.
 
 grazpfo#$eq!!!
 
+
 OK I'm assuming that if you are still reading this it is because you are used to seeing horrible things in IDA (and I have come to learn since that this one is actually a nice one...)
 
 ### Reverse Engineering Obfuscated Code
