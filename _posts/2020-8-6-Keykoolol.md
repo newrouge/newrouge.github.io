@@ -64,6 +64,7 @@ Nothing tremendously interesting here, the sections though will reveal more inte
 ```
 
 So `text` contains our code, but `rodata` and `bss` are quite large. 1216 bytes for `rodata` and 10Ko for `bss` ? Something smells fishy.
+As a reminder, `bss` is meant for uninitialized global variables. It often contains stuff like session encryption keys and pretty much any runtime data that requires a globally shared pointer 
 
 What is in `rodata` ?
 
@@ -90,6 +91,7 @@ What is in `rodata` ?
 00000130: 6434 7bff 050c 0002 afb4 68ff de24 f21a  d4{.......h..$..
 00000140: 0588 f40c fd5c dd12 c049 df13 b982 d01d  .....\...I......
 ```
+As expected, we can see the strings used by the binary to indicate us the validity of the entry. But what is after offset `0x000000c0` ? The data seems jibberish and not interpretable, but is it random ?
 
 ### Reverse Engineering Obfuscated Code
 ---
