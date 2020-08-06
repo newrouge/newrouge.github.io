@@ -8,8 +8,9 @@ This write-up is essentially meant for beginners in the domain of obfuscated cod
 # Part 1: Type of challenge
 This happens to be a keygen type of challenge, here are the rules (in French):
 
-
+{:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/keykoolol.png)
+{: refdef}
 
 Basically, it is saying that you have to download a binary, that will take inputs, and much like a licensed software, will verify those inputs against each other. This is meant to mimic the way proprietary software verifies license keys.
 
