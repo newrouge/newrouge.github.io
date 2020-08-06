@@ -2,7 +2,7 @@
 layout: post
 title: Reverse Engineering Obfuscated Code - CTF Write-Up
 ---
-This is a write up for one of the FCSC (French Cyber Security Challenge) reverse engineering challenges. I was the first time I had to deal with virtualized code, so my solution is far from being the best, surely there were much quicker ways, but mine did get the job done.
+This is a write up for one of the FCSC (French Cyber Security Challenge) reverse engineering challenges. It was the first time I had to deal with virtualized code, so my solution is far from being the best. Surely there were much quicker ways, but mine did get the job done.
 This write-up is essentially meant for beginners in the domain of obfuscated code reverse engineering.
 
 # Part 1: Type of challenge
