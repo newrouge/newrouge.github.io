@@ -212,6 +212,8 @@ Some instructions are in the form:
   * rax <= a, dest address, located at BSS_IR_ARRAY+rax*4 (4 bits)
   * rcx <= cc, source address, located at BSS_IR_ARRAY+rcx*4 (1 byte)
   * xxx is the next instruction's address (12 bits)
+  
+
 Addresses resolved by parameters a and c are in the `bss` section. There is a reason for that:
 
 {:refdef: style="text-align: center;"}
