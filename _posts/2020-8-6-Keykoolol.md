@@ -237,14 +237,14 @@ Here is an example of a code block that is XORed:
 Right column contains the IR as it is in the `ro_data` segment, and left column is obtained after a XOR with 0xA1B2C3D4. So the opcodes d8, d4 etc are actually fake instructions sending you on a wrong path. They are dead code.
 
 There are three steps of code XORing, pretty easily detectable once you were tricked by the first one, and after deobfuscating all the IR, here are the macro steps we obtain:
- ** STEP1: verify serial charset
- ** STEP2: hash username
- ** STEP3: xor instructions with C1D2E3F4
- ** STEP4: newly created instructions: 0x50 loop
- ** STEP5: decode new instructions with A1B2C3D4
- ** STEP6: encrypt 32 rounds of AES
- ** STEP7: decode instructions with AABBCCDD
- ** STEP8: loop over serial and verify value byte per byte
+  * STEP1: verify serial charset
+  * STEP2: hash username
+  * STEP3: xor instructions with C1D2E3F4
+  * STEP4: newly created instructions: 0x50 loop
+  * STEP5: decode new instructions with A1B2C3D4
+  * STEP6: encrypt 32 rounds of AES
+  * STEP7: decode instructions with AABBCCDD
+  * STEP8: loop over serial and verify value byte per byte
 
 
 ### Reverse Engineering Obfuscated Code
