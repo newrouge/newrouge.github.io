@@ -179,7 +179,7 @@ Note the 4 branches that are put on the side by IDA, they have a very specific r
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/conditional.png)
 {: refdef}
 
-Please accept my most sincere apologies as can clearly not organize an IDA graph in a clean way. I know it looks terrible but it's the best I had...
+Please accept my most sincere apologies as I can clearly not organize an IDA graph in a clean way. I know it looks terrible but it's the best I had...
 
 Here is the IR to x86 translation for the conditional jumps:
 
@@ -198,7 +198,7 @@ Studying the IR, we start spotting coding patterns, here is an example:
 ```
 This is the end of the loop that verifies the length of the input. Here we see two kinds of jumps: `08 09` is a `sub, jz`, and 18 is a `jmp`. This structure here `08 09 0e 00 18` marks the end of a for loop, with a `goto`.
 
-The value it is initialized with is 0x100, so we know our serial should be 128 bytes long. Also, I wont be detaling it here, but the loop next to this one is checking every char in the serial against the regexp [0-9a-fA-F]*. So the actual length of the serial is 0x50, as we are supposed to input an hex encoded value
+The value it is initialized with is 0x100, so we know our serial should be 128 bytes long. Also, I wont be detailing it here, but the loop next to this one is checking every char in the serial against the regexp [0-9a-fA-F]*. So the actual length of the serial is 0x80, as we are supposed to input an hex encoded value
 
 Doing this we learn two important things about the virtual machine:
 1. The IR syntax
@@ -275,7 +275,7 @@ def transient_key(username):
  return temp
 ```
 
-You'll see whoever imagined this loved circular shifts.
+You'll notice whoever imagined this loved circular shifts.
 
 With a given username, you would obtain the same hash the binary computes using `derived_key(transient_key(username))`.
 
@@ -293,13 +293,13 @@ There is something pretty curious done at the end of this hashing algorithm. The
 ```
                         
                         
-here is a snapshot of the stack (`bss` but you get it) at the location that stores both the serial and the username's hash:
+Here is a snapshot of the stack (`bss` but you get it) at the location that stores both the serial and the username's hash:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/hash2.png)
 {: refdef}
 
-In the box is the result of the hashing algorithm, and right after, highlighted in yellow you can see the two lines of 'A's that were hex encoded in the end of the serial.
+In the box is the result of the hashing algorithm. Highlighted in yellow you can see the two lines of 'A's that were hex decoded, and appended to the end of the serial.
 
 You can already tell that this input is not exactly randomly chosen, and I'll explain why it looks like this.
 
@@ -324,14 +324,14 @@ The reason those last two lines are treated differently is because they actually
                      41414141414141414141414141414141
 ```
 
-Once this hash is computed, the code decrypts the serial using AES-NI instruction `aesdec` for several rounds, and checks, byte per byte, that the decryption result is equal to the hash.
-The basic block realizing the decryption is here:
+Once this hash is computed, the code encrypts the serial using AES-NI instruction `aesdec` for several rounds, and checks, byte per byte, that the decryption result is equal to the hash.
+The basic block realizing the encryption is here:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/aesni.png)
 {: refdef}
 
-The `xmm` registers are 128 bits register, so we are using AES 128. We will therefore name each 16 bytes line in the serial, as they will correspond to actual encryption blocks:
+The `xmm` registers are 128 bits registers, so we are using AES 128. We will therefore name each 16 bytes line in the serial, as they will correspond to actual encryption blocks:
 ```
 Username:           ecsc
 Serial:             9f96d7f6380d729ffad1f09783706997 - l1
