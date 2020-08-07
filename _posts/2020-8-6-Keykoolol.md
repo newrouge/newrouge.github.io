@@ -176,10 +176,12 @@ Note the 4 branches that are put on the side by IDA, they have a very specific r
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/conditional.png)
 {: refdef}
 
-   *15 : jump if greater (must be lower)
-   *14 : jump if shorter (must be higher or equal)
-   *0A : jump if not zero (must be equal)
-   *09 : jump if zero (must be different)
+Please accept my most sincere apologies as can clearly not organize an IDA graph in a clean way. I know it looks terrible but it's the best I had...
+
+  *15 : jump if greater (must be lower)
+  *14 : jump if shorter (must be higher or equal)
+  *0A : jump if not zero (must be equal)
+  *09 : jump if zero (must be different)
 
 
 ### Reverse Engineering Obfuscated Code
