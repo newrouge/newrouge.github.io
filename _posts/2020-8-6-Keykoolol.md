@@ -66,7 +66,7 @@ Nothing tremendously interesting here, the sections though will reveal more inte
 ```
 
 So `text` contains our code, but `rodata` and `bss` are quite large. 1216 bytes for `rodata` and 10Ko for `bss` ? Something smells fishy.
-As a reminder, `bss` is meant for uninitialized global variables. It often contains stuff like session encryption keys and pretty much any runtime data that requires a globally shared pointer 
+As a reminder, `bss` is meant for uninitialized global variables. It often contains stuff like session encryption keys and pretty much any runtime data that requires a globally shared pointer.
 
 What is in `rodata` ?
 
