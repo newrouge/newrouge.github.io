@@ -376,7 +376,7 @@ This will encrypt with one single round of AES the string 0x41414141414141414141
 Now, part of the problem is to implement, or find, an AES program that will allow you to encrypt or decrypt with single rounds of AES. You can't do that with OpenSSL or PyCrypto as the number of rounds is standardized and depends on the key size (10 round for AES 128 in this case).
 
 A simple encryption round for AES looks like:
-```
+```python
 def aes_round(self, state, roundKey):
         state = self.subBytes(state, False)
         state = self.shiftRows(state, False)
@@ -387,7 +387,7 @@ def aes_round(self, state, roundKey):
 
 So obviously the inverse would be:
 
-```
+```python
 def aes_invRound(self, state, roundKey):
         state = self.addRoundKey(state, roundKey)
         state = self.mixColumns(state, True)
