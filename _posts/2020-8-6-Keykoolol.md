@@ -146,13 +146,15 @@ Analyzing it's parameters is going to help us understand what this is doing. It 
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/ro_data.png)
 {: refdef}
 
-Guess who's back ? It is indeed the segment we computed the entropy of earlier. The main part of the validation function is actually a loop over all the values of this array, taken as dwords (4 bytes) and checking the value of the least significant byte.
+Guess who's back ? It is indeed the segment we computed the entropy of earlier. The main part of the validation function is actually a loop over all the values of this array, taken as dwords (4 bytes) and checking the value of the least significant byte, but before that, this `RO_DATA_ARRAY` is copied (0x400 bytes) in ... the `bss` (keep that in mind, it will make sense later).
+
+I will refer to The offset of `RO_DATA_ARRAY`'s copy in the `bss` by BSS_IR_ARRAY.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/opcodes.png)
 {: refdef}
 
-Each different value for this byte will trigger a different code execution in the validation function.
+It is a 256 cases switch-case structure, and each different value for this byte will trigger a different code execution in the validation function.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/zoom_dispatcher.png)
@@ -178,11 +180,40 @@ Note the 4 branches that are put on the side by IDA, they have a very specific r
 
 Please accept my most sincere apologies as can clearly not organize an IDA graph in a clean way. I know it looks terrible but it's the best I had...
 
-  *15 : jump if greater (must be lower)
-  *14 : jump if shorter (must be higher or equal)
-  *0A : jump if not zero (must be equal)
-  *09 : jump if zero (must be different)
+Here is the IR to x86 translation for the conditional jumps:
 
+  * 15 : jump if greater (must be lower)
+  * 14 : jump if shorter (must be higher or equal)
+  * 0A : jump if not zero (must be equal)
+  * 09 : jump if zero (must be different)
+ 
+Studying the IR, we start spotting coding patterns, here is an example:
+ ```
+    0x172573f9 if charset valid, land here
+    0x0043473a increment intval 
+    0x11402225 do some div
+    0x08401ca4 decrement r9d by 1
+    0x090003d4 if r9d != 0, jump to 3d4, else, next
+    0x0e210cb5 mul reg+a = c * reg+a
+    0x00529386 increment int_val register
+    0x180003e8 jump to 0F3554D7 (3e8)
+```
+This is the end of the loop that verifies the validity of the input. Here we see two kinds of jumps: `08 09` is a `sub, jz`, and 18 is a `jmp`. This structure here `08 09 0e 00 18` marks the end of a for loop, with a `goto`.
+
+The value it is initialized with is 0x100, so we know our serial should be 128 bytes long.
+
+Doing this we learn two important things about the virtual machine:
+1. The IR syntax
+2. It's macroscopic behaviour
+
+Regarding the IR syntax, I did not completely understand all the instructions (00 to FF) but here is an example of IR syntax:
+Some instructions are in the form: iiaccxxx (stored 0xXXCXACII)
+                                   ii is the opcode (1 byte)
+                                   rax <= a, dest address, located at BSS_IR_ARRAY+rax*4 (4 bits)
+                                   rcx <= cc, source address, located at BSS_IR_ARRAY+rcx*4 (1 byte)
+                                   xxx is the next instruction's address (12 bits)
+                                   
+                 
 
 ### Reverse Engineering Obfuscated Code
 ---
