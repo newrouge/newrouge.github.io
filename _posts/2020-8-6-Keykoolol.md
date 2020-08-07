@@ -146,9 +146,10 @@ Analyzing it's parameters is going to help us understand what this is doing. It 
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/ro_data.png)
 {: refdef}
 
-Guess who's back ? It is indeed the segment we computed the entropy of earlier. The main part of the validation function is actually a loop over all the values of this array, taken as dwords (4 bytes) and checking the value of the least significant byte, but before that, this `RO_DATA_ARRAY` is copied (0x400 bytes) in ... the `bss` (keep that in mind, it will make sense later).
+Guess who's back ? It is indeed the segment we computed the entropy of earlier. `RO_DATA_ARRAY` is copied (0x400 bytes) in the `bss` (keep that in mind, it will make sense later).
+I will refer to the offset of `RO_DATA_ARRAY`'s copy in the `bss` by BSS_IR_ARRAY.
 
-I will refer to The offset of `RO_DATA_ARRAY`'s copy in the `bss` by BSS_IR_ARRAY.
+The main part of the validation function is actually a loop over all the values of this array, taken as dwords (4 bytes) and checking the value of the least significant byte.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/opcodes.png)
@@ -208,11 +209,20 @@ Doing this we learn two important things about the virtual machine:
 
 Regarding the IR syntax, I did not completely understand all the instructions (00 to FF) but here is an example of IR syntax:
 Some instructions are in the form: iiaccxxx (stored 0xXXCXACII)
-                                   ii is the opcode (1 byte)
-                                   rax <= a, dest address, located at BSS_IR_ARRAY+rax*4 (4 bits)
-                                   rcx <= cc, source address, located at BSS_IR_ARRAY+rcx*4 (1 byte)
-                                   xxx is the next instruction's address (12 bits)
-                                   
+                                   where:  
+                                      * ii is the opcode (1 byte)  
+                                      * rax <= a, dest address, located at BSS_IR_ARRAY+rax*4 (4 bits)  
+                                      * rcx <= cc, source address, located at BSS_IR_ARRAY+rcx*4 (1 byte)  
+                                      * xxx is the next instruction's address (12 bits)  
+Addresses resolved by parameters a and c are in the `bss` section. There is a reason for that:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/vm_map.png)
+{: refdef}
+
+The `bss` is actually the stack of our virtual machine ! 
+
+Also `ro_data` is supposed to contain the code, but why copy the code to the stack then ? The answer lies is the next level of obfuscation: the code is self-modifying, hence the write permission requirement.
                  
 
 ### Reverse Engineering Obfuscated Code
