@@ -190,18 +190,15 @@ Here is the IR to x86 translation for the conditional jumps:
  
 Studying the IR, we start spotting coding patterns, here is an example:
  ```
-    0x172573f9 if charset valid, land here
-    0x0043473a increment intval 
-    0x11402225 do some div
     0x08401ca4 decrement r9d by 1
     0x090003d4 if r9d != 0, jump to 3d4, else, next
     0x0e210cb5 mul reg+a = c * reg+a
     0x00529386 increment int_val register
     0x180003e8 jump to 0F3554D7 (3e8)
 ```
-This is the end of the loop that verifies the validity of the input. Here we see two kinds of jumps: `08 09` is a `sub, jz`, and 18 is a `jmp`. This structure here `08 09 0e 00 18` marks the end of a for loop, with a `goto`.
+This is the end of the loop that verifies the length of the input. Here we see two kinds of jumps: `08 09` is a `sub, jz`, and 18 is a `jmp`. This structure here `08 09 0e 00 18` marks the end of a for loop, with a `goto`.
 
-The value it is initialized with is 0x100, so we know our serial should be 128 bytes long.
+The value it is initialized with is 0x100, so we know our serial should be 128 bytes long. Also, I wont be detaling it here, but the loop next to this one is checking every char in the serial against the regexp [0-9a-fA-F]*. So the actual length of the serial is 0x50, as we are supposed to input an hex encoded value
 
 Doing this we learn two important things about the virtual machine:
 1. The IR syntax
@@ -223,7 +220,29 @@ Addresses resolved by parameters a and c are in the `bss` section. There is a re
 The `bss` is actually the stack of our virtual machine ! 
 
 Also `ro_data` is supposed to contain the code, but why copy the code to the stack then ? The answer lies is the next level of obfuscation: the code is self-modifying, hence the write permission requirement.
-                 
+Here is an example of a code block that is XORed:
+```
+0x1e53403a x l1' = enc(l6, l1)      | 0xca90f29b   
+0x00303373                          | 0xd4f381d2
+0x0c340d94                          | 0xd8f7bf35
+0x00462b98                          | 0xd4859939
+0x0c410a96                          | 0xd882b837
+0x00575618                          | 0xd494e4b9
+0x0c5508f0                          | 0xd896ba51
+```
+
+Right column contains the IR as it is in the `ro_data` segment, and left column is obtained after a XOR with 0xA1B2C3D4. So the opcodes d8, d4 etc are actually fake instructions sending you on a wrong path. They are dead code.
+
+There are three steps of code XORing, pretty easily detectable once you were tricked by the first one, and after deobfuscating all the IR, here are the macro steps we obtain:
+ ** STEP1: verify serial charset
+ ** STEP2: hash username
+ ** STEP3: xor instructions with C1D2E3F4
+ ** STEP4: newly created instructions: 0x50 loop
+ ** STEP5: decode new instructions with A1B2C3D4
+ ** STEP6: encrypt 32 rounds of AES
+ ** STEP7: decode instructions with AABBCCDD
+ ** STEP8: loop over serial and verify value byte per byte
+
 
 ### Reverse Engineering Obfuscated Code
 ---
