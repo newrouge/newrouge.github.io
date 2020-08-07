@@ -109,7 +109,7 @@ For instance, this is what the entropy of random data should look like:
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/max_ent.png)
 {: refdef}
 
-It's slightly above 0.97, so there is a noticeable difference withe the previous value.
+It's slightly above 0.97, so there is a noticeable difference with the previous value.
 
 # Part 3: Binary disassembly
 
@@ -119,14 +119,14 @@ Let's quickly examine the `main` function of the binary:
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/main.png)
 {: refdef}
 
-We can see a call to the function in charge of the validation of the serial, and then a conditional jump that will either print a valid response, or a negative one. There is no surprise here, we also can see those strings at the beginning of `rodata`.
+We can see a call to the function in charge of the serial's validation, and then a conditional jump that will either print a valid response, or a negative one. There is no surprise here, we also can see those strings at the beginning of `rodata`.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/zoom_main.png)
 {: refdef}
 
 
-The interesting point here is that, if there was no online check (and that is a likely scenario with proprietary software), getting a valid prompt is a trivial as replacing a 0x74 JZ with a 0x75 JNZ after the validation function returns. But we will address micropatching in another post.
+The interesting point here is that, if there was no online check (and that is a likely scenario with proprietary software), getting a valid prompt is ast trivial as replacing a 0x74 JZ with a 0x75 JNZ after the validation function returns. But we will address micropatching in another post.
 
 So now, to the main part ! Let's reverse this `check_serial` function.
 
@@ -137,7 +137,50 @@ So now, to the main part ! Let's reverse this `check_serial` function.
 grazpfo#$eq!!!
 
 
-OK I'm assuming that if you are still reading this it is because you are used to seeing horrible things in IDA (and I have come to learn since that this one is actually a nice one...)
+OK I'm assuming that if you are still reading this it is because you are used to seeing horrible things in IDA (and I have come to learn since that this one is actually a nice one...).
+
+Analyzing it's parameters is going to help us understand what this is doing. It is taking the variable I named `RO_DATA_ARRAY` as an argument:
+
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/ro_data.png)
+{: refdef}
+
+Guess who's back ? It is indeed the segment we computed the entropy of earlier. The main part of the validation function is actually a loop over all the values of this array, taken as dwords (4 bytes) and checking the value of the least significant byte.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/opcodes.png)
+{: refdef}
+
+Each different value for this byte will trigger a different code execution in the validation function.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/zoom_dispatcher.png)
+{: refdef}
+
+Guess what's going on here ?
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/vm2.png)
+{: refdef}
+
+You are looking at a virtual processor, interpreting a custom byte code, also know as Intermediate Representation. The original code has been split in various basic blocks, and  translated in another higher level code.
+
+Let's get a bit more into details:
+  * Dispatcher: It is parsing the intermediate representation, and linking each opcode with the code it is supposed to represent
+  * Handler: Contains the actual code executed for each instrution
+  
+Note the 4 branches that are put on the side by IDA, they have a very specific role: they are the only conditional jumps used by all the code. The code is somehow factorized, and that makes it a pain to place a breakpoint at a specific execution step.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/conditional.png)
+{: refdef}
+
+   *15 : jump if greater (must be lower)
+   *14 : jump if shorter (must be higher or equal)
+   *0A : jump if not zero (must be equal)
+   *09 : jump if zero (must be different)
+
 
 ### Reverse Engineering Obfuscated Code
 ---
