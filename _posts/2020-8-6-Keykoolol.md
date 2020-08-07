@@ -205,19 +205,20 @@ Doing this we learn two important things about the virtual machine:
 2. It's macroscopic behaviour
 
 Regarding the IR syntax, I did not completely understand all the instructions (00 to FF) but here is an example of IR syntax:
-Some instructions are in the form: iiaccxxx (stored 0xXXCXACII)
-                                   where:  
-                                      * ii is the opcode (1 byte)  
-                                      * rax <= a, dest address, located at BSS_IR_ARRAY+rax*4 (4 bits)  
-                                      * rcx <= cc, source address, located at BSS_IR_ARRAY+rcx*4 (1 byte)  
-                                      * xxx is the next instruction's address (12 bits)  
+Some instructions are in the form: 
+  * iiaccxxx (stored 0xXXCXACIII
+  where:  
+  * ii is the opcode (1 byte)
+  * rax <= a, dest address, located at BSS_IR_ARRAY+rax*4 (4 bits)
+  * rcx <= cc, source address, located at BSS_IR_ARRAY+rcx*4 (1 byte)
+  * xxx is the next instruction's address (12 bits)
 Addresses resolved by parameters a and c are in the `bss` section. There is a reason for that:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/vm_map.png)
 {: refdef}
 
-The `bss` is actually the stack of our virtual machine ! 
+The `bss` actually contains the stack of our virtual machine ! And the part right before the beginning of the stack is understood by IDA as a section containing 2 bytes values, they are our registers !
 
 Also `ro_data` is supposed to contain the code, but why copy the code to the stack then ? The answer lies is the next level of obfuscation: the code is self-modifying, hence the write permission requirement.
 Here is an example of a code block that is XORed:
