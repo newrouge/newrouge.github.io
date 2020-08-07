@@ -303,9 +303,142 @@ In the box is the result of the hashing algorithm, and right after, highlighted 
 
 You can already tell that this input is not exactly randomly chosen, and I'll explain why it looks like this.
 
-# Part 4: Crypto
+# Part 4: Crypto - where the fun starts
 
-One of the 
+To summarize: 
+  * The binary checks the serial, it must be a 0x80 bytes long hex encoded string 
+  * The username is hashed, the result is 0x60 bytes long
+  * The last two line are added to this result, totaling 0x80 bytes
+  
+The reason those last two lines are treated differently is because they actually are an implicit parameter; they are encryption keys.
+
+```
+ Username:           ecsc
+ Serial:             9f96d7f6380d729ffad1f09783706997
+                     463911a0770040b6a78c0108563727fd
+                     f4212b9de637638babe79c765c69238e
+                     3e0205d228b9460c3857e112b84bb3ac
+                     069421c9fca7e74a430c6526c0c53d71
+                     bf8f00efb05897245041e27a7c564ea4
+ Keys:               41414141414141414141414141414141
+                     41414141414141414141414141414141
+```
+
+Once this hash is computed, the code decrypts the serial using AES-NI instruction `aesdec` for several rounds, and checks, byte per byte, that the decryption result is equal to the hash.
+The basic block realizing the decryption is here:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/aesni.png)
+{: refdef}
+
+The `xmm` registers are 128 bits register, so we are using AES 128. We will therefore name each 16 bytes line in the serial, as they will coresspond to actual encryption blocks:
+```
+Username:           ecsc
+Serial:             9f96d7f6380d729ffad1f09783706997 - l1
+                    463911a0770040b6a78c0108563727fd - l2
+                    f4212b9de637638babe79c765c69238e - l3
+                    3e0205d228b9460c3857e112b84bb3ac - l4
+                    069421c9fca7e74a430c6526c0c53d71 - l5
+                    bf8f00efb05897245041e27a7c564ea4 - l6
+Keys:               41414141414141414141414141414141 - k1
+                    41414141414141414141414141414141 - k2
+```
+
+We are then looking for a serial verifying: `serial == decrypt(hash, key)`
+
+Now the encryption algorithm itself is based on AES, but the block chaining is entirely custom, and uses circular shifts (hey you again). One round of this block encryption looks like this:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/crypt.png)
+{: refdef}
+
+You can already guess that the order of decryption is going to be very important, as some round keys will be encrypted.
+
+To test this, round by round, I have implemented a very simple x64 code (that will segfault but is meant to be debugged to get the register's values):
+
+```asm
+section .text
+    global _start       
+_start:                     
+    mov rax, 0x4141414141414141
+    movq xmm0, rax
+    mov rax, 0x4141414141414141 
+    pinsrq xmm0, rax, 1
+    mov rax, 0x1010101010101010
+    movq xmm1, rax
+    mov rax, 0x1010101010101010
+    pinsrq xmm1, rax, 1
+    aesdec xmm0, xmm1
+    ret
+```
+This will encrypt with one single round of AES the string 0x41414141414141414141414141414141 with the key 0x10101010101010101010101010101010.
+
+Now, part of the problem is to implement, or find, an AES program that will allow you to encrypt or decrypt with single rounds of AES. You can't do that with OpenSSL or PyCrypto as the number of rounds is standardized and depends on the key size (10 round for AES 128 in this case).
+
+A simple encryption round for AES looks like:
+```
+def aes_round(self, state, roundKey):
+        state = self.subBytes(state, False)
+        state = self.shiftRows(state, False)
+        state = self.mixColumns(state, False)
+        state = self.addRoundKey(state, roundKey)
+        return state
+```
+
+So obviously the inverse would be:
+
+```
+def aes_invRound(self, state, roundKey):
+        state = self.addRoundKey(state, roundKey)
+        state = self.mixColumns(state, True)
+        state = self.shiftRows(state, True)
+        state = self.subBytes(state, True)
+        return state
+```
+
+Using the inverse round, we implement what corresponds to:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/decrypt.png)
+{: refdef}
+
+Bear in mind that this is one single round of block encryption, the custom chaining actually performs 32 rounds of it. But you get the idea.
+
+It is very important to note here, that l6 cannot be decrypted before l1, as it needs the decrypted value of l1. The same goes for l3, that relies on l4. All the other lines are decrypted using k1 and k2.
+
+Once we have this algorithm, our main keygen function should look like this:
+ ```
+ generate_serial(username, key):
+    hash username
+    decrypt hash using key, 32 times
+    return result
+```
+
+And of course:
+
+```shell
+root@kali# cat input | ./keykoolol 
+[+] Username: [+] Serial:   [>] Valid serial!
+[>] Now connect to the remote server and generate serials
+for the given usernames.
+```
+!!
+
+# Part 5: If you do it, be smarter than me
+
+The alternatives that would have spared my a lot of time placing uncertain breakpoints are:
+  * Symbolic execution (using angr, miasm or whatever you like)
+  * Translating the whole intermediate representation through automation
+I didn't try those methods, but people who used them definitely had quicker results, so I think about exploring them in further posts.
+
+## Resources
+
+[Pure python aes] (http://anh.cs.luc.edu/331/code/aes.py)
+[Reversing a virtual machine] (https://www.msreverseengineering.com/blog/2018/1/23/a-walk-through-tutorial-with-code-on-statically-unpacking-the-finspy-vm-part-one-x86-deobfuscation)
+
+That's it for today, I hope you enjoyed it.
+
+Stay classy netsecurios.
 
 ### Reverse Engineering Obfuscated Code
 ---
