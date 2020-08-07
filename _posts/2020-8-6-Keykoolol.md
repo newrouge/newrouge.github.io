@@ -280,6 +280,7 @@ You'll see whoever imagined this lover circular shifts.
 With a given username, you would obtain the same hash the binary computes using `derived_key(transient_key(username))`.
 
 There is something pretty curious done at the end of this hashing algorithm. The binary copies the last two lines of the serial and appends them to the 96 bytes hash we just obtained. With an example input:
+```
   * Username:           ecsc
   * Serial:             9f96d7f6380d729ffad1f09783706997
                         463911a0770040b6a78c0108563727fd
@@ -289,6 +290,7 @@ There is something pretty curious done at the end of this hashing algorithm. The
                         bf8f00efb05897245041e27a7c564ea4
                         41414141414141414141414141414141
                         41414141414141414141414141414141
+```
                         
                         
 here is a snapshot of the stack (`bss` but you get it) at the location that stores both the serial and the username's hash:
@@ -296,6 +298,8 @@ here is a snapshot of the stack (`bss` but you get it) at the location that stor
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/hash2.png)
 {: refdef}
+
+You can already tell that this input is not exactly randomly chosen, and I'll explain why it looks like this.
 
 # Part 4: Crypto
 
