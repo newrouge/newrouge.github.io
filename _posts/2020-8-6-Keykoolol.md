@@ -101,7 +101,7 @@ Let's extract `rodata` segment using `dd`, and analyze its entropy with `binwalk
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/zoom_ent.png)
 {: refdef}
 
-`rodata`'s entropy seems to be around 0.894; this is far not enough to qualify as random data. Though you probably already noticed that, in the sample, there were distingushable patterns. The `NULL` byte is very recurring, also the pattern `0006` appears four times, and `0c00` appears twice.
+`rodata`'s entropy seems to be around 0.894; this is far not enough to qualify as random data. Though you probably already noticed that there were distingushable patterns in the sample. The `NULL` byte is very recurring, also the pattern `0006` appears four times, and `0c00` appears twice.
 
 For instance, this is what the entropy of random data should look like:
 
