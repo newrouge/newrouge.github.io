@@ -257,7 +257,7 @@ Let's dig a bit deeper into the hashing function:
 
 Here we can clearly see the syntax with the opcodes and parameters seen above: 0e is a multiplication, and the parameter c contains the value we multiply with. 13 is a xor with parameter c, and ff get the remainder of the euclidian division by parameter c. All those functions are applied to the value in the register in position 3 (value of parameter a).
 
-This will compute the first line of 16 bytes of the hash that will be derived in 5 other lines, totaling 96 bytes. I reimplemented the algorithm in python:
+This will compute the first 16 bytes line of the hash that will be derived in 5 other lines, totaling 96 bytes. I reimplemented the algorithm in python:
 ```python
  def derived_key(tkey):
   s = tkey
@@ -275,7 +275,31 @@ def transient_key(username):
    return temp
 ```
 
+You'll see whoever imagined this lover circular shifts.
+
 With a given username, you would obtain the same hash the binary computes using `derived_key(transient_key(username))`.
+
+There is something pretty curious done at the end of this hashing algorithm. The binary copies the last two lines of the serial and appends them to the 96 bytes hash we just obtained. With an example input:
+  * Username:           ecsc
+  * Serial:             9f96d7f6380d729ffad1f09783706997
+                        463911a0770040b6a78c0108563727fd
+                        f4212b9de637638babe79c765c69238e
+                        3e0205d228b9460c3857e112b84bb3ac
+                        069421c9fca7e74a430c6526c0c53d71
+                        bf8f00efb05897245041e27a7c564ea4
+                        41414141414141414141414141414141
+                        41414141414141414141414141414141
+                        
+                        
+here is a snapshot of the stack (`bss` but you get it) at the location that stores both the serial and the username's hash:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/keykoolol/hash2.png)
+{: refdef}
+
+# Part 4: Crypto
+
+One of the 
 
 ### Reverse Engineering Obfuscated Code
 ---
