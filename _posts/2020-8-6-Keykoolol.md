@@ -331,7 +331,7 @@ The basic block realizing the decryption is here:
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/aesni.png)
 {: refdef}
 
-The `xmm` registers are 128 bits register, so we are using AES 128. We will therefore name each 16 bytes line in the serial, as they will coresspond to actual encryption blocks:
+The `xmm` registers are 128 bits register, so we are using AES 128. We will therefore name each 16 bytes line in the serial, as they will correspond to actual encryption blocks:
 ```
 Username:           ecsc
 Serial:             9f96d7f6380d729ffad1f09783706997 - l1
