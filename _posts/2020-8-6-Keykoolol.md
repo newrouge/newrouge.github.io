@@ -171,7 +171,7 @@ You are looking at a virtual processor, interpreting a custom byte code, also kn
 
 Let's get a bit more into details:
   * Dispatcher: It is parsing the intermediate representation, and linking each opcode with the code it is supposed to represent
-  * Handler: Contains the actual code executed for each instrution
+  * Handler: Contains the actual code executed for each instruction
   
 Note the 4 branches that are put on the side by IDA, they have a very specific role: they are the only conditional jumps used by all the code. The code is somehow factorized, and that makes it a pain to place a breakpoint at a specific execution step.
 
