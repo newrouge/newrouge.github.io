@@ -275,7 +275,7 @@ def transient_key(username):
    return temp
 ```
 
-You'll see whoever imagined this lover circular shifts.
+You'll see whoever imagined this loved circular shifts.
 
 With a given username, you would obtain the same hash the binary computes using `derived_key(transient_key(username))`.
 
@@ -434,8 +434,8 @@ I didn't try those methods, but people who used them definitely had quicker resu
 
 ## Resources
 
-[Pure python aes] (http://anh.cs.luc.edu/331/code/aes.py)
-[Reversing a virtual machine] (https://www.msreverseengineering.com/blog/2018/1/23/a-walk-through-tutorial-with-code-on-statically-unpacking-the-finspy-vm-part-one-x86-deobfuscation)
+[Pure python aes](http://anh.cs.luc.edu/331/code/aes.py)
+[Reversing a virtual machine](https://www.msreverseengineering.com/blog/2018/1/23/a-walk-through-tutorial-with-code-on-statically-unpacking-the-finspy-vm-part-one-x86-deobfuscation)
 
 That's it for today, I hope you enjoyed it.
 
