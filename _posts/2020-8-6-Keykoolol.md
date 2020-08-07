@@ -246,6 +246,36 @@ There are three steps of code XORing, pretty easily detectable once you were tri
   * STEP7: decode new instructions with AABBCCDD
   * STEP8: loop over serial and verify value byte per byte
 
+# Part 3: Hashing the username
+
+Let's dig a bit deeper into the hashing function:
+```
+0x0e 3 0d 658 -> (username[i]+j)*0D
+0x13 3 25 0e7 -> (username[i]+j)*0D ^ 25
+0x11 3 ff 64b -> ((username[i]+j)*0D ^ 25) % FF => res
+```
+
+Here we can clearly see the syntax with the opcodes and parameters seen above: 0e is a multiplication, and the parameter c contains the value we multiply with. 13 is a xor with parameter c, and ff get the remainder of the euclidian division by parameter c. All those functions are applied to the value in the register in position 3 (value of parameter a).
+
+This will compute the first line of 16 bytes of the hash that will be derived in 5 other lines, totaling 96 bytes. I reimplemented the algorithm in python:
+```python
+ def derived_key(tkey):
+  s = tkey
+  for k in xrange(0, 5):
+          s += ''.join(chr(((ord(s[i+(k*16)])*0x03)^0xFF)&0xFF) for i in xrange(0,16))
+  return s
+            
+def transient_key(username):
+ temp = ('00'*16).decode('hex')
+  for i in xrange(0, len(username)):
+          temp2 = ''.join(chr((((ord(username[i])+j)*0x0D)^0x25)%0xFF) for j in xrange(0, 16))
+          d = deque(temp2)
+          d.rotate(i)
+          temp = ''.join(chr(ord(temp[k])^ord(list(d)[k])) for k in xrange(0, 16))
+   return temp
+```
+
+With a given username, you would obtain the same hash the binary computes using `derived_key(transient_key(username))`.
 
 ### Reverse Engineering Obfuscated Code
 ---
