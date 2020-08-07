@@ -167,7 +167,7 @@ Guess what's going on here ?
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/vm2.png)
 {: refdef}
 
-You are looking at a virtual processor, interpreting a custom byte code, also know as Intermediate Representation. The original code has been split in various basic blocks, and  translated in another higher level code.
+You are looking at a virtual processor, interpreting a custom byte code, also known as Intermediate Representation. The original code has been split in various basic blocks, and  translated in another higher level code.
 
 Let's get a bit more into details:
   * Dispatcher: It is parsing the intermediate representation, and linking each opcode with the code it is supposed to represent
