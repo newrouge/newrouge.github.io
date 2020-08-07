@@ -299,6 +299,8 @@ here is a snapshot of the stack (`bss` but you get it) at the location that stor
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/hash2.png)
 {: refdef}
 
+In the box is the result of the hashing algorithm, and right after, highlighted in yellow you can see the two lines of 'A's that were hex encoded in the end of the serial.
+
 You can already tell that this input is not exactly randomly chosen, and I'll explain why it looks like this.
 
 # Part 4: Crypto
