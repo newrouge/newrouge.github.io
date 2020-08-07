@@ -426,9 +426,10 @@ for the given usernames.
 
 # Part 5: If you do it, be smarter than me
 
-The alternatives that would have spared my a lot of time placing uncertain breakpoints are:
+The alternatives that would have spared me a lot of time placing uncertain breakpoints are:
   * Symbolic execution (using angr, miasm or whatever you like)
   * Translating the whole intermediate representation through automation
+  
 I didn't try those methods, but people who used them definitely had quicker results, so I think about exploring them in further posts.
 
 ## Resources
