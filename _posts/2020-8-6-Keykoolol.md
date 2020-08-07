@@ -126,7 +126,7 @@ We can see a call to the function in charge of the serial's validation, and then
 {: refdef}
 
 
-The interesting point here is that, if there was no online check (and that is a likely scenario with proprietary software), getting a valid prompt is ast trivial as replacing a 0x74 JZ with a 0x75 JNZ after the validation function returns. But we will address micropatching in another post.
+The interesting point here is that, if there was no online check (and that is a likely scenario with proprietary software), getting a valid prompt is as trivial as replacing a 0x74 JZ with a 0x75 JNZ after the validation function returns. But we will address micropatching in another post.
 
 So now, to the main part ! Let's reverse this `check_serial` function.
 
@@ -267,12 +267,12 @@ This will compute the first 16 bytes line of the hash that will be derived in 5 
             
 def transient_key(username):
  temp = ('00'*16).decode('hex')
-  for i in xrange(0, len(username)):
+ for i in xrange(0, len(username)):
           temp2 = ''.join(chr((((ord(username[i])+j)*0x0D)^0x25)%0xFF) for j in xrange(0, 16))
           d = deque(temp2)
           d.rotate(i)
           temp = ''.join(chr(ord(temp[k])^ord(list(d)[k])) for k in xrange(0, 16))
-   return temp
+ return temp
 ```
 
 You'll see whoever imagined this loved circular shifts.
