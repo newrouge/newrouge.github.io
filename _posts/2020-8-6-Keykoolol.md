@@ -308,7 +308,7 @@ You can already tell that this input is not exactly randomly chosen, and I'll ex
 To summarize: 
   * The binary checks the serial, it must be a 0x80 bytes long hex encoded string 
   * The username is hashed, the result is 0x60 bytes long
-  * The last two line are added to this result, totaling 0x80 bytes
+  * The last two lines are concatenated to this result, totaling 0x80 bytes
   
 The reason those last two lines are treated differently is because they actually are an implicit parameter; they are encryption keys.
 
@@ -346,7 +346,7 @@ Keys:               41414141414141414141414141414141 - k1
 
 We are then looking for a serial verifying: `serial == decrypt(hash, key)`
 
-Now the encryption algorithm itself is based on AES, but the block chaining is entirely custom, and uses circular shifts (hey you again). One round of this block encryption looks like this:
+Now the encryption algorithm itself is based on AES single round, but the block chaining is entirely custom, and uses circular shifts (hey you again). One round of this block encryption looks like this:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/keykoolol/crypt.png)
