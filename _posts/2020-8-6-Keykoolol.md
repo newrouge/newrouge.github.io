@@ -206,7 +206,7 @@ Doing this we learn two important things about the virtual machine:
 
 Regarding the IR syntax, I did not completely understand all the instructions (00 to FF) but here is an example of IR syntax:
 Some instructions are in the form: 
-  * iiaccxxx (stored 0xXXCXACIII
+  * iiaccxxx (stored 0xXXCXACIII)
   where:  
   * ii is the opcode (1 byte)
   * rax <= a, dest address, located at BSS_IR_ARRAY+rax*4 (4 bits)
