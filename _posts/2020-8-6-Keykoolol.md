@@ -198,7 +198,7 @@ Studying the IR, we start spotting coding patterns, here is an example:
 ```
 This is the end of the loop that verifies the length of the input. Here we see two kinds of jumps: `08 09` is a `sub, jz`, and 18 is a `jmp`. This structure here `08 09 0e 00 18` marks the end of a for loop, with a `goto`.
 
-The value it is initialized with is 0x100, so we know our serial should be 128 bytes long. Also, I wont be detailing it here, but the loop next to this one is checking every char in the serial against the regexp [0-9a-fA-F]*. So the actual length of the serial is 0x80, as we are supposed to input an hex encoded value
+The value it is initialized with is 0x100, so we know our serial should be 256 bytes long. Also, I wont be detailing it here, but the loop next to this one is checking every char in the serial against the regexp [0-9a-fA-F]*. So the actual length of the serial is 0x80, as we are supposed to input an hex encoded value
 
 Doing this we learn two important things about the virtual machine:
 1. The IR syntax
