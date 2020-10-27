@@ -1,10 +1,8 @@
 ---
 layout: post
+image: /icons/uniseccrypt.png
 title: Reverse Engineering Obfuscated Code - CTF Write-Up
 ---
-{:refdef: style="text-align: left;"}
-![_config.yml]({{ site.baseurl }}/icons/uniseccrypt.png)
-{: refdef}
 
 This is a write up for one of the FCSC (French Cyber Security Challenge) reverse engineering challenges. 
 
