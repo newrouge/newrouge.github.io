@@ -1,6 +1,7 @@
 ---
 layout: post
 image: /icons/uniseccrypt.png
+tags: CTF crypto reverse vm obfuscation
 title: Reverse Engineering Obfuscated Code - CTF Write-Up
 ---
 
