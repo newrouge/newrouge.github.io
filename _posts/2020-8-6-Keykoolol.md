@@ -1,6 +1,8 @@
 ---
 layout: post
-title: <img align="left" width="80" height="80" src="![_config.yml]({{ site.baseurl }}/icons/uniseccrypt.png" alt="Resume application project app icon">Reverse Engineering Obfuscated Code - CTF Write-Up
+title: {:refdef: style="text-align: left;"}
+![_config.yml]({{ site.baseurl }}/icons/uniseccrypt.png)
+{: refdef}Reverse Engineering Obfuscated Code - CTF Write-Up
 ---
 This is a write up for one of the FCSC (French Cyber Security Challenge) reverse engineering challenges. 
 
