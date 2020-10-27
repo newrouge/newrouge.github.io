@@ -1,9 +1,11 @@
 ---
 layout: post
-title: {:refdef: style="text-align: left;"}
-![_config.yml]({{ site.baseurl }}/icons/uniseccrypt.png)
-{: refdef}Reverse Engineering Obfuscated Code - CTF Write-Up
+title: Reverse Engineering Obfuscated Code - CTF Write-Up
 ---
+{:refdef: style="text-align: left;"}
+![_config.yml]({{ site.baseurl }}/icons/uniseccrypt.png)
+{: refdef}
+
 This is a write up for one of the FCSC (French Cyber Security Challenge) reverse engineering challenges. 
 
 It was the first time I had to deal with virtualized code, so my solution is far from being the best. Surely there were much quicker ways, but mine did get the job done.
