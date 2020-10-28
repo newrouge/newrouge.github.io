@@ -19,8 +19,9 @@ Posts sorted by categories (crypto, system, hardware, web, android)
 {% for tag in sorted_tags %}
   {% assign t = tag | first %}
   {% assign posts = tag | last %}
-  <img src="{{ site.baseurl }}/icons/{{ t }}.png" width="100" title={{ t }} >
   <h4 id="{{ t | downcase }}">{{ t }}</h4>
+  <img src="{{ site.baseurl }}/icons/{{ t }}.png" width="100" title={{ t }} >
+
 <ul>
 {% for post in posts %}
   {% if post.tags contains t %}
