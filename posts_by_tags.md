@@ -5,7 +5,7 @@ permalink: /tags/
 ---
 Posts sorted by categories (crypto, system, hardware, web, android)
 
-### Posts by tag
+### All our posts
 
 {% assign sorted_tags = (site.tags | sort:0) %}
 <ul class="tag-box">
