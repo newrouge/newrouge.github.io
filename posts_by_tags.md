@@ -3,7 +3,7 @@ layout: page
 title: Posts by Tag
 permalink: /tags/
 ---
-This page displays the site's tags in alphabetical order and shows how many posts there are per tag, makes anchor links for each tag, then outputs posts by tag in reverse chronological order. 
+Posts sorted by tags and categories:
 
 ### Posts by tag
 
