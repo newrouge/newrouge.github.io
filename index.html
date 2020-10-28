@@ -11,7 +11,9 @@ layout: default
       <div class="entry">
         {{ post.excerpt }}
       </div>
-
+       {% for tag in post.tags %}
+        <img src="{{ site.baseurl }}/images/{{ tag }}.png" with=40px/>
+       {% endfor %}
       <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
     </article>
   {% endfor %}
