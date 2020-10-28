@@ -12,7 +12,7 @@ layout: default
         {{ post.excerpt }}
       </div>
        {% for tag in post.tags %}
-        <img src="{{ site.baseurl }}/icons/{{ tag }}.png" width="60" title={{ tag }} >
+        <img src="{{ site.baseurl }}/icons/{{ tag }}.png" width="100" title={{ tag }} >
        {% endfor %}
       <br>
       <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
