@@ -31,5 +31,4 @@ This page displays the site's tags in alphabetical order and shows how many post
 {% endfor %}
 </ul>
 {% endfor %}
-
-<!-- Listing posts by tag template
+<!-- from https://github.com/cagrimmett/jekyll-tools#posts-by-tag -->
