@@ -14,6 +14,7 @@ layout: default
        {% for tag in post.tags %}
         <img src="{{ site.baseurl }}/images/{{ tag }}.png" width="40" title={{ tag }}/>
        {% endfor %}
+      <br>
       <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
     </article>
   {% endfor %}
