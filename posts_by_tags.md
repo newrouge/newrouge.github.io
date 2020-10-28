@@ -3,7 +3,7 @@ layout: page
 title: Posts by Tag
 permalink: /tags/
 ---
-Posts sorted by tags and categories:
+Posts sorted by categories (crypto, system, hardware, web, android)
 
 ### Posts by tag
 
