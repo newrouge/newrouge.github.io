@@ -7,7 +7,7 @@ title: Aliexpress Captcha Reuse
 Captcha reuse in Aliexpress login form
 
 <div style="text-align: center;">
- <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web" width="200" title="system" ></a>
+ <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="web" ></a>
 </div>
 
 
