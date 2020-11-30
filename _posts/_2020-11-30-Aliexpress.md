@@ -41,7 +41,7 @@ Referer: https://www.aliexpress.com/
 The captchas received always contain 4 numbers and capital letters:
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha2.jpg)
+![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha.jpg)
 {: refdef}
 
 We can solve them using tesseract (https://github.com/tesseract-ocr/tesseract):
@@ -49,20 +49,39 @@ We can solve them using tesseract (https://github.com/tesseract-ocr/tesseract):
 tesseract --psm 8 captcha.jpg - --dpi 100
 — MRRP
 ```
-Tesseract adds extra characters but in our case, we know all the captchas are 4 chararacters long, so the answer here is DPRP.  
-I usually modify the input images to have better results with OCR, switching to grayscale or adding contrast:
+There are ways to improve tesseract's accuracy by modifyin the image. Here are two very basic transformations I use:
 ```
 convert captcha2.jpg  -type grayscale -quality 100 grayscale.jpg  
 convert captcha2.jpg  -level 50% -quality 100 contrast.jpg
 ```
-In this case it did not really help, but it is a good tip to keep in mind when handling captchas.
+In this case it did not really help, but it is a good tip to keep in mind when handling captchas. There are plenty of forums and blog posts proposing much more advanced image processing methods for OCR (here is a good reading regarding this topic: https://mathieularose.com/decoding-captchas/).  
 
 
-To make this more efficient, we can optimize the captcha's lookup time and save precomputed results:
+Now, to make this more efficient, we can optimize the captcha's lookup time and save precomputed results. A problem quickly came up in my reasoning: two similar images had different checksums (I wanted to use the image's md5 for indexing). I dug a little deeper to understand why these pictures, yet alike pixel per pixel, were different:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/aliexpress/bindiff.png)
+{: refdef}
+
+The server generates different images by modifying the two last bytes of the picture! The changes are impossible to perceive, there is no impact on the jpg, but the hashes differ. So I could still index my images using a checksum, but first I had to remove the last two bytes of each file. But I decided to opt for another, simpler way to index my files: the number of random bytes is always the same, and pictures displaying different captchas have different sizes. So I can index my pictures using their bytes count!
+```python
+capt_hash[1571] = "7FKT"
+capt_hash[1749] = "9GNN"
+capt_hash[1799] = "DBPR"
+capt_hash[1818] = "UH9G"
+capt_hash[1841] = "RCVC"
+capt_hash[1867] = "MRRP"
+capt_hash[1900] = "EFU2"
+capt_hash[1927] = "USN8"
+capt_hash[1935] = "BWSJ"
+capt_hash[1965] = "5UFH"
+```
+
+So simply put, no need to solve the captcha anymore, the length of the image received is enough to know what the input should be!
 
 # Part 3: Limitations
 
-The automatic resolution of captchas challenges using tesseract is not very accurate for the moment. Building the hashtable manually is not very hard as the number of captchas is very limited. But to take this further, the next thing to improve would be this aspect. Solving automaticaly the captcha and saving the result in the hashtable is essential to make this program usable in a real life scenario. To take it a step forward, a feedback loop using the response from the server would add accuracy. Each captcha's solution could have a confident score that is decremented each time the solution is not validated by the server. A valid response from the server would, in the contrary, increase the confidence score. Captchas solutions with low confidence scores would then be recomputed to obtain new solutions, until a valid one is found.
+The automatic resolution of captchas challenges using tesseract is not very accurate for the moment. Building the dictionary manually is not very hard as the number of captchas is very limited. But to take this further, the OCR method must be improved.
 
 There seems to be extra protections against this form, which I did not explore. In fact, when sending the captcha's response, it is also expected to send a parameter named "captchaToken"
 ```
