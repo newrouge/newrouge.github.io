@@ -1,7 +1,7 @@
 ---
 layout: post
 tags: web
-title: Aliexpress Captcha Reuse
+title: AliExpress Captcha Reuse
 ---
 
 Captcha reuse in Aliexpress login form
@@ -10,7 +10,7 @@ Captcha reuse in Aliexpress login form
  <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="web" ></a>
 </div>
 
-I recently noticed (thanks to Chrome's form cache) that Aliexpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending user a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas, quite easy to solve with OCR.  
+I recently noticed (thanks to Chrome's form cache) that AliExpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending user a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas, quite easy to solve with OCR.  
 My goal here is not to demonstrate a successful attack against Aliexpress's login form, but instead just a simple PoC to show these captcha's weaknesses. This has been reported to AliExpress through their bugbounty program.  
 
 
@@ -57,13 +57,14 @@ convert captcha2.jpg  -level 50% -quality 100 -density 300 contrast.jpg
 In this case it did not really help, but it is a good tip to keep in mind when handling captchas. There are plenty of forums and blog posts proposing much more advanced image processing methods for OCR .  
 
 
-Now, to make this more efficient, we can optimize the captcha's lookup time and save precomputed results. A problem quickly came up in my reasoning: two similar images had different checksums (I wanted to use the image's md5 for indexing). I dug a little deeper to understand why these pictures, yet alike pixel per pixel, were different:
+Now, to make this more efficient, we can optimize the captcha's lookup time and save precomputed results. A problem quickly came up in my reasoning: two similar images had *different checksums* (I wanted to use the image's md5 for indexing). I dug a little deeper to understand why these pictures, yet alike pixel per pixel, were different:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/bindiff.png)
 {: refdef}
 
-The server generates different images by modifying the two last bytes of the picture! The changes are impossible to perceive, there is no impact on the jpg, but the hashes differ. So I could still index my images using a checksum, but first I had to remove the last two bytes of each file. But I decided to opt for another, simpler way to index my files: the number of random bytes is always the same, and pictures displaying different captchas have different sizes. So I can index my pictures using their bytes count!
+The server generates different images by modifying *the two last bytes of the picture!* The changes are impossible to perceive, there is no impact on the image, but the hashes differ. So I could still index my images using a checksum, but first I had to remove the last two bytes of each file.  
+I decided to opt for another, simpler way to index my files: the *number of random bytes is always the same*, and pictures displaying different captchas have different sizes. So I can index my pictures using their bytes count!
 ```python
 capt_hash[1571] = "7FKT"
 capt_hash[1749] = "9GNN"
@@ -93,7 +94,7 @@ Supposedly it is randomly generated and uniquely identifies a captcha response s
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_token.png)
 {: refdef}
 
-This token comes from the captcha reponse and it does not really prevent from automatic form submission.  
+This token comes with the captcha image file, and it does not really prevent from automatic form submission.  
 There are many other parameters at stake in these requests (like a signature for example) and not knowing their exact roles, I will not mention them here.
 
 # Part 3: Resources
