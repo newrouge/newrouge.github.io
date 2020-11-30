@@ -49,7 +49,7 @@ We can solve them using tesseract (https://github.com/tesseract-ocr/tesseract):
 root@kali:~# tesseract --psm 8 captcha.jpg - --dpi 100
 — MRRP
 ```
-There are ways to improve tesseract's accuracy by modifyin the image. Here are two very basic transformations I use:
+There are ways to improve tesseract's accuracy by modifying the image. Here are two very basic transformations I use:
 ```
 convert captcha2.jpg  -type grayscale -quality 100 -density 300 grayscale.jpg  
 convert captcha2.jpg  -level 50% -quality 100 -density 300 contrast.jpg
