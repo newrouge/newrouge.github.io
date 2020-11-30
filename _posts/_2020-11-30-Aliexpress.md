@@ -10,8 +10,8 @@ Captcha reuse in Aliexpress login form
  <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="web" ></a>
 </div>
 
-I recently noticed (thanks to Chrome's form cache) that Aliexpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending user a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas with very few transformations, making them easy to solve by an OCR.  
-My goal here is not to demonstrate a successful attack against Aliexpress's login form, but instead just a simple PoC to show these captcha's weaknesses.
+I recently noticed (thanks to Chrome's form cache) that Aliexpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending user a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas, quite easy to solve with OCR.  
+My goal here is not to demonstrate a successful attack against Aliexpress's login form, but instead just a simple PoC to show these captcha's weaknesses. This has been reported to AliExpress through their bugbounty program.  
 
 
 {:refdef: style="text-align: center;"}
@@ -38,7 +38,7 @@ Accept-Encoding: gzip, deflate
 Connection: close
 Referer: https://www.aliexpress.com/
 ```
-The captchas received always contain 4 numbers and capital letters:
+The captchas received always contain 4 alphanumeric characters, in capital letters:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha.jpg)
@@ -54,7 +54,7 @@ There are ways to improve tesseract's accuracy by modifyin the image. Here are t
 convert captcha2.jpg  -type grayscale -quality 100 grayscale.jpg  
 convert captcha2.jpg  -level 50% -quality 100 contrast.jpg
 ```
-In this case it did not really help, but it is a good tip to keep in mind when handling captchas. There are plenty of forums and blog posts proposing much more advanced image processing methods for OCR (here is a good reading regarding this topic: https://mathieularose.com/decoding-captchas/).  
+In this case it did not really help, but it is a good tip to keep in mind when handling captchas. There are plenty of forums and blog posts proposing much more advanced image processing methods for OCR .  
 
 
 Now, to make this more efficient, we can optimize the captcha's lookup time and save precomputed results. A problem quickly came up in my reasoning: two similar images had different checksums (I wanted to use the image's md5 for indexing). I dug a little deeper to understand why these pictures, yet alike pixel per pixel, were different:
@@ -79,7 +79,7 @@ capt_hash[1965] = "5UFH"
 
 So simply put, no need to solve the captcha anymore, the length of the image received is enough to know what the input should be!
 
-# Part 3: Limitations
+# Part 2: Limitations
 
 The automatic resolution of captchas challenges using tesseract is not very accurate for the moment. Building the dictionary manually is not very hard as the number of captchas is very limited. But to take this further, the OCR method must be improved.
 
@@ -93,5 +93,11 @@ Supposedly it is randomly generated and uniquely identifies a captcha response s
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_token.png)
 {: refdef}
 
-This token comes from the getcaptcha reponse so it does not really prevent from automatic form submission.  
+This token comes from the captcha reponse and it does not really prevent from automatic form submission.  
 There are many other parameters at stake in these requests (like a signature for example) and not knowing their exact roles, I will not mention them here.
+
+# Part 3: Resources
+[Tesseract](https://muthu.co/all-tesseract-ocr-options/)
+[Mathieu Larose's blog/image processing techniques for solving captchas](https://mathieularose.com/decoding-captchas/)
+
+Stay classy netsecurios!
