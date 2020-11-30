@@ -101,7 +101,7 @@ There are many other parameters at stake in these requests (like a signature for
 
 # Part 3: Conclusion
 
-While no tangible exploit directly comes from this study, I find it interesting to examine the way AliExpress generated their captchas. It is important to notice the effort to add two random bytes after EOI in the captchas JPEG, as an attempt to make each file unique and probably defeat cheacksum verifications. One potential use for this outcome, which is solving the captchas quickly and deterministicaly, would be to take place in a full register/login automation process. 
+While no tangible exploit directly comes from this study, I find it interesting to examine the way AliExpress generated their captchas. It is important to notice the effort to add two random bytes after EOI in the captchas JPEG, as an attempt to make each file unique and probably defeat checksum verifications. One potential use for this outcome, which is solving the captchas quickly and deterministicaly, would be to take place in a full register/login automation process. 
 
 # Part 4: Resources
 [Tesseract](https://muthu.co/all-tesseract-ocr-options/)  
