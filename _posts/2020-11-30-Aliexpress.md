@@ -46,7 +46,7 @@ The captchas received always contain 4 alphanumeric characters, in capital lette
 
 We can solve them using tesseract (https://github.com/tesseract-ocr/tesseract):
 ```bash
-tesseract --psm 8 captcha.jpg - --dpi 100
+root@kali:~# tesseract --psm 8 captcha.jpg - --dpi 100
 — MRRP
 ```
 There are ways to improve tesseract's accuracy by modifyin the image. Here are two very basic transformations I use:
