@@ -28,7 +28,7 @@ The first step was knowing if the captcha request required authentication. This 
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_request.png)
 {: refdef}
 
-One of the first things I do when examining a request is stripping manually each get or post parameter, and HTTP headers, in order to discriminate the one needed by the application from the others. In this case, some parameters are needed, but they don't need to have a valid value. We use the following request to get captchas:
+One of the first things I do when examining a request is stripping manually each get or post parameter, and HTTP header, in order to discriminate the one needed by the application from the others. In this case, some parameters are needed, but they don't need to have a valid value. We use the following request to get captchas:
 
 ```
 GET /captcha/image/get.jsonp?sessionid=random&identity=data&style=default&callback=callback HTTP/1.1
