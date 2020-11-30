@@ -97,7 +97,7 @@ This token comes from the captcha reponse and it does not really prevent from au
 There are many other parameters at stake in these requests (like a signature for example) and not knowing their exact roles, I will not mention them here.
 
 # Part 3: Resources
-[Tesseract](https://muthu.co/all-tesseract-ocr-options/)
-[Mathieu Larose's blog/image processing techniques for solving captchas](https://mathieularose.com/decoding-captchas/)
+[Tesseract](https://muthu.co/all-tesseract-ocr-options/)  
+[Mathieu Larose's blog/image processing techniques for solving captchas](https://mathieularose.com/decoding-captchas/)  
 
 Stay classy netsecurios!
