@@ -57,14 +57,14 @@ convert captcha2.jpg  -level 50% -quality 100 -density 300 contrast.jpg
 In this case it did not really help, but it is a good tip to keep in mind when handling captchas. There are plenty of forums and blog posts proposing much more advanced image processing methods for OCR .  
 
 
-Now, to make this more efficient, we can optimize the captcha's lookup time and save precomputed results. A problem quickly came up in my reasoning: two similar images had *different checksums* (I wanted to use the image's md5 for indexing). I dug a little deeper to understand why these pictures, yet alike pixel per pixel, were different:
+Now, to make this more efficient, we can optimize the captcha's lookup time and save precomputed results. A problem quickly came up in my reasoning: two similar images had **different checksums** (I wanted to use the image's md5 for indexing). I dug a little deeper to understand why these pictures, yet alike pixel per pixel, were different:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/bindiff.png)
 {: refdef}
 
-The server generates different images by modifying *the two last bytes of the picture!* The changes are impossible to perceive, there is no impact on the image, but the hashes differ. So I could still index my images using a checksum, but first I had to remove the last two bytes of each file.  
-I decided to opt for another, simpler way to index my files: the *number of random bytes is always the same*, and pictures displaying different captchas have different sizes. So I can index my pictures using their bytes count!
+The server generates different images by modifying **the two last bytes of the picture!** The changes are impossible to perceive, there is no impact on the image, but the hashes differ. So I could still index my images using a checksum, but first I had to remove the last two bytes of each file.  
+I decided to opt for another, simpler way to index my files: the **number of random bytes is always the same**, and pictures displaying different captchas have different sizes. So I can index my pictures using their bytes count!
 ```python
 capt_hash[1571] = "7FKT"
 capt_hash[1749] = "9GNN"
