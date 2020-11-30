@@ -38,10 +38,29 @@ Accept-Encoding: gzip, deflate
 Connection: close
 Referer: https://www.aliexpress.com/
 ```
+The captchas received always contain 4 numbers and capital letters:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha2.jpg)
+{: refdef}
+
+We can solve them using tesseract (https://github.com/tesseract-ocr/tesseract):
+```bash
+root@kali:~# tesseract --psm 7 --oem 1 captcha2.jpg stdout       
+Warning: Invalid resolution 0 dpi. Using 70 instead.                                                                    
+DPRPeR 
+```
+Tesseract adds extra characters but in our case, we know all the captchas are 4 chararacters long, so the answer here is DPRP.  
+I usually modify the input images to have better results with OCR, switching to grayscale or adding contrast:
+```
+convert captcha2.jpg  -type grayscale -quality 100 grayscale.jpg  
+convert captcha2.jpg  -level 50% -quality 100 contrast.jpg
+```
+In this case it did not really help, but it is a good tip to keep in mind when handling captchas.
 
 # Part 2: Building a hashtable of known captchas
 
-To make this more efficient, we can optimize the captcha's lookup time and save precomputed results.
+To make this more efficient, we can optimize the captcha's lookup time and save precomputed results:
 
 # Part 3: Protections
 
