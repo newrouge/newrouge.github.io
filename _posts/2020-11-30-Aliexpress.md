@@ -45,4 +45,4 @@ Supposedly it is randomly generated and uniquely identifies a captcha response s
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_token.png)
 {: refdef}
 This token comes from the getcaptcha reponse so it does not really prevent from automatic form submission.  
-There are many other parameters at stake in these requests (like a signature for example) and not knowing there exact roles, I will not mention them here.
+There are many other parameters at stake in these requests (like a signature for example) and not knowing their exact roles, I will not mention them here.
