@@ -19,7 +19,8 @@ My goal here is not to demonstrate a successful attack against Aliexpress's logi
 {: refdef}
 
 
-# Part 1: Building a hashtable of known captchas
+# Part 1: Solving captchas automatically
+
 The first step was knowing if the captcha request required authentication. This is the original request proxied:
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_request.png)
@@ -37,6 +38,10 @@ Accept-Encoding: gzip, deflate
 Connection: close
 Referer: https://www.aliexpress.com/
 ```
+
+# Part 2: Building a hashtable of known captchas
+
+If we were to really build an efficient attack (which we are not), we would optimize the captcha's lookup time and save precomputed results.
 
 # Part 3: Protections
 
