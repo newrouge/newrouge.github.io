@@ -19,7 +19,7 @@ My goal here is not to demonstrate a successful attack against Aliexpress's logi
 {: refdef}
 
 
-# Part 1: Building a hashtable
+# Part 1: Building a table of known captchas
 
 The first step was knowing if the captcha request required authentication. This is the original request proxied:
 {:refdef: style="text-align: center;"}
