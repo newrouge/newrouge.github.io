@@ -1,7 +1,7 @@
 ---
 layout: post
 tags: web
-title: Reversing TL-WR840N
+title: Aliexpress Captcha Reuse
 ---
 
 Captcha reuse in Aliexpress login form
@@ -14,6 +14,6 @@ Captcha reuse in Aliexpress login form
 
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_reuse.jpg)
+![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_reuse.png)
 {: refdef}
 
