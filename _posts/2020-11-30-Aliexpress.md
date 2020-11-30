@@ -20,8 +20,13 @@ My goal here is not to demonstrate a successful attack against Aliexpress's logi
 
 
 # Part 1: Building a hashtable of known captchas
+The first step was knowing if the captcha request required authentication. This is the original request proxied:
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_request.png)
+{: refdef}
 
-request:
+One of the first things I do when examining a request is stripping manually each get or post parameter, and HTTP headers, in order to discriminate the one needed by the application from the others. In this case, some parameters are needed, but they don't need to have a valid value. We use the following request to get captchas:
+
 ```
 GET /captcha/image/get.jsonp?sessionid=random&identity=data&style=default&callback=callback HTTP/1.1
 Host: usdiablo.alibaba.com
@@ -44,5 +49,6 @@ Supposedly it is randomly generated and uniquely identifies a captcha response s
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/captcha_token.png)
 {: refdef}
+
 This token comes from the getcaptcha reponse so it does not really prevent from automatic form submission.  
 There are many other parameters at stake in these requests (like a signature for example) and not knowing their exact roles, I will not mention them here.
