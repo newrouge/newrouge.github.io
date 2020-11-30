@@ -10,8 +10,10 @@ Captcha reuse in Aliexpress login form
  <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="web" ></a>
 </div>
 
-I recently noticed (thanks to Chrome's form cache) that AliExpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending user a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas, quite easy to solve with OCR.  
-My goal here is not to demonstrate a successful attack against Aliexpress's login form, but instead just a simple PoC to show these captcha's weaknesses. This has been reported to AliExpress through their bugbounty program.  
+I recently noticed (thanks to Chrome's form cache) that AliExpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending users a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas, quite easy to solve with OCR.  
+My goal here is not to demonstrate a successful attack against Aliexpress's login form, but rather just showing a simple PoC to demonstrate these captcha's weaknesses.   
+  
+This has been reported to AliExpress through their bugbounty program.  
 
 
 {:refdef: style="text-align: center;"}
