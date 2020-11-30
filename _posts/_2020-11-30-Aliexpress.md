@@ -19,7 +19,7 @@ My goal here is not to demonstrate a successful attack against Aliexpress's logi
 {: refdef}
 
 
-# Part 1: Solving captchas automatically
+# Part 1: Building a hashtable
 
 The first step was knowing if the captcha request required authentication. This is the original request proxied:
 {:refdef: style="text-align: center;"}
@@ -46,9 +46,8 @@ The captchas received always contain 4 numbers and capital letters:
 
 We can solve them using tesseract (https://github.com/tesseract-ocr/tesseract):
 ```bash
-root@kali:~# tesseract --psm 7 --oem 1 captcha2.jpg stdout       
-Warning: Invalid resolution 0 dpi. Using 70 instead.                                                                    
-DPRPeR 
+tesseract --psm 8 captcha.jpg - --dpi 100
+— MRRP
 ```
 Tesseract adds extra characters but in our case, we know all the captchas are 4 chararacters long, so the answer here is DPRP.  
 I usually modify the input images to have better results with OCR, switching to grayscale or adding contrast:
@@ -58,11 +57,12 @@ convert captcha2.jpg  -level 50% -quality 100 contrast.jpg
 ```
 In this case it did not really help, but it is a good tip to keep in mind when handling captchas.
 
-# Part 2: Building a hashtable of known captchas
 
 To make this more efficient, we can optimize the captcha's lookup time and save precomputed results:
 
-# Part 3: Protections
+# Part 3: Limitations
+
+The automatic resolution of captchas challenges using tesseract is not very accurate for the moment. Building the hashtable manually is not very hard as the number of captchas is very limited. But to take this further, the next thing to improve would be this aspect. Solving automaticaly the captcha and saving the result in the hashtable is essential to make this program usable in a real life scenario. To take it a step forward, a feedback loop using the response from the server would add accuracy. Each captcha's solution could have a confident score that is decremented each time the solution is not validated by the server. A valid response from the server would, in the contrary, increase the confidence score. Captchas solutions with low confidence scores would then be recomputed to obtain new solutions, until a valid one is found.
 
 There seems to be extra protections against this form, which I did not explore. In fact, when sending the captcha's response, it is also expected to send a parameter named "captchaToken"
 ```
