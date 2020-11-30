@@ -13,7 +13,7 @@ Captcha reuse in Aliexpress login form
 I recently noticed (thanks to Chrome's form cache) that AliExpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending users a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas, quite easy to solve with OCR.  
 My goal here is not to demonstrate a successful attack against Aliexpress's login form, but rather just showing a simple PoC to demonstrate these captcha's weaknesses.   
   
-This has been reported to AliExpress through their bugbounty program.  
+ I have reported to AliExpress through their bugbounty program.  
 
 
 {:refdef: style="text-align: center;"}
@@ -99,7 +99,11 @@ Supposedly it is randomly generated and uniquely identifies a captcha response s
 This token comes with the captcha image file, and it does not really prevent from automatic form submission.  
 There are many other parameters at stake in these requests (like a signature for example) and not knowing their exact roles, I will not mention them here.
 
-# Part 3: Resources
+# Part 3: Conclusion
+
+While no tangible exploit directly comes from this study, I find it interesting to examine the way AliExpress generated their captchas. It is important to notice the effort to add two random bytes after EOI in the captchas JPEG, as an attempt to make each file unique and probably defeat cheacksum verifications. One potential use for this outcome, which is solving the captchas quickly and deterministicaly, would be to take place in a full register/login automation process. 
+
+# Part 4: Resources
 [Tesseract](https://muthu.co/all-tesseract-ocr-options/)  
 [Mathieu Larose's blog/image processing techniques for solving captchas](https://mathieularose.com/decoding-captchas/)  
 
