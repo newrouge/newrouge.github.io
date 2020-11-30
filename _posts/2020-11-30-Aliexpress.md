@@ -41,7 +41,7 @@ Referer: https://www.aliexpress.com/
 
 # Part 2: Building a hashtable of known captchas
 
-If we were to really build an efficient attack (which we are not), we would optimize the captcha's lookup time and save precomputed results.
+To make this more efficient, we can optimize the captcha's lookup time and save precomputed results.
 
 # Part 3: Protections
 
