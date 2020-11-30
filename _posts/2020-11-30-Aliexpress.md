@@ -51,8 +51,8 @@ tesseract --psm 8 captcha.jpg - --dpi 100
 ```
 There are ways to improve tesseract's accuracy by modifyin the image. Here are two very basic transformations I use:
 ```
-convert captcha2.jpg  -type grayscale -quality 100 grayscale.jpg  
-convert captcha2.jpg  -level 50% -quality 100 contrast.jpg
+convert captcha2.jpg  -type grayscale -quality 100 -density 300 grayscale.jpg  
+convert captcha2.jpg  -level 50% -quality 100 -density 300 contrast.jpg
 ```
 In this case it did not really help, but it is a good tip to keep in mind when handling captchas. There are plenty of forums and blog posts proposing much more advanced image processing methods for OCR .  
 
