@@ -13,7 +13,7 @@ Captcha reuse in Aliexpress login form
 I recently noticed (thanks to Chrome's form cache) that AliExpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending users a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas, quite easy to solve with OCR.  
 My goal here is not to demonstrate a successful attack against Aliexpress's login form, but rather just showing a simple PoC to demonstrate these captcha's weaknesses.   
   
- I have reported to AliExpress through their bugbounty program.  
+ I have reported it to AliExpress through their bugbounty program.  
 
 
 {:refdef: style="text-align: center;"}
@@ -65,7 +65,7 @@ Now, to make this more efficient, we can optimize the captcha's lookup time and 
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/bindiff.png)
 {: refdef}
 
-The server generates different images by modifying **the two last bytes of the picture!** The changes are impossible to perceive, there is no impact on the image, but the hashes differ. The reason for that is that ```FF D9``` marks the end of the JPG file, the trailing bytes can be ignored. I could still index my images using a checksum computed on the JPG bytes and ignoring what is after EOI.  
+The server generates different images by modifying **the two last bytes of the picture!** The changes are impossible to perceive, there is no impact on the image, but the hashes differ. The reason for this is that ```FF D9``` marks the end of the JPG file, the trailing bytes can be ignored. I could still index my images using a checksum computed on the JPG bytes and ignoring what is after EOI.  
 I decided to opt for another, simpler way to index my files: the **number of random bytes is always the same**, and pictures displaying different captchas have different sizes. So I can index my pictures using their bytes count!
 ```python
 capt_hash[1571] = "7FKT"
@@ -101,7 +101,7 @@ There are many other parameters at stake in these requests (like a signature for
 
 # Part 3: Conclusion
 
-While no tangible exploit directly comes from this study, I find it interesting to examine the way AliExpress generated their captchas. It is important to notice the effort to add two random bytes after EOI in the captchas JPEG, as an attempt to make each file unique and probably defeat checksum verifications. One potential use for this outcome, which is solving the captchas quickly and deterministicaly, would be to take place in a full register/login automation process. 
+While no tangible exploit directly comes from this study, I find it interesting to examine the way AliExpress generated their captchas. It is important to notice the effort to add two random bytes after EOI in the captchas JPEG, as an attempt to make each file unique and probably defeat checksum verifications. One potential use for this outcome, which is solving the captchas quickly and deterministically, would be to take place in a full register/login automation process. 
 
 # Part 4: Resources
 [Tesseract](https://muthu.co/all-tesseract-ocr-options/)  
