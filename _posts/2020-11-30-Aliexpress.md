@@ -65,7 +65,7 @@ Now, to make this more efficient, we can optimize the captcha's lookup time and 
 ![_config.yml]({{ site.baseurl }}/images/aliexpress/bindiff.png)
 {: refdef}
 
-The server generates different images by modifying **the two last bytes of the picture!** The changes are impossible to perceive, there is no impact on the image, but the hashes differ. The reason for this is that ```FF D9``` marks the end of the JPG file, the trailing bytes can be ignored. I could still index my images using a checksum computed on the JPG bytes and ignoring what is after EOI.  
+The server generates different images by modifying **the two last bytes of the picture!** It is actually appending one hex encoded random byte. The changes are impossible to perceive, there is no impact on the image, but the hashes differ. The reason for this is that ```FF D9``` marks the end of the JPG file, the trailing bytes can be ignored. I could still index my images using a checksum computed on the JPG bytes and ignoring what is after EOI.  
 I decided to opt for another, simpler way to index my files: the **number of random bytes is always the same**, and pictures displaying different captchas have different sizes. So I can index my pictures using their bytes count!
 ```python
 capt_hash[1571] = "7FKT"
