@@ -158,3 +158,45 @@ Messing around with the RecoveryTool.exe, we found that there is a recovery mode
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/recovery.jpg)
 {: refdef}
+
+Now what is interesting with this mode is that it switches the communication mode on the USB Link port. In fact, in nominal working mode, this port uses a proprietary protocol that restrains many actions, but I will detail this in a dedicated part. But in recovery mode, this port exposes a U-Boot shell!
+```bash
+U-Boot> printenv
+bootargs=console=ttyS0,115200 ubi.mtd=linux root=31:4 lpj=598016 quiet 
+bootcmd=nboot kernel;bootm;
+bootdelay=0
+baudrate=115200
+mtdids=nand0=atmel_nand
+mtdparts=mtdparts=atmel_nand:128k@0x0(at91bootstrap)ro,1m(u-boot)ro,2m(kernel),-(linux)
+silent=yes
+ver=U-BootVersion:1.0.1
+stdout=usbser
+stdin=usbser
+stderr=usbser
+
+Environment size: 316/131068 bytes
+```
+
+We can modify the boot parameters in order to bypass the authentication on the internal UART debug port:
+```
+U-Boot> setenv bootargs "console=ttyS0,115200 ubi.mtd=linux root=31:4 lpj=598016 single"
+U-Boot> setenv silent no
+U-Boot> setenv bootdelay 3
+U-Boot> printenv
+bootcmd=nboot kernel;bootm;
+baudrate=115200
+mtdids=nand0=atmel_nand
+mtdparts=mtdparts=atmel_nand:128k@0x0(at91bootstrap)ro,1m(u-boot)ro,2m(kernel),-(linux)
+ver=U-BootVersion:1.0.1
+stdout=usbser
+stdin=usbser
+stderr=usbser
+bootargs="console=ttyS0,115200 ubi.mtd=linux root=31:4 lpj=598016 single"
+silent=no
+bootdelay=3
+
+Environment size: 319/131068 bytes
+```
+We replace *quiet* with *single* in order to deactivate the authentication, added a delay so we have enough time to get to the UART shell, and set *silent* to know, in order to make sure we have a boot trace on the UART shell.  
+
+To do this, we need to be connected **simultaneously** to the USB link where we configure the new parameters, and the internal UART debug port, where the shell should pop.
