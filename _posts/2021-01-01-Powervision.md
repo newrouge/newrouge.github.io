@@ -29,4 +29,16 @@ The model studied here is a Power Vision for Harley Davidson, by Dynojet. The ha
 
 # Part 2: Getting the firmware
 ## 2.1: Analyzing the tools
+
+The tuner is supposed to be configured while being connected to a computer. It has a mini-USB input next to the CAN Bus (which is the one supposed to be connected to the bike's on board computer). The tools used to configure it are free to download on Dynojet's website.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/wintools.png)
+{: refdef}
+
+The installed windows tools contains the following binaries:
+* WinPV.exe: the main software with the GUI
+* PVUpdateClient.exe: updater, in charge of downloading new firmwares and copying them through the USB link
+* RecoveryTool.exe: called exclusively by the PVUpdateClient, it is in charge of flashing the recovery part of the firmware
+* PVLink.dll: in charge of the communication through the serial port, very important
 ## 2.2: Physical setup
