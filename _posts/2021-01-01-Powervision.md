@@ -245,6 +245,10 @@ And meanwhile, on the UART debug connection:
 [    0.960000] Freeing init memory: 64K
 / 
 # id
-root
+uid=0(root) gid=0(root)
 # ggwp
 ```
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/root_stuff.gif)
+{: refdef}
