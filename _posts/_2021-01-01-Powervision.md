@@ -6,6 +6,8 @@ title: Hacking a Harley's Tuner
 
 Finding my ways to the firmware of a famous Harley tuner
 
+**NOTE: All encryption keys and passwords are fake ones made up for writing this post.**
+
 <div style="text-align: center;">
  <a href="/tags#system"><img src="{{ site.baseurl }}/icons/reverse.png" width="200" title="reverse" ></a>
    <a href="/tags#system"><img src="{{ site.baseurl }}/icons/system.png" width="200" title="system" ></a>
@@ -42,7 +44,15 @@ The installed windows tools contains the following binaries:
 * RecoveryTool.exe: called exclusively by the PVUpdateClient, it is in charge of flashing the recovery part of the firmware
 * PVLink.dll: in charge of the communication through the serial port, very important
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/pv_files.png)
+{: refdef}
+
 Now, our goal is to get the firmware so we can start reversing. Checking on youtube tutorials and thewaybackmachine, we can see that firmware used to be available directly on dynojet's website, under the **firmware** section, which is now empty. We find our happiness by running the PVUpdateCLient.exe, and wireshark simultaneously.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/pvupdate.png)
+{: refdef}
 
 The wireshark capture shows plaintext HTTP going to *dynojetpowervision.com*, and checking for available firmware files. There is no real protection here, just the User-Agent you are supposed to be using is "PVUPdateClient", otherwise, the files remain hidden.
 ## 2.2: Physical setup
