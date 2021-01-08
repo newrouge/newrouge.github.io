@@ -136,6 +136,11 @@ I had to cut it open to see the actual PCB:
 {: refdef}
 
 And, by looking closely, we can spot 4 pins with written **DEBUG** over it!
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/ports.jpg)
+{: refdef}
+
 So we connect to it using UART to USB adapter, and fireup minicom.
 
 ```
