@@ -200,3 +200,51 @@ Environment size: 319/131068 bytes
 We replace *quiet* with *single* in order to deactivate the authentication, added a delay so we have enough time to get to the UART shell, and set *silent* to know, in order to make sure we have a boot trace on the UART shell.  
 
 To do this, we need to be connected **simultaneously** to the USB link where we configure the new parameters, and the internal UART debug port, where the shell should pop.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/recovery_shell.jpg)
+{: refdef}
+
+Once all the parameters are set, running the *boot* command on the USB Link with U-Boot will trigger a single user recovery mode boot:
+
+```
+U-Boot> boot
+Loading from nand0, offset 0x120000
+   Image Name:   Bobcat-577
+   Image Type:   ARM Linux Kernel Image (uncompressed)
+   Data Size:    828996 Bytes = 809.6 KiB
+   Load Address: 20008000
+   Entry Point:  20008040
+## Booting kernel from Legacy Image at 20008000 ...
+   Image Name:   Bobcat-577
+   Image Type:   ARM Linux Kernel Image (uncompressed)
+   Data Size:    828996 Bytes = 809.6 KiB
+   Load Address: 20008000
+   Entry Point:  20008040
+   Verifying Checksum ... OK
+   XIP Kernel Image ... OK
+OK
+
+```
+
+And meanwhile, on the UART debug connection:
+```
+[    0.000000] Linux version 2.6.30 (joey@superserver) (gcc version 4.3.3 (GCC) ) #32 PREEMPT Thu Feb 3 09:43:13 E1
+[    0.000000] CPU: ARM926EJ-S [41069265] revision 5 (ARMv5TEJ), cr=00053177
+[    0.000000] CPU: VIVT data cache, VIVT instruction cache
+[    0.000000] Machine: Dynojet Power Vision
+[    0.000000] Memory policy: ECC disabled, Data cache writeback
+[    0.000000] Clocks: CPU 192 MHz, master 96 MHz, main 16.000 MHz
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 16002
+[    0.000000] Kernel command line: console=ttyS0,115200 ubi.mtd=linux root=31:4 lpj=598016 single
+[    0.000000] NR_IRQS:192                                                                 
+[    0.000000] AT91: 96 gpio irqs in 3 banks                                               
+...
+[    0.930000] UBI: background thread "ubi_bgt0d" started, PID 97
+[    0.950000] VFS: Mounted root (squashfs filesystem) readonly on device 31:4.
+[    0.960000] Freeing init memory: 64K
+/ 
+# id
+root
+# ggwp
+```
