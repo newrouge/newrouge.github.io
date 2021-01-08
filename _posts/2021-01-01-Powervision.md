@@ -15,10 +15,16 @@ Finding my ways to the firmware of a famous Harley tuner
 
 # Part 1: What is a tuner
 
-A tuner is a little device supposed to be plugged to a bike. It is meant to configure the on board computer in order to optimize fuel to air ratios and other parameters. It is known to be used to lift engine power restrictions, or optimize fuel consumption. Though I am pretty sure a real biker will have much better words this describe how it can be used.
+A tuner is a little device supposed to be plugged to a bike. It is meant to configure the on board computer in order to optimize fuel to air ratios and other parameters. It is known to be used to lift engine power restrictions, or optimize fuel consumption. Though I am pretty sure a real biker will have much better words to describe how it can be used.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/dynojet.jpg)
+{: refdef}
+
+The model studied here is a Power Vision for Harley Davidson, by Dynojet. The hardware is a Bobcat Revision D by Drew Technologies (there is a typo on the PCB, it is actually written Drew *Technoligies*).
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/drewtech.jpg)
 {: refdef}
 
 # Part 2: Getting the firmware
