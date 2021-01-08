@@ -135,7 +135,8 @@ I had to cut it open to see the actual PCB:
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/open_pcb.jpg)
 {: refdef}
 
-And, by looking closely, we can spot 4 pins with written **DEBUG** over it!
+The memory chip seems to be soldered on the other side of the PCB. It is pretty bad news because it is under the screen, and it would probably destroy the device to try to get this physically.  
+By looking closely, we can spot 4 pins with written **DEBUG** over it!
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/ports.jpg)
@@ -250,5 +251,67 @@ uid=0(root) gid=0(root)
 ```
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/Dynojet/root_stuff.gif)
+![_config.yml]({{ site.baseurl }}/images/Dynojet/rootstuff.gif)
 {: refdef}
+
+## 2.3 Recovery Access
+
+The shell we obtained is setup in a specific mode where only part of the firmware is mounted. We now need the complete firmware. One way to do this would be finding the openssl encryption password, and decrypt the PVU_FILE. But let's start with another way first.  
+Back in 2.1, we suspected that the firmware might be stored unencrypted, and only the update files would be stored encrypted. This is the correct answer:
+
+```
+[    0.410000] UBI: attaching mtd3 to ubi0                                                 
+[    0.410000] UBI: physical eraseblock size:   131072 bytes (128 KiB)                     
+[    0.420000] UBI: logical eraseblock size:    129024 bytes                               
+[    0.430000] UBI: smallest flash I/O unit:    2048                                       
+[    0.430000] UBI: sub-page size:              512
+[    0.430000] UBI: VID header offset:          512 (aligned 512)
+[    0.440000] UBI: data offset:                2048
+[    0.870000] UBI: attached mtd3 to ubi0
+[    0.880000] UBI: MTD device name:            "linux"
+[    0.880000] UBI: MTD device size:            252 MiB
+[    0.890000] UBI: number of good PEBs:        2023
+[    0.890000] UBI: number of bad PEBs:         0
+[    0.900000] UBI: max. allowed volumes:       128
+[    0.900000] UBI: wear-leveling threshold:    4096
+[    0.910000] UBI: number of internal volumes: 1
+[    0.910000] UBI: number of user volumes:     2
+[    0.910000] UBI: available PEBs:             0
+[    0.920000] UBI: total number of reserved PEBs: 2023
+[    0.920000] UBI: number of PEBs reserved for bad PEB handling: 20
+[    0.930000] UBI: max/mean erase counter: 110/68
+[    0.930000] UBI: background thread "ubi_bgt0d" started, PID 97
+```
+In the boot sequence, we can see that an UBI file system is mounted from the MTD devices. Using the root shell we know have, we find 2 interesting devices: **UBI00** and **UBI01**.
+To read directly from them, we use dd and uuencode:
+```bash
+dd if=/dev/ubi0X of=stdout bs=X count=X|uuencode
+```
+And we extract the base64 encoded data from the minicom logs. We know the size of the firmware from the PVU_FILE (around 11MB), and we know the size of the memory chip from the u-boot data in the recovery files.
+
+```
+$ binwalk ubi00
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             Squashfs filesystem, little endian, version 4.0, compression:gzip, size: 10473396 bytes, 455 inodes, blocksize: 131072 bytes, created: 2019-09-04 20:48:04
+
+$ binwalk ubi01
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             UBIFS filesystem superblock node, CRC: 0x8254BB9D, flags: 0x0, min I/O unit size: 2048, erase block size: 129024, erase block count: 1917, max erase blocks: 2039, format version: 4, compression type: lzo
+129024        0x1F800         UBIFS filesystem master node, CRC: 0xBA73BA7B, highest inode: 2248, commit number: 132173
+131072        0x20000         UBIFS filesystem master node, CRC: 0xF9347A80, highest inode: 2248, commit number: 132174
+133120        0x20800         UBIFS filesystem master node, CRC: 0xB9DAE7BF, highest inode: 2248, commit number: 132175
+258048        0x3F000         UBIFS filesystem master node, CRC: 0xB6434F66, highest inode: 2248, commit number: 132173
+260096        0x3F800         UBIFS filesystem master node, CRC: 0xF5048F9D, highest inode: 2248, commit number: 132174
+262144        0x40000         UBIFS filesystem master node, CRC: 0xB5EA12A2, highest inode: 2248, commit number: 132175
+5062704       0x4D4030        Zip archive data, at least v1.0 to extract, compressed size: 11, uncompressed size: 11, name: PVU_TYPE
+5062781       0x4D407D        Zip archive data, at least v1.0 to extract, compressed size: 128, uncompressed size: 128, name: PVU_CERT
+5062975       0x4D413F        Zip archive data, at least v2.0 to extract, compressed size: 11295533, uncompressed size: 11293808, name: PVU_FILE
+...
+```
+
+And there you go, the whole firmware is here. Ubi00 contains the readonly part of the firmware, that means binaries, layout and everything essential to the device. Ubi01 contains the read/write part of it, so the licenses, user files, new updates etc.  
+Well, bingo. We can start reversing.  
