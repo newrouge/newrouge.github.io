@@ -283,7 +283,7 @@ Back in 2.1, we suspected that the firmware might be stored unencrypted, and onl
 [    0.930000] UBI: max/mean erase counter: 110/68
 [    0.930000] UBI: background thread "ubi_bgt0d" started, PID 97
 ```
-In the boot sequence, we can see that an UBI file system is mounted from the MTD devices. Using the root shell we know have, we find 2 interesting devices: **UBI00** and **UBI01**.
+In the boot sequence, we can see that an UBI file system is mounted from the MTD devices. Using the root shell we now have, we find 2 interesting devices: **UBI00** and **UBI01**.
 To read directly from them, we use dd and uuencode:
 ```bash
 dd if=/dev/ubi0X of=stdout bs=X count=X|uuencode
