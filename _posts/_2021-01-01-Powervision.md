@@ -154,3 +154,7 @@ One track remains unexplored: the **RECOVERY MODE**
 ### Recovery Mode
 
 Messing around with the RecoveryTool.exe, we found that there is a recovery mode for the device. It is activated by pressing the power button while plugin in the USB link.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/recovery.jpg)
+{: refdef}
