@@ -54,7 +54,7 @@ Now, our goal is to get the firmware so we can start reversing. Checking on yout
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/pvupdate.png)
 {: refdef}
 
-The wireshark capture shows plaintext HTTP going to *dynojetpowervision.com*, and checking for available firmware files. There is no real protection here, just the User-Agent you are supposed to be using is "PVUPdateClient", otherwise, the files remain hidden.  
+The wireshark capture shows plaintext HTTP going to *dynojetpowervision.com*, and checking for available firmware files. There is no real protection here, just the User-Agent you are supposed to be using is "PVUpdateClient", otherwise, the files remain hidden.  
 Using **curl**, we get the filenames we are looking for:
 ```bash
  curl -v -A PVUpdateClient http://dynojetpowervision.com/downloads/PowerVisionVersions.xml
@@ -118,3 +118,29 @@ Since the update file is encrypted, we can formulate two hypothesis:
 * The firmware is stored unencrypted, only the updates are encrypted. The update process decrypts the PVU_FILE, and replaces the running firmware. Would be nice, wouldn't it ?
 
 ## 2.2: Physical setup
+
+A quick and dirty win is always to desolder the memory chip to get the firmware. But in that case, it is a bit more complicated. The entire PCB was molded in a plastic protection, probably for sealing against humidity.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/mold1.jpg)
+{: refdef}
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/mold2.jpg)
+{: refdef}
+
+I had to cut it open to see the actual PCB:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/open_pcb.jpg)
+{: refdef}
+
+And, by looking closely, we can spot 4 pins with written **DEBUG** over it!
+So we connect to it using UART to USB adapter, and fireup minicom.
+
+```
+ROMBoot
+Welcome to bobcat
+bocat login:
+```
+Problem is, the shell is password protected, and even after days of bruteforcing (using [this tool](https://github.com/FireFart/UARTBruteForcer/blob/master/uart.py), no password was found.
