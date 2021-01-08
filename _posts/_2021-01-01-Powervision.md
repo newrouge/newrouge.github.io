@@ -41,4 +41,8 @@ The installed windows tools contains the following binaries:
 * PVUpdateClient.exe: updater, in charge of downloading new firmwares and copying them through the USB link
 * RecoveryTool.exe: called exclusively by the PVUpdateClient, it is in charge of flashing the recovery part of the firmware
 * PVLink.dll: in charge of the communication through the serial port, very important
+
+Now, our goal is to get the firmware so we can start reversing. Checking on youtube tutorials and thewaybackmachine, we can see that firmware used to be available directly on dynojet's website, under the **firmware** section, which is now empty. We find our happiness by running the PVUpdateCLient.exe, and wireshark simultaneously.
+
+The wireshark capture shows plaintext HTTP going to *dynojetpowervision.com*, and checking for available firmware files. There is no real protection here, just the User-Agent you are supposed to be using is "PVUPdateClient", otherwise, the files remain hidden.
 ## 2.2: Physical setup
