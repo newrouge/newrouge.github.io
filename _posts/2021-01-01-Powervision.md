@@ -316,3 +316,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 And there you go, the whole firmware is here. Ubi00 contains the readonly part of the firmware, that means binaries, layout and everything essential to the device. Ubi01 contains the read/write part of it, so the licenses, user files, new updates etc.  
 Well, bingo. We can start reversing.  
+
+## Part 3: Analyzing the firmware
+### 3.1: Encryption Keys
+### 3.2: Filex Protocol
