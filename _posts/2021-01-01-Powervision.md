@@ -7,10 +7,10 @@ title: Hacking a Harley's Tuner
 Finding my ways to the firmware of a famous Harley tuner
 
 <div style="text-align: center;">
- <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="reverse" ></a>
-   <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="system" ></a>
-   <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="hardware" ></a>
-   <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="crypto" ></a>
+ <a href="/tags#system"><img src="{{ site.baseurl }}/icons/reverse.png" width="200" title="reverse" ></a>
+   <a href="/tags#system"><img src="{{ site.baseurl }}/icons/system.png" width="200" title="system" ></a>
+   <a href="/tags#system"><img src="{{ site.baseurl }}/icons/hardware.png" width="200" title="hardware" ></a>
+   <a href="/tags#system"><img src="{{ site.baseurl }}/icons/crypto.png" width="200" title="crypto" ></a>
 </div>
 
 # Part 1: What is a tuner
