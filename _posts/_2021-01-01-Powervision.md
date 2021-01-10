@@ -32,29 +32,29 @@ The model studied here is a Power Vision for Harley Davidson, by Dynojet. The ha
 # Part 2: Getting the firmware
 ## 2.1: Analyzing the tools
 
-The tuner is supposed to be configured while being connected to a computer. It has a mini-USB input next to the CAN Bus (which is the one supposed to be connected to the bike's on board computer). The tools used to configure it are free to download on Dynojet's website.
+The tuner is supposed to be configured while being connected to a computer. It has a mini-USB input next to the CAN Bus (this one should be connected to the bike's on board computer). The tools used to configure it are free to download on Dynojet's website.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/wintools.png)
 {: refdef}
 
-The installed windows tools contains the following binaries:
+The installed windows tools contain the following binaries:
 * WinPV.exe: the main software with the GUI
-* PVUpdateClient.exe: updater, in charge of downloading new firmwares and copying them through the USB link
-* RecoveryTool.exe: called exclusively by the PVUpdateClient, it is in charge of flashing the recovery part of the firmware
+* PVUpdateClient.exe: updater, its job is to download in charge new firmwares and copying them through the USB link
+* RecoveryTool.exe: called exclusively by the PVUpdateClient to flash the recovery part of the firmware
 * PVLink.dll: in charge of the communication through the serial port, very important
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/pv_files.png)
 {: refdef}
 
-Now, our goal is to get the firmware so we can start reversing. Checking on youtube tutorials and thewaybackmachine, we can see that firmware used to be available directly on dynojet's website, under the **firmware** section, which is now empty. We find our happiness by running the PVUpdateCLient.exe, and wireshark simultaneously.
+Now our goal is to get the firmware so we can start reversing. Checking on youtube tutorials and thewaybackmachine, we can see that firmwares used to be available directly on Dynojet's website, under the **firmware** section, which is now empty. We find an interesting lead by running the PVUpdateCLient.exe, and wireshark simultaneously.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/pvupdate.png)
 {: refdef}
 
-The wireshark capture shows plaintext HTTP going to *dynojetpowervision.com*, and checking for available firmware files. There is no real protection here, just the User-Agent you are supposed to be using is "PVUpdateClient", otherwise, the files remain hidden.  
+The wireshark capture shows plaintext HTTP going to *dynojetpowervision.com* and checking for available firmware files. There is no real protection here, just the User-Agent you are supposed to be using is "PVUpdateClient", otherwise the files remain hidden.  
 Using **curl**, we get the filenames we are looking for:
 ```bash
  curl -v -A PVUpdateClient http://dynojetpowervision.com/downloads/PowerVisionVersions.xml
@@ -95,9 +95,9 @@ mishellcode@unisec:~/powervision$ file PVU_FILE
 PVU_FILE: openssl enc'd data with salted password                                                                            
 ```
 
-The **SYSTEM_RECOVERY**, that we will call PVR file, is a password protected archive, and the **FIRMWARE** file, named PVU, is actually encrypted using openssl.Also, the PVU_CERT file indicates that there might be an integerity check performed on the PVU_FILE.  
+The **SYSTEM_RECOVERY**, that we will call "PVR file" is a password protected archive, and the **FIRMWARE** file, named "PVU", is actually encrypted using openssl. Also, the PVU_CERT file indicates that there might be an integrity check performed on the PVU_FILE.  
 
-I'll skip the details, but since the PVR file is written in plaintext on the device, it was obvious that one of the tools (in this case RecoveryTool.exe) had the password somewhere. A bit of reverse engineering later, we get a password "POWERVISION_RECOVER_3456789Z". Though I won't explain the whole thing here, this password is actually kind of hidden. It is not hardcoded but instead, some loops go over integer values to generate the ending pattern of the password, and then concatenate a capital letter to it. There is a clear intention to hide this from badly intentioned users, and thats usually a sign we're on the right track.
+I'll skip the details, but since the PVR file is written in plaintext on the device, it was obvious that one of the tools (in this case RecoveryTool.exe) had the password somewhere. A bit of reverse engineering later, we get a password "POWERVISION_RECOVER_3456789Z". Though I won't explain the whole thing here, this password is actually somewhat hidden. It is not hardcoded but instead, some loops go over integer values to generate the ending pattern of the password and then concatenate a capital letter to it. There is a clear intention to hide this from badly intentioned users, and that's usually a sign we're on the right track.
 
 ### Recovery File Contents
 
@@ -108,14 +108,14 @@ u-boot.bin:           data
 uImage:               u-boot legacy uImage, Bobcat-577, Linux/ARM, OS Kernel Image (Not compressed), 828996 bytes, Thu Feb  3 14:44:52 2011, Load Address: 0x20008000, Entry Point: 0x20008040, Header CRC: 0x5EDBBE36, Data CRC: 0xD026D2D5 
 ````
 
-The recovery file is a u-boot image with a Kernel image. The entropy of the files indicates that parts of them are encrypted. Also, the presence of *at91bootstrap* file indicates we are in presence of a SAM AT 91 board, which can use secure boot. Damned. Though we can get one information from those files: the processor type is  **SAM926X**  
-Browsing the internet, we also can find this forum post, where a Drew Technoligies employee asks information about this very same family of processors (specifically, the SAM9260-EK): https://lists.denx.de/pipermail/u-boot/2011-June/093651.html
+The recovery file is a u-boot image with a Kernel image. The entropy of the files indicates that parts of them are encrypted. Also, the presence of *at91bootstrap* file indicates we are in presence of a SAM AT 91 board, which can use secure boot. Damned. We can though get one information from those files: the processor type is  **SAM926X**  
+Browsing the internet, we also can find the following forum post, where a Drew Technoligies employee asks information about this very same family of processors (specifically, the SAM9260-EK): https://lists.denx.de/pipermail/u-boot/2011-June/093651.html
 
 ### Update File
 
 Since the update file is encrypted, we can formulate two hypothesis:
-* The firmware is stored encrypted, and decrypted at runtime. That might be slow, but since the board supports secure boot, it is viable hypothesis.
-* The firmware is stored unencrypted, only the updates are encrypted. The update process decrypts the PVU_FILE, and replaces the running firmware. Would be nice, wouldn't it ?
+* The firmware is stored encrypted, and decrypted at runtime. That might be slow, but since the board supports secure boot, it is a viable hypothesis.
+* The firmware is stored unencrypted, only the updates are encrypted. The update process decrypts the PVU_FILE, and replaces the running firmware. Would be nice, wouldn't it?
 
 ## 2.2: Physical setup
 
@@ -142,25 +142,25 @@ By looking closely, we can spot 4 pins with written **DEBUG** over it!
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/ports.jpg)
 {: refdef}
 
-So we connect to it using UART to USB adapter, and fireup minicom.
+So we connect to it using UART to USB adapter, and fire up minicom.
 
 ```
 ROMBoot
 Welcome to bobcat
 bocat login:
 ```
-Problem is, the shell is password protected, and even after days of bruteforcing (using [this tool](https://github.com/FireFart/UARTBruteForcer/blob/master/uart.py), no password was found).   Also, U-Boot is set as quiet and there is now way from this shell to interact with the boot sequence.  
+Problem is the shell is password protected, and even after days of bruteforcing (using [this tool](https://github.com/FireFart/UARTBruteForcer/blob/master/uart.py), no password was found). Also, U-Boot is set as quiet and there is no way from this shell to interact with the boot sequence.  
 One track remains unexplored: the **RECOVERY MODE**
 
 ### Recovery Mode
 
-Messing around with the RecoveryTool.exe, we found that there is a recovery mode for the device. It is activated by pressing the power button while plugin in the USB link.
+Messing around with the RecoveryTool.exe we find that there is a recovery mode for the device. It is activated by pressing the power button while plugin in the USB link.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/recovery.jpg)
 {: refdef}
 
-Now what is interesting with this mode is that it switches the communication mode on the USB Link port. In fact, in nominal working mode, this port uses a proprietary protocol that restrains many actions, but I will detail this in a dedicated part. But in recovery mode, this port exposes a U-Boot shell!
+Now what is interesting with this mode is that it switches the communication mode on the USB Link port. In fact, in nominal working mode, this port uses a proprietary protocol that restrains many actions (I will detail this in a dedicated part), whereas in recovery mode the port exposes a U-Boot shell!
 ```bash
 U-Boot> printenv
 bootargs=console=ttyS0,115200 ubi.mtd=linux root=31:4 lpj=598016 quiet 
@@ -198,7 +198,7 @@ bootdelay=3
 
 Environment size: 319/131068 bytes
 ```
-We replace *quiet* with *single* in order to deactivate the authentication, added a delay so we have enough time to get to the UART shell, and set *silent* to know, in order to make sure we have a boot trace on the UART shell.  
+We replace *quiet* with *single* in order to deactivate the authentication, add a delay so we have enough time to get to the UART shell, and set *silent* to "no" in order to make sure we have a boot trace on the UART shell.  
 
 To do this, we need to be connected **simultaneously** to the USB link where we configure the new parameters, and the internal UART debug port, where the shell should pop.
 
@@ -258,7 +258,7 @@ On the left, the U-Boot shell, and on the right, the UART shell displaying the b
 ## 2.3 Recovery Access
 
 The shell we obtained is setup in a specific mode where only part of the firmware is mounted. We now need the complete firmware. One way to do this would be finding the openssl encryption password, and decrypt the PVU_FILE. But let's start with another way first.  
-Back in 2.1, we suspected that the firmware might be stored unencrypted, and only the update files would be stored encrypted. This is the correct answer:
+Back in 2.1 we suspected that the firmware might be stored unencrypted, and only the update files would be stored encrypted. This is the correct answer:
 
 ```
 [    0.410000] UBI: attaching mtd3 to ubi0                                                 
@@ -315,7 +315,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 ```
 
 And there you go, the whole firmware is here. Ubi00 contains the readonly part of the firmware, that means binaries, layout and everything essential to the device. Ubi01 contains the read/write part of it, so the licenses, user files, new updates etc.  
-Well, bingo. We can start reversing.  
+Bingo, we can start reversing!
 
 ## Part 3: Analyzing the firmware
 ### 3.1: Encryption Keys
