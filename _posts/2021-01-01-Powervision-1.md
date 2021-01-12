@@ -149,7 +149,7 @@ ROMBoot
 Welcome to bobcat
 bocat login:
 ```
-Problem is the shell is password protected, and even after days of bruteforcing (using [this tool](https://github.com/FireFart/UARTBruteForcer/blob/master/uart.py), no password was found). Also, U-Boot is set as quiet and there is no way from this shell to interact with the boot sequence.  
+Problem is the shell is password protected, and even after days of bruteforcing (using [this tool](https://github.com/FireFart/UARTBruteForcer/blob/master/uart.py)), no password was found. Also, U-Boot is set as quiet and there is no way from this shell to interact with the boot sequence.  
 One track remains unexplored: the **RECOVERY MODE**
 
 ### Recovery Mode
