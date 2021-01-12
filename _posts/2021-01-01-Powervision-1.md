@@ -327,7 +327,7 @@ Bingo, we can start reversing!
 
 ## In the next episode
 
-- Firmware reverse engineering and emulation (focus on the USB Link prioprietary protocol)
+- Firmware reverse engineering and emulation (focus on the USB Link proprietary protocol)
 - Loot (passwords, encryption keys...)
 - Buffer overflow
 
