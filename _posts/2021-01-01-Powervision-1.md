@@ -252,7 +252,7 @@ uid=0(root) gid=0(root)
 On the left, the U-Boot shell, and on the right, the UART shell displaying the boot sequence. 
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/Dynojet/rootstuff.gif)
+![_config.yml]({{ site.baseurl }}/images/Dynojet/rootstuff.gif =500x)
 {: refdef}
 
 ## 2.3 Recovery Mode Shell
