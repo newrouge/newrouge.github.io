@@ -321,7 +321,11 @@ There you go, the whole firmware is here
 Bingo, we can start reversing!
 
 
-### In the next episode
+## References
+
+[This post](https://blog.senr.io/blog/jtag-explained) gave me the idea for switching to single user mode in the boot parameters.
+
+## In the next episode
 
 - Firmware reverse engineering and emulation (focus on the USB Link prioprietary protocol)
 - Loot (passwords, encryption keys...)
