@@ -142,7 +142,7 @@ By looking closely, we can spot 4 pins with written **DEBUG** over it!
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/ports.jpg)
 {: refdef}
 
-So we connect to it using UART to USB adapter, and fire up minicom.
+So we connect to it using an UART to USB adapter, and fire up minicom.
 
 ```
 ROMBoot
