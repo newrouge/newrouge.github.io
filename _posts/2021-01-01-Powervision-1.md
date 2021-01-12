@@ -255,7 +255,7 @@ On the left, the U-Boot shell, and on the right, the UART shell displaying the b
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/rootstuff.gif)
 {: refdef}
 
-## 2.3 Recovery Access
+## 2.3 Recovery Mode Shell
 
 The shell we obtained is setup in a specific mode where only part of the firmware is mounted. We now need the complete firmware. One way to do this would be finding the openssl encryption password, and decrypt the PVU_FILE. But let's start with another way first.  
 Back in 2.1 we suspected that the firmware might be stored unencrypted, and only the update files would be stored encrypted. This is the correct answer:
