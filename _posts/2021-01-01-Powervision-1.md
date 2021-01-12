@@ -283,10 +283,10 @@ Back in 2.1 we suspected that the firmware might be stored unencrypted, and only
 [    0.930000] UBI: max/mean erase counter: 110/68
 [    0.930000] UBI: background thread "ubi_bgt0d" started, PID 97
 ```
-In the boot sequence, we can see that an UBI file system is mounted from the MTD devices. Using the root shell we now have, we find 2 interesting devices: **UBI00** and **UBI01**.
+In the boot sequence, we can see that an UBI file system is mounted from the MTD devices. Using the root shell we now have, we find 2 interesting devices: **UBI0_0** and **UBI0_1**.
 To read directly from them, we use dd and uuencode:
 ```bash
-dd if=/dev/ubi0X of=stdout bs=X count=X|uuencode -
+dd if=/dev/ubi0X of=stdout bs=SIZE count=COUNT 2&>/dev/null |uuencode -m ubi00
 ```
 And we extract the base64 encoded data from the minicom logs. We know the size of the firmware from the PVU_FILE (around 11MB), and we know the size of the memory chip from the u-boot data in the recovery files (128MB).
 
@@ -315,8 +315,8 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 ```
 
 There you go, the whole firmware is here
-- UBI00: readonly part of the firmware, that means binaries, layout and everything essential to the device. 
-- UBI01:  the read/write part of it, so the licenses, user files, new updates etc.  
+- UBI0_0: readonly part of the firmware, that means binaries, layout and everything essential to the device. 
+- UBI0_1:  the read/write part of it, so the licenses, user files, new updates etc.  
 
 Bingo, we can start reversing!
 
