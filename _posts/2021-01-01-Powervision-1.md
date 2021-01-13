@@ -95,7 +95,7 @@ mishellcode@unisec:~/powervision$ file PVU_FILE
 PVU_FILE: openssl enc'd data with salted password                                                                            
 ```
 
-The **SYSTEM_RECOVERY**, that we will call "PVR file" is a password protected archive, and the **FIRMWARE** file, named "PVU", is actually encrypted using Openssl. Also, the PVU_CERT file indicates that there might be an integrity check performed on the PVU_FILE.  
+The **SYSTEM_RECOVERY**, that we will call "PVR file" is a password protected archive, and the **FIRMWARE** file, named "PVU_FILE", is actually encrypted using Openssl. Also, the PVU_CERT file indicates that there might be an integrity check performed on the PVU_FILE.  
 
 I'll skip the details, but since the PVR file is written in plaintext on the device, it was obvious that one of the tools (in this case RecoveryTool.exe) had the password somewhere. A bit of reverse engineering later, we get a password "POWERVISION_RECOVER_3456789Z". Though I won't explain the whole thing here, this password is actually somewhat hidden. It is not hardcoded but instead, some loops go over integer values to generate the ending pattern of the password and then concatenate a capital letter to it. There is a clear intention to hide this from badly intentioned users, and that's usually a sign we're on the right track.
 
