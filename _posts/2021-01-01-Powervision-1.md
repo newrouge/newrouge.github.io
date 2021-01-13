@@ -38,7 +38,7 @@ The tuner is supposed to be configured while being connected to a computer. It h
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/wintools.png)
 {: refdef}
 
-The installed windows tools contain the following binaries:
+The installed Windows tools contain the following binaries:
 * WinPV.exe: the main software with the GUI
 * PVUpdateClient.exe: updater, its job is to download in charge new firmwares and copying them through the USB link
 * RecoveryTool.exe: called exclusively by the PVUpdateClient to flash the recovery part of the firmware
@@ -48,13 +48,13 @@ The installed windows tools contain the following binaries:
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/pv_files.png)
 {: refdef}
 
-Now our goal is to get the firmware so we can start reversing. Checking on youtube tutorials and thewaybackmachine, we can see that firmwares used to be available directly on Dynojet's website, under the **firmware** section, which is now empty. We find an interesting lead by running the PVUpdateCLient.exe, and wireshark simultaneously.
+Now our goal is to get the firmware so we can start reversing. Checking on YouTube tutorials and TheWaybackMachine, we can see that firmwares used to be available directly on Dynojet's website, under the **firmware** section, which is now empty. We find an interesting lead by running the PVUpdateCLient.exe, and Wireshark simultaneously.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/pvupdate.png)
 {: refdef}
 
-The wireshark capture shows plaintext HTTP going to *dynojetpowervision.com* and checking for available firmware files. There is no real protection here, just the User-Agent you are supposed to be using is "PVUpdateClient", otherwise the files remain hidden.  
+The Wireshark capture shows plaintext HTTP going to *dynojetpowervision.com* and checking for available firmware files. There is no real protection here, just the User-Agent you are supposed to be using is "PVUpdateClient", otherwise the files remain hidden.  
 Using **curl**, we get the filenames we are looking for:
 ```bash
  curl -v -A PVUpdateClient http://dynojetpowervision.com/downloads/PowerVisionVersions.xml
@@ -78,7 +78,7 @@ Using **curl**, we get the filenames we are looking for:
 ...
 ```
 
-We start focusing the **FIRMWARE** and **SYSTEM_UPGRADE** files, as they are the most likely to contain what we are interested in. We download them using **wget**, and trouble begins here:
+We start focusing on the **FIRMWARE** and **SYSTEM_UPGRADE** files, as they are the most likely to contain what we are interested in. We download them using **wget**, and trouble begins here:
 ```bash
 mishellcode@unisec:~/powervision$ unzip PV_SYSTEMUPGRADE-1.0.1-631.pvr                                                  
 Archive:  PV_SYSTEMUPGRADE-1.0.1-631.pvr                                                                                
@@ -95,7 +95,7 @@ mishellcode@unisec:~/powervision$ file PVU_FILE
 PVU_FILE: openssl enc'd data with salted password                                                                            
 ```
 
-The **SYSTEM_RECOVERY**, that we will call "PVR file" is a password protected archive, and the **FIRMWARE** file, named "PVU", is actually encrypted using openssl. Also, the PVU_CERT file indicates that there might be an integrity check performed on the PVU_FILE.  
+The **SYSTEM_RECOVERY**, that we will call "PVR file" is a password protected archive, and the **FIRMWARE** file, named "PVU", is actually encrypted using Openssl. Also, the PVU_CERT file indicates that there might be an integrity check performed on the PVU_FILE.  
 
 I'll skip the details, but since the PVR file is written in plaintext on the device, it was obvious that one of the tools (in this case RecoveryTool.exe) had the password somewhere. A bit of reverse engineering later, we get a password "POWERVISION_RECOVER_3456789Z". Though I won't explain the whole thing here, this password is actually somewhat hidden. It is not hardcoded but instead, some loops go over integer values to generate the ending pattern of the password and then concatenate a capital letter to it. There is a clear intention to hide this from badly intentioned users, and that's usually a sign we're on the right track.
 
@@ -109,7 +109,7 @@ uImage:               u-boot legacy uImage, Bobcat-577, Linux/ARM, OS Kernel Ima
 ````
 
 The recovery file is a u-boot image with a Kernel image. The entropy of the files indicates that parts of them are encrypted. Also, the presence of *at91bootstrap* file indicates we are in presence of a SAM AT 91 board, which can use secure boot. Damned. We can though get one information from those files: the processor type is  **SAM926X**  
-Browsing the internet, we also can find the following forum post, where a Drew Technoligies employee asks information about this very same family of processors (specifically, the SAM9260-EK): https://lists.denx.de/pipermail/u-boot/2011-June/093651.html
+Browsing the internet, we also can find the following forum post, where a Drew *Technoligies* employee asks information about this very same family of processors (specifically, the SAM9260-EK): https://lists.denx.de/pipermail/u-boot/2011-June/093651.html
 
 ### Update File
 
@@ -135,7 +135,7 @@ I had to cut it open to see the actual PCB:
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/open_pcb.jpg)
 {: refdef}
 
-The memory chip seems to be soldered on the other side of the PCB. It is pretty bad news because it is under the screen, and it would probably destroy the device to try to get this physically.  
+The memory chip seems to be soldered on the other side of the PCB. It is pretty bad news because it is under the screen, and it would probably destroy the device to try to get this physically. Also, at this stage, we don't know if getting the chip will help us. It could simply contain an Openssl encrypted file that is decrypted during the boot process. So we looked elsewhere.  
 By looking closely, we can spot 4 pins with written **DEBUG** over it!
 
 {:refdef: style="text-align: center;"}
@@ -257,7 +257,7 @@ On the left, the U-Boot shell, and on the right, the UART shell displaying the b
 
 ## 2.3 Recovery Mode Shell
 
-The shell we obtained is setup in a specific mode where only part of the firmware is mounted. We now need the complete firmware. One way to do this would be finding the openssl encryption password, and decrypt the PVU_FILE. But let's start with another way first.  
+The shell we obtained is setup in a specific mode where only part of the firmware is mounted. We now need the complete firmware. One way to do this would be finding the Openssl encryption password, and decrypt the PVU_FILE. But let's start with another way first.  
 Back in 2.1 we suspected that the firmware might be stored unencrypted, and only the update files would be stored encrypted. This is the correct answer:
 
 ```
