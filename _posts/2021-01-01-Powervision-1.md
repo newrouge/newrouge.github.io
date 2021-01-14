@@ -179,7 +179,7 @@ Environment size: 316/131068 bytes
 ```
 
 We can modify the boot parameters in order to bypass the authentication on the internal UART debug port:
-```
+```bash
 U-Boot> setenv bootargs "console=ttyS0,115200 ubi.mtd=linux root=31:4 lpj=598016 single"
 U-Boot> setenv silent no
 U-Boot> setenv bootdelay 3
@@ -208,7 +208,7 @@ To do this, we need to be connected **simultaneously** to the USB link where we 
 
 Once all the parameters are set, running the *boot* command on the USB Link with U-Boot will trigger a single user recovery mode boot:
 
-```
+```bash
 U-Boot> boot
 Loading from nand0, offset 0x120000
    Image Name:   Bobcat-577
@@ -229,7 +229,7 @@ OK
 ```
 
 And meanwhile, on the UART debug connection:
-```
+```bash
 [    0.000000] Linux version 2.6.30 (joey@superserver) (gcc version 4.3.3 (GCC) ) #32 PREEMPT Thu Feb 3 09:43:13 E1
 [    0.000000] CPU: ARM926EJ-S [41069265] revision 5 (ARMv5TEJ), cr=00053177
 [    0.000000] CPU: VIVT data cache, VIVT instruction cache
@@ -260,7 +260,7 @@ On the left, the U-Boot shell, and on the right, the UART shell displaying the b
 The shell we obtained is setup in a specific mode where only part of the firmware is mounted. We now need the complete firmware. One way to do this would be finding the Openssl encryption password, and decrypt the PVU_FILE. But let's start with another way first.  
 Back in 2.1 we suspected that the firmware might be stored unencrypted, and only the update files would be stored encrypted. This is the correct answer:
 
-```
+```bash
 [    0.410000] UBI: attaching mtd3 to ubi0                                                 
 [    0.410000] UBI: physical eraseblock size:   131072 bytes (128 KiB)                     
 [    0.420000] UBI: logical eraseblock size:    129024 bytes                               
@@ -290,7 +290,7 @@ dd if=/dev/ubi0X of=stdout bs=SIZE count=COUNT 2&>/dev/null |uuencode -m ubi00
 ```
 And we extract the base64 encoded data from the minicom logs. We know the size of the firmware from the PVU_FILE (around 11MB), and we know the size of the memory chip from the u-boot data in the recovery files (128MB).
 
-```
+```bash
 $ binwalk ubi00
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
