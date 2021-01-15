@@ -66,7 +66,6 @@ Here is the structure applied to a packet sent from the WinPV.exe software. We c
 This file is very important. On top on the Filex protocol is a SOAP API (yes yes, a SOAP API over a serial connection), and the requests are stored in **soap_req**, while the response are in **soap_resp**. At every startup of the WinPV.exe program, those files are checked and deleted if existing.
 
 ### PVLink.dll
-### Kaitai Struct
 ### Buffer Overflow
 
 ## Part 2: Looting
