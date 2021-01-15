@@ -23,7 +23,7 @@ In the previous part, we ended up downloaded the full firmware unencrypted from 
 The Filex protocol is the name of the proprietary protocol used on the USB Link port. All the Windows softwares are actually using this Filex protocol through the USB Link, to configure the PowerVision. To do so, they have to use the PVLink.dll.
 ### Specification and KaitaiStruct
 After a few captures using [USBPcap](https://desowin.org/usbpcap/) as a Wireshark plugin, we started understanding the structure of the binary messages:
-```
+```yaml
 seq:
   - id: start_byte
     size: 1
