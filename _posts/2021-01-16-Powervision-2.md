@@ -55,14 +55,14 @@ The Kaitai Struct is quite simple, there is no nested data. The packet is delimi
 
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/Dynojet/fields.jpg)
+![_config.yml]({{ site.baseurl }}/images/Dynojet/fields.png)
 {: refdef}
 
 Here is the structure applied to a packet sent from the WinPV.exe software. We can see that the program is running a **DELETE_FILE** operation on the PowerVision, and the file name is **params:soap_req**.
 
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/Dynojet/hexview.jpg)
+![_config.yml]({{ site.baseurl }}/images/Dynojet/hexview.png)
 {: refdef}
 
 This file is very important. On top on the Filex protocol is a SOAP API (yes yes, a SOAP API over a serial connection), and the requests are stored in **soap_req**, while the response are in **soap_resp**. At every startup of the WinPV.exe program, those files are checked and deleted if existing.
