@@ -1,7 +1,7 @@
 ---
 layout: post
 tags: reverse hardware
-title: Hacking a Harley's Tuner
+title: Hacking a Harley's Tuner - Part 2
 ---
 
 Reverse Engineering a famous Harley's tuner
