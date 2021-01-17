@@ -32,8 +32,16 @@ A simple packet looks like:
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/hexview.png)
 {: refdef}
 
-We notice the delimiters (0xF0) and some kind of headers. After a few captures using [USBPcap](https://desowin.org/usbpcap/) as a Wireshark plugin, we started understanding the structure of the binary messages. Here is the parsing of the previous packet:
+We notice the delimiters (0xF0) and some kind of headers in little-endian.
 
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/file_info.png)
+{: refdef}
+
+Here, on another example, we can see  a different function. This one is systematically called prior to any read, as it returns the file's size, which is used for the the actual read function.
+
+After a few captures using [USBPcap](https://desowin.org/usbpcap/) as a Wireshark plugin, we started understanding the structure of the binary messages. Here is the parsing of the **DELETE-FILE**:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/fields.png)
