@@ -74,13 +74,121 @@ seq:
     size: 1
     contents: [0xf0]
 ```
-The Kaitai Struct is quite simple, there is no nested data. The packet is delimited between 0xF0 bytes. There is 5 32 bits Little-Endian integers as headers, used for function types, parameters, length, and a sequence number. In the end of the packet, there is a one byte checksum before the actual 0xF0 end of packet.  
-
-We can see that the program is running a **DELETE_FILE** operation on the PowerVision, and the file name is **params:soap_req**.  
-
-This file is very important. On top on the Filex protocol is a SOAP API (yes yes, a SOAP API over a serial connection), and the requests are stored in **soap_req**, while the response are in **soap_resp**. At every startup of the WinPV.exe program, those files are checked and deleted if existing.
+The Kaitai Struct is quite simple, there is no nested data. The packet is delimited between 0xF0 bytes. There is 5 32 bits Little-Endian integers as headers, used for function types, parameters, length, and a sequence number. In the end of the packet, there is a one byte checksum before the actual 0xF0 end of packet.  Of course, to be able to shoot packets, you need to be able to generate valid checksums. But we do not need it yet, because we have an API ready for use.
 
 ### PVLink.dll
+
+The good thing with DLL's is that they export symbols even if they are stripped.
+
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/pvlink_funcs.png)
+{: refdef}
+
+The great thing here is that we can very quickly write our own code to use available functions used by the Windows tools. All we need is to plug the PowerVision, and use the PVLink.dll. The first thing any pentester has in mind when given a function that has file system read capacities is to browse what is accessible, and what is not. To do this, we used the **PVLinkReadFile** function, and fuzzed the directories names using a directory list, like [this one]
+(https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-big.txt) for example. The corresponding C code:
+
+```C
+#include <stdlib.h>
+#include <strings.h>
+#include <stdio.h>
+#include <windows.h>
+#include <tchar.h>
+#include <dirent.h>
+
+typedef int (*pvreadfile)(char*,char* , unsigned int ,int*);
+typedef int (*pvreaddir)(char*, char*, int, int*);
+typedef int (*pvgetsize)(char*, int*);
+typedef int (*pvdosoap)(int, char*, char**, char*, int, int, int*, int*);
+
+char *type(int t){
+  switch(t){
+  case 4:
+    return "FOLDER: ";
+  case 8:
+    return "FILE: ";
+  default:
+    return "UNK: ";
+  }
+}
+
+void read_dir(char *file){
+  HMODULE hModule = LoadLibrary("PVLink.dll");
+  pvreaddir readdir = (pvreaddir) GetProcAddress(hModule, "PVReadDir");
+  char *dest = malloc(2048*sizeof(char));
+  int mode = 0x400;
+  int parm = 0;
+  int res = readdir(file, dest, mode, &parm);
+  // The PowerVision returns a directory structure with each field being a different file in the folder, separated by 132 bytes each
+  // This loop is only made for parsing the PVReaddir response and show all the files in the folder
+  for (int i=0;i<=parm;i++){
+    printf("%s%s\n", type(*dest), dest+4);
+    dest+=132;
+  }
+  free(dest);
+ }
+void brute_dir(){ 
+  HMODULE hModule = LoadLibrary("PVLink.dll");
+  pvreaddir readdir = (pvreaddir) GetProcAddress(hModule, "PVReadDir");
+  char *dest = malloc(2048*sizeof(char));
+  int mode = 0x400;
+  int parm = 0;
+  FILE* dlist = fopen("directory_list.txt", "r");
+  char line[256];
+  
+  while (fgets(line, sizeof(line), dlist)) {
+    strtok(line, "\n");
+    strcat(line, ":");
+    int res = readdir(line, dest, mode, &parm);
+    if (res != 1009){
+	printf("Read status=%d\nDirname=%s\n", res, line);
+      }
+    memset(file, 0, 64*sizeof(char));
+  }
+  free(dest);
+  fclose(dlist);
+}
+
+int main(int argc, char **argv){
+  read_dir("params:soap_resp");
+  brute_dir();
+  return 0;
+}
+```
+
+Since then I've learned it is also quite simple to use a DLL with Python:
+
+```Python
+from ctypes import *
+def read_dir(path):
+    pvlink = CDLL("./PVLink.dll")
+    readdir = pvlink.PVReadDir
+    nbfolders = c_int(0)
+    mode = 0x400
+    res = readdir(path, byref(dest), mode, byref(nbfolders))
+    return res
+
+def get_size(path):
+    pvlink = CDLL("./PVLink.dll")
+    getsize = pvlink.PVGetFileSize
+    res = c_int(0)
+    getsize(path, byref(res))
+    return res
+
+def read_file(path):
+    pvlink = CDLL("./PVLink.dll")
+    readfile = pvlink.PVReadFile
+    readfile.argtypes = [c_char_p, c_char_p, c_int, POINTER(c_int)]
+    dest = ''
+    length = c_int()
+    buf = ''
+    size = get_size(path)
+    readfile(path, dest, size, byref(length))
+    return length.value
+```
+
+Concerning the *mode* integer, I'm absolutely not sure it has anything to do with an actual mode (r, w), I just know the value it is supposed to be equal to from previous captures.
+
 ### Buffer Overflow
 
 ## Part 2: Looting
