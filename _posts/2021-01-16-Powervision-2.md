@@ -240,11 +240,11 @@ The algorithm is quite simple:
  - XOR with 0xFF
  - If the checksum value is 0xF0, the is a conflict with the end of packet delimiter, and the checksum is replaced by 0xDB 0xDC
  
- Now we can go over all the values, and we find a very interesting message:
+ Now we can go over all the values, and when we reached the function index **0x16**, we received a very interesting result from the PowerVision:
  ```
  Invalid cmd string
  ```
- 
+ We liked that.  
  This is quite common to see developper tools left in products like this. Often the devs would need a quick shell access for debug. After many attempts, I did not succeed in executing any PoC. Something was off. Months later, when I got my hands on the firmware, I could then reverse the function supposed to execute the shell command:
  
 ```c
@@ -266,7 +266,67 @@ size_t __fastcall shell_cmd(int a1, int a2, const char *a3)
 ...
 ```
 
-What do you mean, TODO ???
+What do you mean, TODO ???  
+It seems the function is actually implemented as we can see a call to **system** without any cross-reference:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/system_xref.png)
+{: refdef}
+
+My guess would be they never changed the log message, but the CFILE_DO_COMMAND is implemented. Probably they just removed it's call from the release version.  
+
+Anyway, after obtaining the firmware (see [part 1](https://therealunicornsecurity.github.io/Powervision-1/)), we finally obtained the full list of functions supported by the Filex protocol, and here is the complete Kaitai Struct with the enums:
+
+```yaml
+meta:
+  id: filex_msg
+  endian: le
+seq:
+  - id: start_byte
+    size: 1
+    contents: [0xf0]
+  - id: type
+    type: s4
+    enum: type_value
+  - id: param1
+    type: s4
+  - id: param2
+    type: s4
+  - id: datalen
+    type: s4
+  - id: seq
+    type: s4
+  - id: data
+    size: datalen
+    type: strz
+    encoding: ASCII
+  - id: checksum
+    type: u1
+  - id: end_byte
+    size: 1
+    contents: [0xf0]
+enums:
+  type_value:
+    1: hello
+    4: getinfo
+    5: open_handle
+    6: close_handle
+    7: delete_file
+    8: mkdir
+    10: read_file
+    11: write_file
+    12: flush_handle
+    13: open_dir
+    14: read_dir
+    15: close_dir
+    16: file_info
+    17: shell_cmd
+    18: shutdown
+    2: getseed
+    3: sendkey
+    9: filesync
+```
+
 ### Buffer Overflow
 
 ## Part 2: Looting
