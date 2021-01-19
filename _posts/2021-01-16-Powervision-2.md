@@ -789,6 +789,4 @@ It was a long post, thanks for staying until the end and stay classy netsecurios
 
 ---
 [Join our discord](https://discord.gg/eTnPNTuCTZ)
-Dynojet PowerVision
-Written from Tulum, with love
 ---
