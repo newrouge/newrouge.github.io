@@ -787,6 +787,13 @@ We had a lot of fun doing this, but we would like to explore a few more mysterio
  
 It was a long post, thanks for staying until the end and stay classy netsecurios!
 
+# References
+ - Dotdotpwn: https://github.com/wireghoul/dotdotpwn
+ - Seclists: https://github.com/danielmiessler/SecLists
+ - GDB-gef: https://github.com/hugsy/gef
+ - Qemu cross debugging: https://reverseengineering.stackexchange.com/questions/8829/cross-debugging-for-arm-mips-elf-with-qemu-toolchain
+ - Kaitai Web IDE: https://ide.kaitai.io/
+
 ---
 [Join our discord](https://discord.gg/eTnPNTuCTZ)
 ---
