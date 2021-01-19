@@ -19,7 +19,7 @@ Reverse Engineering a famous Harley's tuner
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/buffer_overflow_crop.jpg)
 {: refdef}
 
-In the previous part, we ended up downloaded the full firmware unencrypted from the console connection. Now is time to show you what we have done with it.
+In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/), we ended up downloaded the full firmware unencrypted from the console connection. Now is time to show you what we have done with it.
 
 
 # TLDR
@@ -417,7 +417,7 @@ squashfs-root/gui/
 
 ```
 
-In the previous part, we downloaded the firmware through the UBI blocks using the recovery shell. The directories structure above is a subset of files found in the **readonly** part of the firmware. The two most important binary files are **filex-server-arm**, that mostly handles the filex protocol over USB Link, and **BobcatApp-arm**, that contains all the Dynojet logic for bike tunes, licenses and logs.  
+In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/), we downloaded the firmware through the UBI blocks using the recovery shell. The directories structure above is a subset of files found in the **readonly** part of the firmware. The two most important binary files are **filex-server-arm**, that mostly handles the filex protocol over USB Link, and **BobcatApp-arm**, that contains all the Dynojet logic for bike tunes, licenses and logs.  
 
 We ran the Linux [hardening-check](http://manpages.ubuntu.com/manpages/trusty/man1/hardening-check.1.html) tool on our firmware binaries:
 ```bash
