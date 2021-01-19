@@ -24,6 +24,7 @@ In the previous part, we ended up downloaded the full firmware unencrypted from 
 
 # TLDR
 - Buffer overflow in proprietary file exchange protocol: control of Program Counter, hard to reach a code execution because of input validation
+- Command execution function left in the code, likely for debug purposes
 - Firmware encryption keys, log encryption keys, and root password uncovering
 
 ## Part 1: The Filex Protocol
@@ -160,6 +161,14 @@ int main(int argc, char **argv){
   return 0;
 }
 ```
+Nothing exotic here, we just:
+ - Load the DLL file using the *LoadLibrary* function
+ - Locate the function we want to execute using the function's name and *dlsym*
+ - Set the parameters to be roughly the same as seen in the USBPcap captures (except the ones we want to control)
+ - Execute the call
+ - Parse the returned structure using a dirty loop  
+ 
+ 
 Here is a quick look at what the PVReadDir returned structure looks like:
 
 ```
@@ -207,7 +216,7 @@ Here is a quick look at what the PVReadDir returned structure looks like:
 - .. is a folder !!
 ```
 Concerning the *mode* integer, I'm absolutely not sure it has anything to do with an actual mode (r, w), I just know the value it is supposed to be equal to from previous captures.  
-Since then I've learned it is also quite simple to use a DLL with Python:
+Also, since then I've learned it is also quite simple to use a DLL with Python:
 
 ```python
 from ctypes import *
@@ -247,8 +256,9 @@ The algorithm is quite simple:
  - A loop goes over all the bytes in the packet until the checksum offset and sums them up in a one byte register
  - XOR with 0xFF
  - If the checksum value is 0xF0, the is a conflict with the end of packet delimiter, and the checksum is replaced by 0xDB 0xDC
+ Let's get to packet forging!  
  
- Now we can iterate over all the possible values, and when we reached the function index **0x16**, we received a very interesting result from the PowerVision:
+Now we can iterate over all the possible function index values, and when we reached the function index **0x16**, we received a very interesting result from the PowerVision:
  ```
  Invalid cmd string
  ```
