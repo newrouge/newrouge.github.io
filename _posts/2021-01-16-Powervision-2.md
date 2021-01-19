@@ -40,7 +40,7 @@ We made several captures on the USB Link while using the WinPV.exe tools, and no
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/usbcapture.png)
 {: refdef}
 
-We started focusing one of the functions that could read on the file system using the Filex protocol. In the DLL *PVLink.dll*, we can list the functions used by the WinPV software:
+In the DLL *PVLink.dll*, we can list the functions used by the WinPV software:
 
 
 {:refdef: style="text-align: center;"}
