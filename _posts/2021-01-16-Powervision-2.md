@@ -29,10 +29,10 @@ In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/) 
 
 ## Part 1: Finding a Buffer Overflow
 
-The Filex protocol is the name of the proprietary protocol used on the USB Link port. All the Windows tools are actually using this Filex protocol through the USB Link, to configure the PowerVision. To do so, they have to use the PVLink.dll. We started getting interested in it for two things:
+The Filex protocol is the name of the proprietary protocol used on the USB Link port. All the Windows tools are actually using this Filex protocol through the USB Link, to configure the PowerVision. To do so, they have to use the PVLink.dll. We were looking for:
  - Read/writes
- - Parameters fuzzing
- - Function types (there are many available operations, we wanted to list all of them)
+ - Error messages when fuzzing
+ - Function/Message types: there are many available operations, we wanted to list all of them
 
 We made several captures on the USB Link while using the WinPV.exe tools, and noticed many file system read/write operations.
 
