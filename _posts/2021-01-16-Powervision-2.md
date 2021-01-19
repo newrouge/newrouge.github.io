@@ -712,7 +712,7 @@ $ binwalk -e harley.dbx
 ```
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/Dynojet/buffer_overflow_crop.jpg)
+![_config.yml]({{ site.baseurl }}/images/Dynojet/dbx_entropy.jpg)
 {: refdef}
 
 Well those files look encrypted. But instead of playing cat and mouse with crypto keys, this time we had luck. The ubifs part of the firmware (read/write) contains logs files:
