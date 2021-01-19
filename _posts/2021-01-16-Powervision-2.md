@@ -65,11 +65,11 @@ The filepath has to be a string in the form: *folder:file name*, and the mode in
  - read_handle: read from the previously created handle
  - close_handle: self explanatory
  
- (NB: the complete list of available functions is in part 1.3)  
+ (NB: the complete list of available functions is in part 2.1)  
  
 We tried fuzzing both the folder and the filename with different attack patterns (directory traversal, encodings...) until we experienced an interesting thing. The device would **crash** if the file name parameter, second part of the *filepath* parameter, contains more than **171** characters. We were hunting for a buffer overflow, and we definitely found one.
  
-### 1.4 - Analyzing the Buffer Overflow
+### 1.2 - Analyzing the Buffer Overflow
 
 We had a crash, now we needed to know if it was exploitable. Hopefully we can reverse the firmware we obtained previously. The root of the **SIGSEGV** is found in a function named **CLEAN_PATH**, which, ironically enough, was made to restrain unauthorized file system access, and hence help secure the device.  
 
@@ -132,7 +132,7 @@ Subsequently it copies the folder name and file name in local variables using **
 
 This *if* checks for the length of the folder name, which is supposed to be under 16 bytes, so it is protected. However, the second **strcpy** does not check the length of the file name! And according to Ghidra's stack frame, there is 127 bytes for the file name's buffer. The **buffer overflow** occurs here.  
 So now we need to get debugging in order to see if we can exploit this.
-#### 1.4.1 - Firmware emulation
+#### 1.2.1 - Firmware emulation
 
 At first we tried to run a GDB shell directly on the PowerVision device. Since it is a kernel in version 2.6.36, finding a statically precompiled GDB that wont return a 
 ```
@@ -239,7 +239,7 @@ We get:
 So we can clearly see that we control the Program Counter register, which means we can change the execution flow to do something better than a **SIGSEGV**.  
 Yet we encounter one last problem: there is a **charset** verification on what goes in the *filename* buffer. If a char is not contained between 0x20 or 0x7F, the function will enter an error case and the buffer will not be copied, which is a shame because we have the perfect candidate for a pointer: the **CFILE_DO_COMMAND** function met earlier in 1.3! The problem is that its address contains hex values above 0x7F and even the stack is loaded at addresses that can't be written in the buffer.
 
-#### 1.4.2 - Difficulty to exploit the Buffer Overflow
+#### 1.2.2 - Difficulty to exploit the Buffer Overflow
 
 While the buffer overflow exists, we did not identify a way to execute code from it yet. 
 We are open to suggestions if you have any ideas, feel free to submit them to us via our Discord: https://discord.gg/eTnPNTuCTZ
