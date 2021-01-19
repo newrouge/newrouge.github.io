@@ -49,7 +49,7 @@ In the DLL *PVLink.dll*, we can list the functions used by the WinPV software:
 
 We had to chose a candidate for scouting, so we started focusing the **PVReadFile** function.
 
-### 1.1: PVReadFile
+### 1.1 - PVReadFile
 
  Here is the **PVReadFile** prototype:
  ```c
