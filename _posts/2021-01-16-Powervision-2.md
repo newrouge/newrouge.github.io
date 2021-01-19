@@ -80,7 +80,13 @@ seq:
     size: 1
     contents: [0xf0]
 ```
-The Kaitai Struct is quite simple, there is no nested data. The packet is delimited between 0xF0 bytes. There is 5 32 bits Little-Endian integers as headers, used for function types, parameters, length, and a sequence number. In the end of the packet, there is a one byte checksum before the actual 0xF0 end of packet.  Of course, to be able to shoot packets, you need to be able to generate valid checksums. But we do not need it yet, because we have an API ready for use.
+The Kaitai Struct is quite simple, there is no nested data. 
+- Delimiters: 0xF0 (start and end)
+- Headers: 5 integers (32 bits) in Little Endian, , used for function types, parameters, data length, and a sequence number
+- Data
+- Checksum: 1 byte
+
+Of course, to be able to shoot packets, we need to be able to generate valid checksums. But we do not need it yet, because we have an *API ready for use*.
 
 ### 1.2 - PVLink.dll
 
