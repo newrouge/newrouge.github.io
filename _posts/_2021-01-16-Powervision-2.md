@@ -19,7 +19,7 @@ Reverse Engineering a famous Harley's tuner
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/buffer_overflow_crop.jpg)
 {: refdef}
 
-In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/), we ended up downloaded the full firmware unencrypted from the console connection. Now is time to show you what we have done with it.
+In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/) we ended up downloading the full firmware unencrypted from the console connection. Now it's time to show you what we have done with it.
 
 
 # TLDR
@@ -45,7 +45,7 @@ We notice the delimiters (0xF0) and some kind of headers in little-endian.
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/file_info.png)
 {: refdef}
 
-Here, on another example, we can see  a different function. This one is systematically called prior to any read, as it returns the file's size, which is used for the the actual read function.
+Here, in another example, we can see  a different function. This one is systematically called prior to any read, as it returns the file's size, which is used for the actual read function.
 
 After a few captures using [USBPcap](https://desowin.org/usbpcap/) as a Wireshark plugin, we started understanding the structure of the binary messages. Here is the parsing of the **DELETE-FILE**:
 
@@ -82,7 +82,7 @@ seq:
 ```
 The Kaitai Struct is quite simple, there is no nested data. 
 - Delimiters: 0xF0 (start and end)
-- Headers: 5 integers (32 bits) in Little Endian, , used for function types, parameters, data length, and a sequence number
+- Headers: 5 integers (32 bits) in Little Endian used for function types, parameters, data length, and a sequence number
 - Data
 - Checksum: 1 byte
 
@@ -97,7 +97,7 @@ The good thing with DLL's is that they export symbols even if they are stripped.
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/pvlink_funcs.png)
 {: refdef}
 
-The great thing here is that we can very quickly write our own code to use available functions used by the Windows tools. All we need is to plug the PowerVision, and use the PVLink.dll. The first thing any pentester has in mind when given a function that has file system read capacities is to browse what is accessible, and what is not. To do this, we used the **PVReadDir** function, and fuzzed the directories names using a directory list, like [this one](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-big.txt) for example. The corresponding C code:
+The great thing here is that we can very quickly write our own code to use available functions used by the Windows tools. All we need is to plug the PowerVision, and use the PVLink.dll. The first idea any pentester gets when given a function that has file system read capacities is to browse what is accessible and what is not. To do this, we used the **PVReadDir** function, and fuzzed the directory names using a directory list, like [this one](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-big.txt) for example. The corresponding C code:
 
 ```c
 #include <stdlib.h>
@@ -174,7 +174,7 @@ Nothing exotic here, we just:
  - Parse the returned structure using a dirty loop  
  
  
-Here is a quick look at what the PVReadDir returned structure looks like:
+The PVReadDir function returns a structure that looks like:
 
 ```
     debug033:001D2828 db    8
@@ -220,8 +220,8 @@ Here is a quick look at what the PVReadDir returned structure looks like:
 
 - .. is a folder !!
 ```
-Concerning the *mode* integer, I'm absolutely not sure it has anything to do with an actual mode (r, w), I just know the value it is supposed to be equal to from previous captures.  
-Also, since then I've learned it is also quite simple to use a DLL with Python:
+Concerning the *mode* integer, I'm absolutely not sure it has anything to do with an actual mode (r, w). But I know the value it is supposed to be equal to from my previous captures (0x400).  
+Since then I've also learned that it is quite simple to use a DLL with Python:
 
 ```python
 from ctypes import *
@@ -241,7 +241,7 @@ We discovered the following directories:
  - logs: you can guess what is in there
 
 The problem is that the format for files and folders access is **folder:file**, and you can't specify more than one folder. For example, the license file located in *updates/licenses/license.txt* is not accessible because you would have to write **updates:licenses:license.txt**.  
-The Filex API is actually pretty well written and protects against read and writes in folders that the user is not supposed to access. But by fuzzing it a bit, we discovered two very interesting things:
+The Filex API is actually pretty well written and protects against read and write in folders that the user is not supposed to access. But by fuzzing it a bit, we discovered two very interesting things:
  - A function available can actually execute a shell command on the PowerVision
  - The *CLEAN_PATH* function that protects against directory traversals contains a buffer overflow
 
@@ -250,7 +250,7 @@ The Filex API is actually pretty well written and protects against read and writ
 From the examples in the KaitaiStruct part, we now know two function indexes:
  - 0x7: **DELETE_FILE**
  - 0x10: **FILE_INFO**
- But we can already guess that there are others. One problem now: to enumerate all indexes, we need to be able to forge packets. So we need to implement the checksum function.
+But we can already guess that there are others. One problem: to enumerate all indexes we need to be able to forge packets, so we need to implement the checksum function.
  
  
 {:refdef: style="text-align: center;"}
@@ -260,15 +260,15 @@ From the examples in the KaitaiStruct part, we now know two function indexes:
 The algorithm is quite simple:
  - A loop goes over all the bytes in the packet until the checksum offset and sums them up in a one byte register
  - XOR with 0xFF
- - If the checksum value is 0xF0, the is a conflict with the end of packet delimiter, and the checksum is replaced by 0xDB 0xDC
+ - If the checksum value is 0xF0 there is a conflict with the end of packets delimiter, and the checksum is replaced by 0xDB 0xDC
  Let's get to packet forging!  
  
-Now we can iterate over all the possible function index values, and when we reached the function index **0x16**, we received a very interesting result from the PowerVision:
+Now we can iterate over all the possible function index values, and when we reach the function index **0x16** we receive a very interesting result from the PowerVision:
  ```
  Invalid cmd string
  ```
-We liked that.  
-This is quite common to see developper features left in products like this. Often the devs would need a quick shell access for debug. After many attempts, I did not succeed in executing any command. Something was off. Months later, when I got my hands on the firmware, I could then reverse the function supposed to execute the shell command:
+That's good for us.
+It's quite common to see developer features left in products like this. Often the devs need a quick shell access for debugging purposes. But after many attempts, I did not succeed in executing any command. Something was off. Months later when I got my hands on the firmware, I was then able to reverse the function supposed to execute the shell command:
  
 ```c
 size_t __fastcall shell_cmd(int a1, int a2, const char *a3)
@@ -289,14 +289,14 @@ size_t __fastcall shell_cmd(int a1, int a2, const char *a3)
 ...
 ```
 
-What do you mean, **TODO** ???  
-It seems still that the function is actually implemented as we can see a call to **system** without any cross-reference:
+What do you mean, **TODO**???  
+It seems that the function is actually implemented as we can see a call to **system** without any cross-reference:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/system_xref.png)
 {: refdef}
 
-My guess would be they never changed the log message containing the **TODO**, but the CFILE_DO_COMMAND exists in the code. They probably just removed it's call from the release version.  
+My guess would be they never changed the log message containing the **TODO**, but the CFILE_DO_COMMAND exists in the code. They probably just removed its call from the release version.  
 
 Anyway, after obtaining the firmware (see [part 1](https://therealunicornsecurity.github.io/Powervision-1/)), we finally obtained the full list of functions supported by the Filex protocol, and here the complete Kaitai Struct enums:
 
@@ -325,14 +325,13 @@ enums:
 
 ### 1.4 - Buffer Overflow
 
-We had started fuzzing the PVReadFile function without much success, apart from the directories we had discovered. We tried many path traversal patterns (using [dotdotpwn](https://github.com/wireghoul/dotdotpwn) ) but without any success. The reason for this is that the dunctions:
+We had started fuzzing the PVReadFile function without much success, apart from discovering the directories. We tried many path traversal patterns (using [dotdotpwn](https://github.com/wireghoul/dotdotpwn) ) but without any success. The reason for this is that the functions:
  - file_info
  - open_dir
  - delete_file
  - read_file
  - mkdir
- 
-all go through one **CLEAN_PATH** function. It checks for '\\', '/' and '..' patterns and stops if it encounters any of those. Then it compares the folder name (the string before the ':') against of white list of authorized folders:
+all go through one **CLEAN_PATH** function: it checks for '\\', '/' and '..' patterns and stops if it encounters any of those, and then compares the folder name (the string before the ':') against a white list of authorized folders:
 
 ```c
 uint sanitize_path(int param_1,char *log_msg,int size,byte *param_path,int len,undefined *param_6)
@@ -375,7 +374,7 @@ LAB_0000b5d0:
         return 0;
       }
 ```
-Then it copies the folder name and file name in local variables using **strcpy**:
+Subsequently it copies the folder name and file name in local variables using **strcpy**:
 
 ```c
       if (path_: + -(int)log_msg < (char *)0x10) {
@@ -384,14 +383,14 @@ Then it copies the folder name and file name in local variables using **strcpy**
         strcpy(filename,path_: + 1);
 ```
 
-This *if* checks for the length of the folder name, which is supposed to be under 16 bytes, so it is protected. However, the second **strcpy** does not check the length of the file's name! And according to Ghidra's stack frame, there is 127 bytes for the file's name's buffer. Now we need to get to debugging in order to see if we can exploit this.
+This *if* checks for the length of the folder name, which is supposed to be under 16 bytes, so it is protected. However, the second **strcpy** does not check the length of the file name! And according to Ghidra's stack frame, there is 127 bytes for the file name's buffer. So now we need to get debugging in order to see if we can exploit this.
 #### 1.4.1 - Firmware emulation
 
-At first we tried to run a gdb shell directly on the PowerVision device. Since it is a kernel in version 2.6.36, finding a statically precompiled GDB that wont return a 
+At first we tried to run a GDB shell directly on the PowerVision device. Since it is a kernel in version 2.6.36, finding a statically precompiled GDB that wont return a 
 ```
 Kernel too old
 ```
-error message is nearly impossible. We thought of running an Ubuntu ARM 2.6.36 and compile GDB statically ourselves, but it seemed longer. Instead, we went for firmware emulation.
+error message is nearly impossible. We thought of running an Ubuntu ARM 2.6.36 and compile GDB statically ourselves but it seemed longer. Instead, we went for firmware emulation.
 
 ```bash
 squashfs-root/gui/
@@ -417,7 +416,7 @@ squashfs-root/gui/
 
 ```
 
-In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/), we downloaded the firmware through the UBI blocks using the recovery shell. The directories structure above is a subset of files found in the **readonly** part of the firmware. The two most important binary files are **filex-server-arm**, that mostly handles the filex protocol over USB Link, and **BobcatApp-arm**, that contains all the Dynojet logic for bike tunes, licenses and logs.  
+In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/), we downloaded the firmware through the UBI blocks using the recovery shell. The directories structure above is a subset of files found in the **readonly** part of the firmware. The two most important binary files are **filex-server-arm**, which mostly handles the filex protocol over USB Link, and **BobcatApp-arm** that contains all the Dynojet logic for bike tunes, licenses and logs.  
 
 We ran the Linux [hardening-check](http://manpages.ubuntu.com/manpages/trusty/man1/hardening-check.1.html) tool on our firmware binaries:
 ```bash
@@ -439,9 +438,9 @@ We used the following command line to locally run the **filex-server-arm** binar
 $ qemu-arm -g 1234 -L squashfs-root/ filex-server-arm -V -s PHONYSERIALNUMBER
 ```
 
-Gdb-server listens on localhost:1234, the directory *squashfs-root/lib* contains all the required shared object libraries, and we know which arguments are expected from the reversing the *main* function. 
+Gdb-server listens on localhost:1234, the directory *squashfs-root/lib* contains all the required shared object libraries, and we know which arguments are expected from reversing the *main* function. 
 
-Now that the arm binary is running in the background, we can debug it using *gdb-multiarch*. The process will read Filex messages from /dev/ttyGS0, so we created a named pipe using:
+Now that the ARM binary is running in the background, we can debug it using *gdb-multiarch*. The process will read Filex messages from /dev/ttyGS0, so we created a named pipe using:
 ```bash
 $ mknod squashfs-root/dev/ttyGS0 p
 $ ls squashfs-root/dev/
@@ -462,7 +461,7 @@ squashfs-root/dev/
 ...
 ```
 
-And while being debuged in GDB, we can shoot Filex using:
+And while being debugged in GDB, we can shoot Filex using:
 
 ```bash
 $ python filex_fuzzer.py > squashfs-root/dev/ttyGS0
@@ -605,11 +604,11 @@ We get:
 {: refdef}
 
 So we can clearly see that we control the Program Counter register, which means we can change the execution flow to do something better than a **SIGSEGV**.  
-Yet we encounter one last problem: there is a **charset** verification on what goes in the *filename* buffer. If a char is not contained between 0x20 or 0x7F, the function will enter an error case and the buffer will not be copied. Which is a shame because we have the perfect candidate for a pointer: the **CFILE_DO_COMMAND** function met earlier in 1.3! The problem is that it's adress contains hex values above 0x7F, and even the stack is loaded at addresses that can't be written in the buffer.
+Yet we encounter one last problem: there is a **charset** verification on what goes in the *filename* buffer. If a char is not contained between 0x20 or 0x7F, the function will enter an error case and the buffer will not be copied, which is a shame because we have the perfect candidate for a pointer: the **CFILE_DO_COMMAND** function met earlier in 1.3! The problem is that its address contains hex values above 0x7F and even the stack is loaded at addresses that can't be written in the buffer.
 #### 1.4.2 - Conclusion
 
-While the buffer overflow exists, we did not identify a way to execute code from it yet. We are open to suggestions if you have ideas, please feel free to submit then to us via our discord:
- - https://discord.gg/eTnPNTuCTZ
+While the buffer overflow exists, we did not identify a way to execute code from it yet. 
+We are open to suggestions if you have any ideas, feel free to submit them to us via our Discord: https://discord.gg/eTnPNTuCTZ
  
 So far, we have tried:
  - Jumping to the .text: code starts around 0x9d18, so the first byte is already higher than 0x7F
@@ -671,8 +670,8 @@ Started: Tue Jan 19 10:53:33 2021
 Stopped: Tue Jan 19 10:53:42 2021
 ```
 
-After trying the whole *rockyou.txt* without any success, we tried with different mask attacks, and got one very interesting result: we found a matching password that was only 6 lowercase letters. Considering the amount of protections in place, I was quite surprised to find a matching root password so easily. Maybe it is an MD5 collision ?  
-Anyway thanks to this, we don't have to go through the whole U-Boot/Recovery mode process to get a shell. Now we can connect directly using the internal UART Debug port:
+After trying the whole *rockyou.txt* without any success, we tried with different mask attacks, and got one very interesting result: we found a matching password that was only 6 lowercase letters. Considering the amount of protections in place I was quite surprised to find a matching root password so easily. Maybe it is an MD5 collision?  
+Anyways thanks to this, we don't have to go through the whole U-Boot/Recovery mode process to get a shell. Now we can connect directly using the internal UART Debug port:
 
 ```
 ROMBoot
@@ -715,7 +714,7 @@ $ binwalk -E harley.dbx
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/dbx_entropy.png)
 {: refdef}
 
-Well those files look encrypted. But instead of playing cat and mouse with crypto keys, this time we had luck. The ubifs part of the firmware (read/write) contains logs files:
+Well those files look encrypted. But instead of playing cat and mouse with crypto keys, this time we had luck. The ubifs part of the firmware (read/write) contains log files:
 
 ```bash
 Dec 31 17:12:22 bobcat user.info BobcatApp: CFILE_DELETE: Deleting '/tmp/PVU_TYPE'
@@ -734,8 +733,8 @@ Dec 31 17:12:34 bobcat user.info BobcatApp: CFILE_SYNC: Sync done.
 Dec 31 17:12:34 bobcat user.info BobcatApp: CFILE_DO_COMMAND: unzip -p '/flash/storage/PV_TUNEDB-0.0.10.09.pvu' PVU_FILE | openssl enc -d -aes-256-cbc -salt -out /tmp/PVU_FILE -pass pass:F6678H9Z9U8A7DHZDYCCUXH9SH2
 Dec 31 17:13:15 bobcat user.info BobcatApp: CFILE_DO_COMMAND: Returned 0
 ```
-Well. Nice! We found the holy grail!  
-But why going through this many layers of obfuscation for eventually leaving the encryptions keys in plaintext in log files...   
+Nice! We found the holy grail. 
+I wondered what was the point of going through that many obfuscation layers to eventually just leave the encryptions keys in plaintext in the log files...   
 Well, those log files are supposed to be encrypted:
 
 
@@ -780,9 +779,9 @@ The function generates a password with various sums, subtractions, and permutati
 
 # Conclusion
 
-We had a lot of fun doing this, but we would like to explore a few more mysterious things before calling it a day:
+We had a lot of fun doing this but we would like to explore a few more mysterious things before calling it a day:
  - Encrypted databases: how to decrypt them
- - Forge firmwares and write it: either by writing directly to the ubi/mtd devices, or forging updates and bypassing the integrity check
+ - Forge firmwares and write it: either by writing directly to the ubi/mtd devices or forging updates and bypassing the integrity check
  - License bypass: VIN unlock by patching firmware or replacing license signature keys
  
 It was a long post, thanks for staying until the end and stay classy netsecurios!
