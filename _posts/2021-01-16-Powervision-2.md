@@ -412,14 +412,31 @@ squashfs-root/gui/
 
 ```
 
-In the previous part, we downloaded the firmware through the UBI blocks using the recovery shell. The directories structure above is a subset of files found in the **readonly** part of the firmware. The two most important binary files are **filex-server-arm**, that mostly handles the filex protocol over USB Link, and **BobcatApp-arm**, that contains all the Dynojet logic form tunes, licenses, and firmware manipulations.  
+In the previous part, we downloaded the firmware through the UBI blocks using the recovery shell. The directories structure above is a subset of files found in the **readonly** part of the firmware. The two most important binary files are **filex-server-arm**, that mostly handles the filex protocol over USB Link, and **BobcatApp-arm**, that contains all the Dynojet logic for bike tunes, licenses and logs.  
+
+We ran the Linux [hardening-check](http://manpages.ubuntu.com/manpages/trusty/man1/hardening-check.1.html) tool on our firmware binaries:
+```bash
+filex_patch:
+ Position Independent Executable: no, normal executable!
+ Stack protected: no, not found!
+ Fortify Source functions: no, only unprotected functions found!
+ Read-only relocations: no, not found!
+ Immediate binding: no, not found!
+ Stack clash protection: unknown, no -fstack-clash-protection instructions found
+ Control flow integrity: no, not found!
+```
+
+Of course, on an old 2.6.36 Linux, we were expecting this.   
+
 We used the following command line to locally run the **filex-server-arm** binary:
 
 ```bash
 $ qemu-arm -g 1234 -L squashfs-root/ filex-server-arm -V -s PHONYSERIALNUMBER
 ```
 
-Now that the arm binary is running in the background, we can debug it using *gdb-multiarch*. The binary will read filex messages from /dev/ttyGS0, so we created a named pipe using:
+Gdb-server listens on localhost:1234, the directory *squashfs-root/lib* contains all the required shared object libraries, and we know which arguments are expected from the reversing the *main* function. 
+
+Now that the arm binary is running in the background, we can debug it using *gdb-multiarch*. The process will read Filex messages from /dev/ttyGS0, so we created a named pipe using:
 ```bash
 $ mknod squashfs-root/dev/ttyGS0 p
 $ ls squashfs-root/dev/
@@ -440,13 +457,13 @@ squashfs-root/dev/
 ...
 ```
 
-And while being debuged in GDB, we can shoot filex using:
+And while being debuged in GDB, we can shoot Filex using:
 
 ```bash
 $ python filex_fuzzer.py > squashfs-root/dev/ttyGS0
 ```
 
-Here is the code of the Kaitai generated python structure for filex messages:
+Here is the code of the Kaitai generated python structure for Filex messages:
 
 ```python
 from pkg_resources import parse_version
@@ -553,7 +570,7 @@ class FilexMsg(KaitaiStruct):
 
 Using this exploit code:
 
-```
+```python
 import kaitaistruct, enum, serial, os, subprocess
 from filex_msg import FilexMsg
 
@@ -763,3 +780,8 @@ We had a lot of fun doing this, but we would like to explore a few more mysterio
  - License bypass: VIN unlock by patching firmware or replacing license signature keys
  
 It was a long post, thanks for staying until the end and stay classy netsecurios!
+
+---
+Join our discord
+https://discord.gg/eTnPNTuCTZ
+---
