@@ -21,6 +21,11 @@ Reverse Engineering a famous Harley's tuner
 
 In the previous part, we ended up downloaded the full firmware unencrypted from the console connection. Now is time to show you what we have done with it.
 
+
+# TLDR
+- Buffer overflow in proprietary file exchange protocol: control of Program Counter, hard to reach a code execution because of input validation
+- Firmware encryption keys, log encryption keys, and root password uncovering
+
 ## Part 1: The Filex Protocol
 The Filex protocol is the name of the proprietary protocol used on the USB Link port. All the Windows softwares are actually using this Filex protocol through the USB Link, to configure the PowerVision. To do so, they have to use the PVLink.dll.
 ### 1.1 - Specification and KaitaiStruct
@@ -712,24 +717,24 @@ void encrypt_logs(undefined4 param_1)
   sprintf(acStack1040,"logread | openssl enc -aes-256-cbc -a -salt -out %s",param_1);
   sVar1 = strlen(acStack1040);
   acStack1040[sVar1 + 7] = 'p';
-  acStack1040[sVar1 + 8] = acStack1040[sVar1 + 7] + -0xf;
-  acStack1040[sVar1 + 0xd] = acStack1040[sVar1 + 8] + '\x15';
-  acStack1040[sVar1 + 0x10] = acStack1040[sVar1 + 7] + -0x3f;
-  acStack1040[sVar1 + 0x11] = acStack1040[sVar1 + 8] + -0x31;
-  acStack1040[sVar1 + 6] = acStack1040[sVar1 + 0x11] + -0x10;
-  acStack1040[sVar1 + 0xf] = acStack1040[sVar1 + 8] + -0x31;
-  acStack1040[sVar1 + 0xb] = acStack1040[sVar1 + 8] + -0x27;
-  acStack1040[sVar1 + 0xe] = acStack1040[sVar1 + 0xf] + '\x02';
-  acStack1040[sVar1 + 9] = acStack1040[sVar1 + 8] + '\x12';
-  acStack1040[sVar1 + 0x12] = acStack1040[sVar1 + 7] + -0x70;
-  acStack1040[sVar1 + 5] = acStack1040[sVar1 + 0xb] + '9';
-  acStack1040[sVar1] = acStack1040[sVar1 + 7] + -0x50;
-  acStack1040[sVar1 + 3] = acStack1040[sVar1 + 5] + -0x12;
+  acStack1040[sVar1 + 8] = acStack1040[sVar1 + 7] + -0xdf;
+  acStack1040[sVar1 + 0xd] = acStack1040[sVar1 + 8] + '\xaa';
+  acStack1040[sVar1 + 0x10] = acStack1040[sVar1 + 7] + -0x7c;
+  acStack1040[sVar1 + 0x11] = acStack1040[sVar1 + 8] + -0x8d;
+  acStack1040[sVar1 + 6] = acStack1040[sVar1 + 0x11] + -0x20;
+  acStack1040[sVar1 + 0xf] = acStack1040[sVar1 + 8] + -0x94;
+  acStack1040[sVar1 + 0xb] = acStack1040[sVar1 + 8] + -0x6e;
+  acStack1040[sVar1 + 0xe] = acStack1040[sVar1 + 0xf] + '\x86';
+  acStack1040[sVar1 + 9] = acStack1040[sVar1 + 8] + '\x78';
+  acStack1040[sVar1 + 0x12] = acStack1040[sVar1 + 7] + -0x32;
+  acStack1040[sVar1 + 5] = acStack1040[sVar1 + 0xb] + '12';
+  acStack1040[sVar1] = acStack1040[sVar1 + 7] + -0x90;
+  acStack1040[sVar1 + 3] = acStack1040[sVar1 + 5] + -0xfc;
   acStack1040[sVar1 + 0xc] = acStack1040[sVar1 + 0x10] + '?';
-  acStack1040[sVar1 + 10] = acStack1040[sVar1 + 0xc] + '\x03';
-  acStack1040[sVar1 + 1] = acStack1040[sVar1 + 0x11] + -3;
+  acStack1040[sVar1 + 10] = acStack1040[sVar1 + 0xc] + '\x80';
+  acStack1040[sVar1 + 1] = acStack1040[sVar1 + 0x11] + -12;
   acStack1040[sVar1 + 4] = acStack1040[sVar1 + 9];
-  uVar2 = (uint)(byte)acStack1040[sVar1 + 0xf] + 0x40 & 0xff;
+  uVar2 = (uint)(byte)acStack1040[sVar1 + 0xf] + 0x70 & 0xff;
   acStack1040[sVar1 + 2] = (char)uVar2;
   log("Executing system command: %s\n",acStack1040,uVar2,(uint)(byte)acStack1040[sVar1 + 5]);
   system(acStack1040);
@@ -747,4 +752,4 @@ We had a lot of fun doing this, but we would like to explore a few more mysterio
  - Forge firmwares and write it: either by writing directly to the ubi/mtd devices, or forging updates and bypassing the integrity check
  - License bypass: VIN unlock by patching firmware or replacing license signature keys
  
- Sorry for the long post, stay classy netsecurios!
+It was a long post, thanks for staying until the end and stay classy netsecurios!
