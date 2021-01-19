@@ -117,11 +117,11 @@ LAB_0000b5d0:
       }
 ```
 We can see conditional jumps looking for the characters:
- - 3A ':' : folder/filename delimiter
- - 5C '\\', 2F '/': antislash and slash
- - 2E2E '..': parent directory for Unix systems
+ - 3A : folder/filename delimiter
+ - 5C , 2F : antislash and slash
+ - 2E2E : parent directory for Unix systems
 and then break if the strings contain any of these. This is not a web application, so HTML, Base64, or any king of encoding will be taken as a raw string.  
-Subsequently it copies the folder name and file name in local variables using **strcpy**:
+Subsequently, it copies the folder name and file name in local variables using **strcpy**:
 
 ```c
       if (path_: + -(int)log_msg < (char *)0x10) {
@@ -322,7 +322,8 @@ The only thing we now need to **forge packets** is the algorithm to generate val
 The algorithm is quite simple:
  - A loop goes over all the bytes in the packet until the checksum offset and sums them up in a one byte register
  - XOR with 0xFF
- - If the checksum value is 0xF0 there is a conflict with the end of packet's delimiter, and the checksum is replaced by 0xDB 0xDC
+ - If the checksum value is 0xF0 there is a conflict with the end of packet's delimiter, and the checksum is replaced by 0xDB 0xDC  
+ 
  Let's get to packet forging!  
  
 Now we can iterate over all the possible function index values, and when we reach the function index **0x16** we receive a very interesting result from the PowerVision:
@@ -387,8 +388,8 @@ enums:
 
 
 
-### 2.2 - Using PVLink.dll
-
+### 2.2 - Brute Forcing directories
+We tried to map the file system using the functions directly availble in the DLL.
 The good thing with DLL's is that they export symbols even if they are stripped.
 
 
@@ -396,7 +397,12 @@ The good thing with DLL's is that they export symbols even if they are stripped.
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/pvlink_funcs.png)
 {: refdef}
 
-We can very quickly write our own code to use available functions used by the Windows tools. All we need is to plug the PowerVision, and use the PVLink.dll. The first idea any pentester gets when given a function that has file system read capacities is to browse what is accessible and what is not. To do this, we used the **PVReadDir** function, and fuzzed the directory names using a directory list, like [this one](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-big.txt) for example. The corresponding C code:
+We used the **PVReadDir** function to browse available directories:
+
+```c
+int *pvreaddir(char* filepath, char* destination_buffer, int mode, int* integer_parameter);
+```
+The prototype is very similar to the one of **PVReadFile** we used earlier. However, it is a bit harder to read from it's result as we have to reverse engineer the returned structure. Here is the code that enumerates directories using a wordlist and **PVReadDir**:
 
 ```c
 #include <stdlib.h>
@@ -473,7 +479,7 @@ Nothing exotic here, we just:
  - Parse the returned structure using a dirty loop  
  
  
-The PVReadDir function returns a structure that looks like:
+The returned structure looks like:
 
 ```
     debug033:001D2828 db    8
@@ -519,8 +525,8 @@ The PVReadDir function returns a structure that looks like:
 
 - .. is a folder !!
 ```
-The *mode* integer is hardcoded to a known value we got from previous captures (0x400).  
-Since then I've also learned that it is quite simple to use a DLL with Python:
+
+We can do the same thing more simply with Python:
 
 ```python
 from ctypes import *
