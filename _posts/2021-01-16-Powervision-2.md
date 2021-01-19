@@ -132,6 +132,7 @@ Subsequently, it copies the folder name and file name in local variables using *
 
 This *if* checks for the length of the folder name, which is supposed to be under 16 bytes, so it is protected. However, the second **strcpy** does not check the length of the file name! And according to Ghidra's stack frame, there is 127 bytes for the file name's buffer. The **buffer overflow** occurs here.  
 So now we need to get debugging in order to see if we can exploit this.
+
 #### 1.2.1 - Firmware emulation
 
 At first we tried to run a GDB shell directly on the PowerVision device. Since it is a kernel in version 2.6.36, finding a statically precompiled GDB that wont return a 
@@ -251,11 +252,11 @@ So far, we have tried:
  
 ## Part 2: Focus on the Filex Protocol
 
-Earlier we mentioned the Filex protocol as the underlying logic behind the **PVLink.dll** functions. We needed to know more about it. Specifically, which kind of operations were available. I'm insiting on that part, as experience has shown me that when an API or service exposes many types of operations, it is not uncommon to find:
+Earlier we mentioned the Filex protocol as the underlying logic behind the **PVLink.dll** functions. We needed to know more about it. Specifically, which kind of operations were available. I'm insiting on that part, as experience has shown me that when an API or service exposes several types of operations, it is not uncommon to find:
  - Functions more vulnerable than others due to "historical reasons"
- - Deliberately open backdoors meant for debugging
+ - Deliberately open backdoors meant for debugging/maintenance
  
- We were know hunting for one of those. Se now let's head to the **protocol reverse engineering** section
+ We were now hunting for one of those. Se now let's head to the **protocol reverse engineering** section
 
 ### 2.1 - Filex Packets Structure
 
@@ -384,12 +385,10 @@ enums:
     3: sendkey
     9: filesync
 ```
-
-
-
+We had reached our goal, which was mapping all the possible Filex messages!
 
 ### 2.2 - Brute Forcing directories
-We tried to map the file system using the functions directly availble in the DLL.
+We tried to map the file system using the functions directly availble in the DLL. (This is a blackbox approach we had to use before being able to get the firmware)
 The good thing with DLL's is that they export symbols even if they are stripped.
 
 
@@ -545,7 +544,7 @@ This fuzzing/bruteforcing gave us interesting information, we discovered the fol
  - stock_bins: contains tunes files
  - logs: you can guess what is in there
 
-The most interesting here would be the *updates* folder, as it contains something we have been eagerly looking for: the **licenses forlder**. The problem is that with the Filex protocol, it is impossible to read in nested folders, and the files we want can only be read using the pattern: *updates:licenses:license_file.txt*. However, in the next part, we obtain a pretty good way to be able to read whereever we want.
+The most interesting here would be the *updates* folder, as it contains something we have been eagerly looking for: the **licenses forlder**. The problem is that with the Filex protocol, it is impossible to read in nested folders, and the files we want can only be read using the pattern: *updates:licenses:license_file.txt*. However, in the next part, we show how we obtained a pretty good way to be able to read wherever we want.
 
 
 
@@ -554,7 +553,7 @@ The most interesting here would be the *updates* folder, as it contains somethin
 Since we can get the /etc/shadow file, we ran hashcat to get the root password of the device:
 
 ```
-$ hashcat -a 3 -m 500 squashfs-root/etc/shadow ?l?l?l?l 
+$ hashcat -a 3 -m 500 squashfs-root/etc/shadow ?l?l?l?l?l?l
 hashcat (v6.1.1) starting...
 
 OpenCL API (OpenCL 1.2 pocl 1.5, None+Asserts, LLVM 9.0.1, RELOC, SLEEF, DISTRO, POCL_DEBUG) - Platform #1 [The pocl project]
@@ -605,7 +604,7 @@ Started: Tue Jan 19 10:53:33 2021
 Stopped: Tue Jan 19 10:53:42 2021
 ```
 
-After trying the whole *rockyou.txt* without any success, we tried with different mask attacks, and got one very interesting result: we found a matching password that was only 6 lowercase letters. Considering the amount of protections in place I was quite surprised to find a matching root password so easily. Maybe it is an MD5 collision?  
+After trying the whole *rockyou.txt* without any success, we tried with different mask attacks, and got one very interesting result: we found a **matching password that was only a few lowercase letters**. Considering the amount of protections in place we were was quite surprised to find a matching root password so easily. Maybe it is an MD5 collision?  
 Anyways thanks to this, we don't have to go through the whole U-Boot/Recovery mode process to get a shell. Now we can connect directly using the internal UART Debug port:
 
 ```
