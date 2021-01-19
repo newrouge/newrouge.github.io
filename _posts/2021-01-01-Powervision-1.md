@@ -160,7 +160,7 @@ Messing around with the RecoveryTool.exe we find that there is a recovery mode f
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/recovery.jpg)
 {: refdef}
 
-Now what is interesting with this mode is that it switches the communication mode on the USB Link port. In fact, in nominal working mode, this port uses a proprietary protocol that restrains many actions (I will detail this in a dedicated part), whereas in recovery mode the port exposes a U-Boot shell!
+Now what is interesting with this mode is that it switches the communication mode on the USB Link port. In fact, in nominal working mode, this port uses a proprietary protocol that restrains many actions ([see Filex Specification in part 2](https://therealunicornsecurity.github.io/Powervision-2/)), whereas in recovery mode the port exposes a U-Boot shell!
 ```bash
 U-Boot> printenv
 bootargs=console=ttyS0,115200 ubi.mtd=linux root=31:4 lpj=598016 quiet 
@@ -330,6 +330,8 @@ Bingo, we can start reversing!
 - Firmware reverse engineering and emulation (focus on the USB Link proprietary protocol)
 - Loot (passwords, encryption keys...)
 - Buffer overflow
+
+[Part 2](https://therealunicornsecurity.github.io/Powervision-2/)
 
 On behalf on Unicorn Security, I wish you all netsecurios a happy new year! Stay tuned for next part.
  
