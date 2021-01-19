@@ -234,9 +234,9 @@ def read_dir(path):
     return res
 ```
 
-I'm skipping a few details as I have been fuzzing many other functions and parameters. I'm only showing the attempts that had an interesting result. In the case of *PVReadDir*, we discovered the following directories:
+We discovered the following directories:
  - updates: actually redirects to the root of accessible folders
- - params: only two files: *soap_req* and *soap_resp* used for querying a **SOAP API over serial port**
+ - params: only two files: *soap_req* and *soap_resp* used for querying a **SOAP API over USB Link port**
  - stock_bins: contains tunes files
  - logs: you can guess what is in there
 
