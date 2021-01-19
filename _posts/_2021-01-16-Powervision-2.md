@@ -28,18 +28,25 @@ In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/) 
 - Firmware encryption keys, log encryption keys, and root password uncovering
 
 ## Part 1: The Filex Protocol
-The Filex protocol is the name of the proprietary protocol used on the USB Link port. All the Windows softwares are actually using this Filex protocol through the USB Link, to configure the PowerVision. To do so, they have to use the PVLink.dll.
+The Filex protocol is the name of the proprietary protocol used on the USB Link port. All the Windows softwares are actually using this Filex protocol through the USB Link, to configure the PowerVision. To do so, they have to use the PVLink.dll. We started getting interested in it for two things:
+ - Read/writes
+ - Parameters fuzzing
+ 
 ### 1.1 - Specification and KaitaiStruct
 
-A simple packet looks like:
+We made several captures on the USB Link while using the WinPV.exe tools.
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/usbcapture.png)
+{: refdef}
+
+A simple packet looks like:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/hexview.png)
 {: refdef}
 
 We notice the delimiters (0xF0) and some kind of headers in little-endian.
-
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/file_info.png)
