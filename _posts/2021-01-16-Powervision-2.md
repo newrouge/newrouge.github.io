@@ -97,8 +97,7 @@ The good thing with DLL's is that they export symbols even if they are stripped.
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/pvlink_funcs.png)
 {: refdef}
 
-The great thing here is that we can very quickly write our own code to use available functions used by the Windows tools. All we need is to plug the PowerVision, and use the PVLink.dll. The first thing any pentester has in mind when given a function that has file system read capacities is to browse what is accessible, and what is not. To do this, we used the **PVReadDir** function, and fuzzed the directories names using a directory list, like [this one]
-(https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-big.txt) for example. The corresponding C code:
+The great thing here is that we can very quickly write our own code to use available functions used by the Windows tools. All we need is to plug the PowerVision, and use the PVLink.dll. The first thing any pentester has in mind when given a function that has file system read capacities is to browse what is accessible, and what is not. To do this, we used the **PVReadDir** function, and fuzzed the directories names using a directory list, like [this one](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-big.txt) for example. The corresponding C code:
 
 ```c
 #include <stdlib.h>
