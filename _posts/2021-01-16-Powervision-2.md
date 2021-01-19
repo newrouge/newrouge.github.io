@@ -23,7 +23,7 @@ In the previous part, we ended up downloaded the full firmware unencrypted from 
 
 ## Part 1: The Filex Protocol
 The Filex protocol is the name of the proprietary protocol used on the USB Link port. All the Windows softwares are actually using this Filex protocol through the USB Link, to configure the PowerVision. To do so, they have to use the PVLink.dll.
-### Specification and KaitaiStruct
+### 1.1 - Specification and KaitaiStruct
 
 A simple packet looks like:
 
@@ -76,7 +76,7 @@ seq:
 ```
 The Kaitai Struct is quite simple, there is no nested data. The packet is delimited between 0xF0 bytes. There is 5 32 bits Little-Endian integers as headers, used for function types, parameters, length, and a sequence number. In the end of the packet, there is a one byte checksum before the actual 0xF0 end of packet.  Of course, to be able to shoot packets, you need to be able to generate valid checksums. But we do not need it yet, because we have an API ready for use.
 
-### PVLink.dll
+### 1.2 - PVLink.dll
 
 The good thing with DLL's is that they export symbols even if they are stripped.
 
@@ -223,7 +223,7 @@ The Filex API is actually pretty well written and protects against read and writ
  - A function available can actually execute a shell command on the PowerVision
  - The *CLEAN_PATH* function that protects against directory traversals contains a buffer overflow
 
-### Function Types
+### 1.3 - Function Types
 
 From the examples in the KaitaiStruct part, we now know two function indexes:
  - 0x7: **DELETE_FILE**
@@ -240,12 +240,12 @@ The algorithm is quite simple:
  - XOR with 0xFF
  - If the checksum value is 0xF0, the is a conflict with the end of packet delimiter, and the checksum is replaced by 0xDB 0xDC
  
- Now we can go over all the values, and when we reached the function index **0x16**, we received a very interesting result from the PowerVision:
+ Now we can iterate over all the possible values, and when we reached the function index **0x16**, we received a very interesting result from the PowerVision:
  ```
  Invalid cmd string
  ```
- We liked that.  
- This is quite common to see developper tools left in products like this. Often the devs would need a quick shell access for debug. After many attempts, I did not succeed in executing any PoC. Something was off. Months later, when I got my hands on the firmware, I could then reverse the function supposed to execute the shell command:
+We liked that.  
+This is quite common to see developper features left in products like this. Often the devs would need a quick shell access for debug. After many attempts, I did not succeed in executing any command. Something was off. Months later, when I got my hands on the firmware, I could then reverse the function supposed to execute the shell command:
  
 ```c
 size_t __fastcall shell_cmd(int a1, int a2, const char *a3)
@@ -266,45 +266,18 @@ size_t __fastcall shell_cmd(int a1, int a2, const char *a3)
 ...
 ```
 
-What do you mean, TODO ???  
-It seems the function is actually implemented as we can see a call to **system** without any cross-reference:
+What do you mean, **TODO** ???  
+It seems still that the function is actually implemented as we can see a call to **system** without any cross-reference:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/system_xref.png)
 {: refdef}
 
-My guess would be they never changed the log message, but the CFILE_DO_COMMAND is implemented. Probably they just removed it's call from the release version.  
+My guess would be they never changed the log message containing the **TODO**, but the CFILE_DO_COMMAND exists in the code. They probably just removed it's call from the release version.  
 
-Anyway, after obtaining the firmware (see [part 1](https://therealunicornsecurity.github.io/Powervision-1/)), we finally obtained the full list of functions supported by the Filex protocol, and here is the complete Kaitai Struct with the enums:
+Anyway, after obtaining the firmware (see [part 1](https://therealunicornsecurity.github.io/Powervision-1/)), we finally obtained the full list of functions supported by the Filex protocol, and here the complete Kaitai Struct enums:
 
 ```yaml
-meta:
-  id: filex_msg
-  endian: le
-seq:
-  - id: start_byte
-    size: 1
-    contents: [0xf0]
-  - id: type
-    type: s4
-    enum: type_value
-  - id: param1
-    type: s4
-  - id: param2
-    type: s4
-  - id: datalen
-    type: s4
-  - id: seq
-    type: s4
-  - id: data
-    size: datalen
-    type: strz
-    encoding: ASCII
-  - id: checksum
-    type: u1
-  - id: end_byte
-    size: 1
-    contents: [0xf0]
 enums:
   type_value:
     1: hello
@@ -327,8 +300,78 @@ enums:
     9: filesync
 ```
 
-### Buffer Overflow
+### 1.4 - Buffer Overflow
 
+We had started fuzzing the PVReadFile function without much success, apart from the directories we had discovered. We tried many path traversal patterns (using [dotdotpwn](https://github.com/wireghoul/dotdotpwn) ) but without any success. The reason for this is that the dunctions:
+ - file_info
+ - open_dir
+ - delete_file
+ - read_file
+ - mkdir
+ 
+all go through one **CLEAN_PATH** function. It checks for \, / and .. patterns and stops if it encounters any of those. Then it compares the folder name (the string before the ':') against of white list of authorized folders:
+
+```c
+uint sanitize_path(int param_1,char *log_msg,int size,byte *param_path,int len,undefined *param_6)
+
+{
+  byte bVar1;
+  char *path_:;
+  char *pcVar2;
+  int iVar3;
+  uint uVar4;
+  uint counter;
+  char acStack175 [127];
+  char parsed_path [20];
+  
+  *param_6 = 1;
+  if (len < size) {
+    counter = (uint)(0 < len);
+    if (len < 1) {
+LAB_0000b5d0:
+      log_msg[counter] = '\0';
+      path_: = strchr(log_msg,0x3a);
+      if (path_: == (char *)0x0) {
+        bVar1 = *(byte *)(param_1 + 4);
+        if (bVar1 == 0) {
+          log("CLEAN_PATH: Denying access to \'%s\'\n",log_msg);
+          return (uint)bVar1;
+        }
+        log("CLEAN_PATH: Allowing access to \'%s\'\n",log_msg);
+        *param_6 = 0;
+        return 1;
+      }
+      pcVar2 = strchr(log_msg,0x5c);
+      if ((pcVar2 != (char *)0x0) || (pcVar2 = strchr(log_msg,0x2f), pcVar2 != (char *)0x0)) {
+        log("CLEAN_PATH: Slashes not allowed\n");
+        return 0;
+      }
+      pcVar2 = strstr(log_msg,"..");
+      if (pcVar2 != (char *)0x0) {
+        log("CLEAN_PATH: \'..\' not allowed\n");
+        return 0;
+      }
+```
+Then it copie the folder name and file name in local variables using **strcpy**:
+
+```c
+      if (path_: + -(int)log_msg < (char *)0x10) {
+        *path_: = '\0';
+        strcpy(parsed_path,log_msg);
+        strcpy(filename,path_: + 1);
+```
+
+The *if* checks for the length of the folder name, which is supposed to be under 16 bytes, so it is protected. However, the second **strcpy** does not check the length of the file's name! And according to Ghidra's stack frame, there is 127 bytes for the file's name's buffer. Now we need to get to debugging in order to see if we can exploit this.
+#### 1.4.1 - Firmware emulation
+
+At first we tried to run a gdb shell directly on the PowerVision device. Since it is a kernel in version 2.6.36, finding a statically precompiled GDB that wont return a 
+```
+Kernel too old
+```
+error message is nearly impossible. We thought of running an Ubuntu ARM 2.6.36 and compile GDB statically ourselves, but it seemed longer. Instead, we went for firmware emulation.
+
+
+	
 ## Part 2: Looting
 ### Root password
 ### Encryption Keys
