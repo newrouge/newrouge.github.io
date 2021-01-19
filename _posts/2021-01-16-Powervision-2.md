@@ -705,14 +705,14 @@ After getting the root shell, we wanted to find our holy grail: the PVU_FILE enc
   }
 ```
 
-Our password is a 32 bytes AES-256-CBC key. But reading the code above, we realize the password might be coming from one of the *.dbx* files.
+Our password is a 32 bytes AES-256-CBC key. But reading the code above, we realized the password might be coming from one of the *.dbx* files.
 
 ```bash
-$ binwalk -e harley.dbx
+$ binwalk -E harley.dbx
 ```
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/Dynojet/dbx_entropy.jpg)
+![_config.yml]({{ site.baseurl }}/images/Dynojet/dbx_entropy.png)
 {: refdef}
 
 Well those files look encrypted. But instead of playing cat and mouse with crypto keys, this time we had luck. The ubifs part of the firmware (read/write) contains logs files:
@@ -735,7 +735,8 @@ Dec 31 17:12:34 bobcat user.info BobcatApp: CFILE_DO_COMMAND: unzip -p '/flash/s
 Dec 31 17:13:15 bobcat user.info BobcatApp: CFILE_DO_COMMAND: Returned 0
 ```
 Well. Nice! We found the holy grail!  
-Also one fun thing to mention is that those log files are supposed to be encrypted:
+But why going through this many layers of obfuscation for eventually leaving the encryptions keys in plaintext in log files...   
+Well, those log files are supposed to be encrypted:
 
 
 ```c
@@ -775,7 +776,7 @@ void encrypt_logs(undefined4 param_1)
 }
 ```
 
-The function generates a password with various sums, subtractions, and permutations. Finding the password here is just a matter of minutes. The obfuscation is quite weak. But that's not the best part. The original log files **are not deleted after being encrypted**. Which is probably the reason why we can find the firmware updates encryption keys in plaintext.
+The function generates a password with various sums, subtractions, and permutations. Finding the password here is just a matter of minutes, and so would be decrypting the log files. The obfuscation is quite weak. But that's not the best part. The original log files **are not deleted after being encrypted**. Which is probably the reason why we can find the firmware updates encryption keys in plaintext.
 
 # Conclusion
 
@@ -787,6 +788,7 @@ We had a lot of fun doing this, but we would like to explore a few more mysterio
 It was a long post, thanks for staying until the end and stay classy netsecurios!
 
 ---
-Join our discord
-https://discord.gg/eTnPNTuCTZ
+[Join our discord](https://discord.gg/eTnPNTuCTZ)
+Dynojet PowerVision
+Written from Tulum, with love
 ---
