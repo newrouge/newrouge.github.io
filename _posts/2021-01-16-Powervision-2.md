@@ -256,7 +256,7 @@ Earlier we mentioned the Filex protocol as the underlying logic behind the **PVL
  - Functions more vulnerable than others due to "historical reasons"
  - Deliberately open backdoors meant for debugging/maintenance
  
- We were now hunting for one of those. Se now let's head to the **protocol reverse engineering** section
+ We were now hunting for one of those. So let's continue with the  **protocol reverse engineering**!
 
 ### 2.1 - Filex Packets Structure
 
