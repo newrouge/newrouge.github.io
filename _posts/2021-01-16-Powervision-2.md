@@ -385,7 +385,7 @@ enums:
 We had reached our goal, which was mapping all the possible Filex messages!
 
 ### 2.2 - Brute Forcing directories
-We tried to map the file system using the functions directly availble in the DLL. (This is a blackbox approach we had to use before being able to get the firmware)
+We tried to map the file system using the functions directly availble in the DLL. (This is a blackbox approach we had to use before being able to get the firmware).
 The good thing with DLL's is that they export symbols even if they are stripped.
 
 
