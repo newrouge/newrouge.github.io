@@ -541,7 +541,7 @@ This fuzzing/bruteforcing gave us interesting information, we discovered the fol
  - stock_bins: contains tunes files
  - logs: you can guess what is in there
 
-The most interesting here would be the *updates* folder, as it contains something we have been eagerly looking for: the **licenses forlder**. The problem is that with the Filex protocol, it is impossible to read in nested folders, and the files we want can only be read using the pattern: *updates:licenses:license_file.txt*. However, in the next part, we show how we obtained a pretty good way to be able to read wherever we want.
+The most interesting here would be the *updates* folder, as it contains something we have been eagerly looking for: the **licenses folder**. The problem is that with the Filex protocol, it is impossible to read in nested folders, and the files we want can only be read using the pattern: *updates:licenses:license_file.txt*. However, in the next part, we show how we obtained a pretty good way to be able to read wherever we want.
 
 
 
