@@ -827,7 +827,7 @@ class FilexMsg(KaitaiStruct):
         res = (chk^0xFF)&M8
         res = madd(res, 1)&M8
         if res == 0xF0:
-            return 0xD0
+            return 0xD0B0
         self.checksum = res
         return res & M8
 ```
