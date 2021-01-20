@@ -235,7 +235,7 @@ We get:
 {: refdef}
 
 We can clearly see that we control the Program Counter register, which means we can change the execution flow to do something better than a **SIGSEGV**.  
-Yet we encounter one last problem: there is a **charset** verification on what goes in the *filename* buffer. If a char is not contained between 0x20 or 0x7F, the function will enter an error case and the buffer will not be copied, which is a shame because we have the perfect candidate for a pointer: the **CFILE_DO_COMMAND** function met earlier in 1.3! The problem is that its address contains hex values above 0x7F and even the stack is loaded at addresses that can't be written in the buffer.
+Yet we encounter one last problem: there is a **charset** verification on what goes in the *filename* buffer. If a char is not contained between 0x20 or 0x7F, the function will enter an error case and the buffer will not be copied, which is a shame because we have the perfect candidate for a pointer: the **CFILE_DO_COMMAND** function! (see part 2.1) The problem is that its address contains hex values above 0x7F and even the stack is loaded at addresses that can't be written in the buffer.
 
 #### 1.2.2 - Difficulty to exploit the Buffer Overflow
 
@@ -724,6 +724,113 @@ It was a long post, thanks for staying until the end and stay classy netsecurios
  - Qemu cross debugging: https://reverseengineering.stackexchange.com/questions/8829/cross-debugging-for-arm-mips-elf-with-qemu-toolchain
  - Kaitai Web IDE: https://ide.kaitai.io/
 
+
+# Annex
+Kaitai Struct for filex messages:
+```python
+# This is a generated file! Please edit source .ksy file and use kaitai-struct-compiler to rebuild
+
+from pkg_resources import parse_version
+import kaitaistruct
+from kaitaistruct import KaitaiStruct, KaitaiStream, BytesIO
+from enum import Enum
+
+
+if parse_version(kaitaistruct.__version__) < parse_version('0.9'):
+    raise Exception("Incompatible Kaitai Struct Python API: 0.9 or later is required, but you have %s" % (kaitaistruct.__version__))
+
+import struct
+
+
+M8 = 0xffL
+M32 = 0xffffffffL
+def m32(n):
+    return n & M32
+def madd(a, b):
+    return m32(a+b)
+def msub(a, b):
+    return m32(a-b)
+def mls(a, b):
+    return m32(a<<b)
+def int322le(val):
+    return struct.pack('<I', val)
+
+
+class FilexMsg(KaitaiStruct):
+
+    class TypeValue(Enum):
+        hello = 1
+        getseed = 2
+        sendkey = 3
+        getinfo = 4
+        open_handle = 5
+        close_handle = 6
+        delete_file = 7
+        mkdir = 8
+        filesync = 9
+        read_file = 10
+        write_file = 11
+        flush_handle = 12
+        open_dir = 13
+        read_dir = 14
+        close_dir = 15
+        file_info = 16
+        shell_cmd = 17
+        shutdown = 18
+
+    def __init__(self, _parent=None, _root=None):
+        self._parent = _parent
+        self._root = _root if _root else self
+
+    def fromfile(self, _io, _parent=None, _root=None):
+        self._io = _io
+        self._parent = _parent
+        self._root = _root if _root else self
+        self._read()
+
+    def _read(self):
+        self.start_byte = self._io.read_bytes(1)
+        if not self.start_byte == b"\xF0":
+            raise kaitaistruct.ValidationNotEqualError(b"\xF0", self.start_byte, self._io, u"/seq/0")
+        self.type = KaitaiStream.resolve_enum(FilexMsg.TypeValue, self._io.read_s4le())
+        self.param1 = self._io.read_s4le()
+        self.param2 = self._io.read_s4le()
+        self.datalen = self._io.read_s4le()
+        self.seq = self._io.read_s4le()
+        self.data = (KaitaiStream.bytes_terminate(self._io.read_bytes(self.datalen), 0, False)).decode(u"ASCII")
+        self.checksum = self._io.read_u1()
+        self.end_byte = self._io.read_bytes(1)
+        if not self.end_byte == b"\xF0":
+            raise kaitaistruct.ValidationNotEqualError(b"\xF0", self.end_byte, self._io, u"/seq/8")
+
+    def gen(self, type_int, param1, param2, seqnum, length, data):
+        self.start_byte = b"\xF0"
+        self.type = type_int
+        self.param1 = param1
+        self.param2 = param2
+        self.datalen = length
+        self.seq = seqnum
+        self.data = data
+        self.checksum = 0
+        self.end_byte = b"\xF0"
+
+    def dump_hex(self):
+        return self.start_byte.encode('hex') + int322le(self.type).encode('hex') + int322le(self.param1).encode('hex') + int322le(self.param2).encode('hex') + int322le(self.datalen).encode('hex') + int322le(self.seq).encode('hex') + self.data.encode('hex') + '{0:02x}'.format(self.checksum)  + self.end_byte.encode('hex')
+
+
+    def do_checksum(self):
+        a = self.dump_hex().decode('hex')[1:-2]
+        chk = 0
+        for e in a:
+            chk += int("0x"+e.encode('hex'), 16)
+            chk = chk & M8
+        res = (chk^0xFF)&M8
+        res = madd(res, 1)&M8
+        if res == 0xF0:
+            return 0xD0
+        self.checksum = res
+        return res & M8
+```
 ---
 [Join our discord](https://discord.gg/eTnPNTuCTZ)
 ---
