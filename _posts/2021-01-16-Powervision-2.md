@@ -48,7 +48,7 @@ We had to chose a candidate for scouting, so we started focusing the **PVReadFil
 
  Here is the **PVReadFile** prototype:
  ```c
- int (*pvreadfile)(char* filepath,char* destination_buffer, unsigned int size ,int* pointer_to_mode);
+ int *pvreadfile(char* filepath,char* destination_buffer, unsigned int size ,int* pointer_to_mode);
  ```
  
 The filepath has to be a string in the form: *folder:file name*, and the mode integer has probably nothing to do with an actual reading mode (r, w), we just suspected it was linked and hardcoded it to the same value we had seen in the Wireshark captures. 
