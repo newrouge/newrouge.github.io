@@ -234,7 +234,7 @@ We get:
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/buffer_overflow_crop.jpg)
 {: refdef}
 
-So we can clearly see that we control the Program Counter register, which means we can change the execution flow to do something better than a **SIGSEGV**.  
+We can clearly see that we control the Program Counter register, which means we can change the execution flow to do something better than a **SIGSEGV**.  
 Yet we encounter one last problem: there is a **charset** verification on what goes in the *filename* buffer. If a char is not contained between 0x20 or 0x7F, the function will enter an error case and the buffer will not be copied, which is a shame because we have the perfect candidate for a pointer: the **CFILE_DO_COMMAND** function met earlier in 1.3! The problem is that its address contains hex values above 0x7F and even the stack is loaded at addresses that can't be written in the buffer.
 
 #### 1.2.2 - Difficulty to exploit the Buffer Overflow
