@@ -212,7 +212,7 @@ And while being debugged in GDB, we can shoot our previously crafted packets of 
 $ python filex_fuzzer.py > squashfs-root/dev/ttyGS0
 ```
 
-Here is the code of the Kaitai generated python structure for Filex messages:
+Here is a quick exploit code:
 
 ```python
 def build_path_exploit():
