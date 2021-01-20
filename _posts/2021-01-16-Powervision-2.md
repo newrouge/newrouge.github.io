@@ -29,18 +29,13 @@ In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/) 
 
 ## Part 1: Finding a Buffer Overflow
 
-The Filex protocol is the name of the proprietary protocol used on the USB Link port. All the Windows tools are actually using this Filex protocol through the USB Link, to configure the PowerVision. To do so, they have to use the PVLink.dll. We were looking for:
- - Read/writes
- - Error messages when fuzzing
- - Function/Message types: there are many available operations, we wanted to list all of them
-
-We made several captures on the USB Link while using the WinPV.exe tools, and noticed many file system read/write operations.
+The Filex protocol is the name of the proprietary protocol used on the USB Link port. The Windows tools shown in the previous part use the **PVLink.dll** shared library. It exposes several functions, and each one of them corresponds to a specific sequence of Filex messages. We can capture those Filex messages using [USBPcap](https://desowin.org/usbpcap/)
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/usbcapture.png)
 {: refdef}
 
-In the DLL *PVLink.dll*, we can list the functions used by the WinPV software:
+In the DLL *PVLink.dll*, we can list the functions responsible for sending those messages:
 
 
 {:refdef: style="text-align: center;"}
@@ -274,7 +269,7 @@ We notice the delimiters (0xF0) and some kind of headers in little-endian.
 
 Here, in another example, we can see  a different function. This one is systematically called prior to any read, as it returns the file's size, which is used for the actual read function.
 
-After a few captures using [USBPcap](https://desowin.org/usbpcap/) as a Wireshark plugin, we started understanding the structure of the binary messages. Here is the parsing of the **DELETE-FILE** message:
+After a few captures Wireshark, we started understanding the structure of the binary messages. Here is the parsing of the **DELETE-FILE** message:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/fields.png)
