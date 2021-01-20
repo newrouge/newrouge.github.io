@@ -111,10 +111,12 @@ LAB_0000b5d0:
         return 0;
       }
 ```
+
 We can see conditional jumps looking for the characters:
  - 3A : folder/filename delimiter
  - 5C , 2F : antislash and slash
- - 2E2E : parent directory for Unix systems
+ - 2E2E : parent directory for Unix systems  
+ 
 and then break if the strings contain any of these. This is not a web application, so HTML, Base64, or any king of encoding will be taken as a raw string.  
 Subsequently, it copies the folder name and file name in local variables using **strcpy**:
 
