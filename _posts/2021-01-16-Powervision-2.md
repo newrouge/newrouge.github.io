@@ -29,7 +29,7 @@ In the [previous part](https://therealunicornsecurity.github.io/Powervision-1/) 
 
 ## Part 1: Finding a Buffer Overflow
 
-The Filex protocol is the name of the proprietary protocol used on the USB Link port. The Windows tools shown in the previous part use the **PVLink.dll** shared library. It exposes several functions, and each one of them corresponds to a specific sequence of Filex messages. We can capture those Filex messages using [USBPcap](https://desowin.org/usbpcap/)
+The Filex protocol is the name of the proprietary protocol used on the USB Link port. The Windows tools shown in the previous part use the **PVLink.dll** shared library. It exposes several functions, and each one of them corresponds to a specific sequence of Filex messages. We can capture those Filex messages using [USBPcap](https://desowin.org/usbpcap/):
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/usbcapture.png)
