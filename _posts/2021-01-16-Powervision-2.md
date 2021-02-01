@@ -1,6 +1,6 @@
 ---
 layout: post
-tags: reverse hardware
+tags: reverse system
 title: Hacking a Harley's Tuner - Part 2
 ---
 
