@@ -110,5 +110,5 @@ While no tangible exploit directly comes from this study, I find it interesting 
 Stay classy netsecurios!
 
 ---
-[Join our discord](https://discord.gg/eTnPNTuCTZ)
+Analyzing Captchas
 ---
