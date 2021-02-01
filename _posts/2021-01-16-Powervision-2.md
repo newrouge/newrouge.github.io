@@ -832,5 +832,5 @@ class FilexMsg(KaitaiStruct):
         return res & M8
 ```
 ---
-[Join our discord](https://discord.gg/eTnPNTuCTZ)
+PowerVision Part 2
 ---
