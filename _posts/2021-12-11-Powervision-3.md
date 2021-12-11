@@ -82,7 +82,50 @@ While reversing the license verification function, we realized that there could 
 
 ## 2.2: VIN Locks
 
-## 2.3: NVRAM 
+Another way to solve our problem would be to "unmarry" the PowerVision. To do that, we can take two paths:
+
+* Locate and modify the locks
+* Patch the *get_locks* function
+
+The first choice was quickly abandonned for the following reason: the PowerVision stores the locks in **NVRAM**. We already had experienced that issue when trying to locate the firmware encryption key, and the NVRAM can't be read directly from **/dev**
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/nvram.png)
+{: refdef}
+
+It actually uses a low-level API, developped by the hardware manufacturer (Drew Technol**o**gies). It seems to be linked to the files:
+
+* usr/lib/libPP2534.so
+* lib/modules/2.6.30/kernel/drivers/char/ermine_arm7_ldisc.ko
+
+A guess it that we'd need the api to communicate with a kernel module, that has the capacity to read and write from the NVRAM. Sounds like a hassle, doesn't it ? We have better ways...
+
+Let's take the lazy path, and actually handle the functions that interepret the results gathered from the NVRAM:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/getlocks.png)
+{: refdef}
+
+The only trick with this function is that it actually acts more like a **procedure**, it modifies a structure by side effect.
+
+```
+00000000 ; ---------------------------------------------------------------------------
+00000000
+00000000 lockptr         struc ; (sizeof=0x10, mappedto_46)
+00000000                                         ; XREF: pvinfo/r
+00000000 active_mask     DCD ?
+00000004 used_mask       DCD ?
+00000008 first_unused    DCD ?
+0000000C total           DCB ?
+0000000D used            DCB ?
+0000000E free            DCB ?
+0000000F max             DCB ?
+00000010 lockptr         ends
+00000010
+00000000 ; ---------------------------------------------------------------------------
+```
+
+Hopefully, using different functions that parse the result from *get_locks*, we can get a more precise idea of the structure and it's contents. From there, it becomes quite easy to hardcode some of the values in the function, so that it always returns with a certan amount of free locks!
 
 # Part 3: Micropatching
 
