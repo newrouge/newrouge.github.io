@@ -1,7 +1,7 @@
 ---
 layout: post
 tags: reverse crypto
-title: 
+title: Hacking a Harley's Tuner - Part 3
 ---
 
 Completion of the primary objective
