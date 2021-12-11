@@ -186,6 +186,61 @@ As this code is ARM (little endian), the NOP used was:
 
 # Part 4: Firmware update process
 
+Now that we have a patched version of the main binary, we can package it to install it on the PowerVision. In [Part 1](https://therealunicornsecurity.github.io/Powervision-1/) we analyzed the content of **PVU** (PowerVision Update) files, they contain:
+
+* PVU_TYPE: (firmware, recovery, tunes...)                                                                                                
+* PVU_FILE: encrypted file containing
+    * NEW_ROOTFS.bin: squashfs file system, readonly
+    * NEW_KERNEL.bin: kernel update  
+* **PVU_CERT**: update file signature (ouch)
+
+In the code, we discovered that there is an intergrity check on the uplodaded firmware updates. The encrypted databases contain an **UPDATES_PK** entry, that is used to decrypt the **PVU_CERT** file. Of course, we could rebuild a database embedding our own key, or even bypass the check using micropatching. But again, we are lazy. While reversing the firmware update function, we discovered a **VERY** **USEFUL** tool:
+```
+0015B3A3 00                                ALIGN 4
+0015B3A4 75 62 69 75 70 64+aUbiupdatevolDe DCB "ubiupdatevol /dev/ubi0_0 /flash/NEW_ROOTFS.BIN",0
+0015B3A4 61 74 65 76 6F 6C+                               
+```
+Connecting with the shell we obtained previously, we were able to confirm the existence, and the purpose, of the **ubiupdatevol** binary. Like it's name indicates, it is used to **write directly** on the /dev/ubi devices, which contain the squashfs file system we want to patch. The only thing needed is therefore a way to upload a file on the PowerVision device. But we **have that too**:
+
+```
+def send_file(path, content):
+    pvlink = CDLL("./PVLink.dll")
+    sendfile = pvlink.PVSendFile
+    point = 
+    a = 0
+    init = 
+    r = sendfile(path, len(content), content)
+    if r != 0:
+        print(Error)
+    else:
+        print(Wrote /flash/storage/rootfs_patch.sqsh)
+
+if __name__ == "__main__":
+    f = open("rootfs_patch.sqsh", rb)
+    print(running...)
+    send_file("updates:rootfs_patch.sqsh", f.read())
+```
+
+Now we just need to connect, and use the **ubiupdatevol** tool with the patched file we uploaded
+
+[![asciicast](https://asciinema.org/a/455443.svg)](https://asciinema.org/a/455443)
+
+This bypasses the signature verification, as we are now writing directly to the device!
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/boratgs.jpg)
+{: refdef}
+
+To summarize, the steps are:
+
+- Patch main binary
+- Copy binary to squashfs tree structure, and **keep destination file attributes**
+- mksquashfs
+- Send patched squashfs to the device using the PVLink api
+- Connect through UART and write to the ubi volume
+
+After a little bit of pimping, we can check that the PowerVision does print the correct "Tuning: Not Locked to vehicle" message:
+
 
 ## References
 
