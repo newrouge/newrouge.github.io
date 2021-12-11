@@ -275,6 +275,7 @@ And here is a comparison of the two responses (before and after patching) in JSO
 ## References
 
 * https://www.faxvin.com/vin-decoder/harley-davidson
+* https://dynojet.zendesk.com/hc/en-us/articles/360003434773-Power-Vision-Recovery-Info
 
 
 I wish to thank all of you readers, we had great feedbacks and interesting discussions over the last year about this topic. Feel free to join our discord server, and stay classy netsecurios!
