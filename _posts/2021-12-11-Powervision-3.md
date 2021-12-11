@@ -220,7 +220,8 @@ if __name__ == "__main__":
 
 Now we just need to connect, and use the **ubiupdatevol** tool with the patched file we uploaded
 
-<script id="asciicast-455443" src="https://asciinema.org/a/455443.js" async></script>
+<asciinema-player src="images/Dynojet/455443.cast" cols="117" rows="30"></asciinema-player>
+<script src="/asciinema-player.js"></script>
 
 This bypasses the signature verification, as we are now writing directly to the device!
 
