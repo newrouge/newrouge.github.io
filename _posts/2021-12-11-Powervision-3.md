@@ -218,9 +218,9 @@ if __name__ == "__main__":
     send_file("updates:rootfs_patch.sqsh", f.read())
 ```
 
-Now we just need to connect, and use the **ubiupdatevol** tool with the patched file we uploaded
+Now we just need to connect, and use the **ubiupdatevol** tool with the patched file we uploaded:
 
-<asciinema-player src="/images/Dynojet/455443.cast" cols="117" rows="30"></asciinema-player>
+<asciinema-player src="/images/Dynojet/455443.cast" cols="117" rows="60"></asciinema-player>
 <script src="/asciinema-player.js"></script>
 
 This bypasses the signature verification, as we are now writing directly to the device!
