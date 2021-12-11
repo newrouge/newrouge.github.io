@@ -13,6 +13,11 @@ Completion of the primary objective
    <a href="/tags#system"><img src="{{ site.baseurl }}/icons/crypto.png" width="200" title="crypto" ></a>
 </div>
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/part3.jpg)
+{: refdef}
+
+
 After nearly a year of absence, it is now time to conclude this adventure. Most of what will be described here will seem out of topic if you haven't read:
 
 * <a href="https://therealunicornsecurity.github.io/Powervision-1/">Part 1</a>
