@@ -31,7 +31,11 @@ In <a href="https://therealunicornsecurity.github.io/Powervision-1/">Part 1</a>,
 
 # Part 2: Licensing functions
 
-The ultimate goal of the exercice is to be able to use the PowerVision without a valid license. It can be achieved in many different ways: forging a license, or disabling the verification it is subjected to, or deleting/ignoring the VIN locks. For neophytes, the <a href="https://en.wikipedia.org/wiki/Vehicle_identification_number">Vehicle Identification Number</a> is a unique identifier stored in the <a href="https://en.wikipedia.org/wiki/Electronic_control_unit">ECU</a>. A VIN Lock is therefore essentially just an VIN stored in the programmer, used to ensure the device will not be used to program anything else.
+The ultimate goal of the exercice is to be able to use the PowerVision without a valid license. It can be achieved in many different ways: forging a license, or disabling the verification it is subjected to, or deleting/ignoring the VIN locks. For neophytes, the <a href="https://en.wikipedia.org/wiki/Vehicle_identification_number">Vehicle Identification Number</a> is a unique identifier stored in the <a href="https://en.wikipedia.org/wiki/Electronic_control_unit">ECU</a>. A VIN Lock is therefore essentially just an VIN stored in the programmer, used to ensure the device will not be used to program anything else. Here are a few sample VINs for Harley Davidson:
+
+- 1HD1KED10HB661265 — 2017 Harley-Davidson FLHTK / ultra limited - (1.8 Li), Motorcycle - Touring
+- 1HD1BFV14EB015825 — 2014 Harley-Davidson FXSB-103 Breakout (1.7 Li V2), Motorcycle - Custom
+- 1HD1FC413AB618635 — 2010 Harley-Davidson FLHTCU (1584CC), Motorcycle - Touring
 
 ## 2.1: License
 
@@ -87,15 +91,12 @@ While reversing the license verification function, we realized that there could 
 
 ## References
 
-[This post](https://blog.senr.io/blog/jtag-explained) gave me the idea for switching to single user mode in the boot parameters.
+* https://www.faxvin.com/vin-decoder/harley-davidson
 
-## In the next episode
 
-- Firmware reverse engineering and emulation (focus on the USB Link proprietary protocol)
-- Loot (passwords, encryption keys...)
-- Buffer overflow
 
-[Part 2](https://therealunicornsecurity.github.io/Powervision-2/)
 
 I wish to thank all of you readers, we had great feedbacks and interesting discussions over the last year about this topic. Feel free to join our discord server, and stay classy netsecurios!
  
+[Part 1](https://therealunicornsecurity.github.io/Powervision-1/)
+[Part 2](https://therealunicornsecurity.github.io/Powervision-2/)
