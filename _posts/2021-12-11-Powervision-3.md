@@ -37,7 +37,7 @@ The ultimate goal of the exercice is to be able to use the PowerVision without a
 - 1HD1BFV14EB015825 — 2014 Harley-Davidson FXSB-103 Breakout (1.7 Li V2), Motorcycle - Custom
 - 1HD1FC413AB618635 — 2010 Harley-Davidson FLHTCU (1584CC), Motorcycle - Touring
 
-## 2.1: License
+## 2.1 License
 
 For the Dynojet PowerVision 1, a license file is something of the form:
 
@@ -80,7 +80,7 @@ By patching the following code segment, we can easily anticipate how the verific
 
 While reversing the license verification function, we realized that there could be many other ways to forge a license than just changing the VIN. In fact, the *cmd* field can contain several other functions than the VIN locking one, and they could probably be abused too. Also, one of the easiest ways to defeat the single VIN restriction would be creating a *dealer* license, as they are not submitted to the same constraints.
 
-## 2.2: VIN Locks
+## 2.2 VIN Locks
 
 Another way to solve our problem would be to "unmarry" the PowerVision. To do that, we can take two paths:
 
