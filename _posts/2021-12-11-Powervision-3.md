@@ -239,11 +239,41 @@ To summarize, the steps are:
 After a little bit of pimping, we can check that the PowerVision does print the correct "Tuning: Not Locked to vehicle" message:
 
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/video-1639231798.gif)
+{: refdef}
+
+As some of you may have guessed, this message does not necessarily means that we have bypassed the locks verification. In fact, it only proves that we are able to modify the firmware. To prove that our modifications have deeper implications, we can get the device's information using **pvinfo**:
+
+```
+def do_soap(request):
+    pvlink = CDLL("./PVLink.dll")
+    dosoap = pvlink.PVDoSoapEx
+    dosoap.argtypes = [c_int, c_char_p, POINTER(c_char_p), c_char_p, c_int, c_int, c_int, c_int]
+    ref = c_char_p()
+    a = 0
+    point = ''
+    dosoap(len(request), request, byref(ref), point, 1, 5, a, a)
+    return ref.value
+
+def reqtype(typestring):
+    req = "<request><type>"+typestring+"</type><ver>1</ver><summary></summary></request>"
+    return do_soap(req)
+
+if __name__ == "__main__":
+    print reqtype("pvinfo")
+
+```
+
+And here is a comparison of the two responses (before and after patching) in JSON, because fuck XML:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/jsondiff.jpg)
+{: refdef}
+
 ## References
 
 * https://www.faxvin.com/vin-decoder/harley-davidson
-
-
 
 
 I wish to thank all of you readers, we had great feedbacks and interesting discussions over the last year about this topic. Feel free to join our discord server, and stay classy netsecurios!
