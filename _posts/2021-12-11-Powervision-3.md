@@ -16,7 +16,7 @@ Completion of the primary objective
    <a href="/tags#system"><img src="{{ site.baseurl }}/icons/crypto.png" width="200" title="crypto" ></a>
 </div>
 
-
+**DISCLAIMER: This blog is aimed towards educative purposes. In no way it is endorsing nor encouraging software piracy**
 
 After nearly a year of absence, it is now time to conclude this adventure. Most of what will be described here will seem out of topic if you haven't read:
 
@@ -128,6 +128,61 @@ The only trick with this function is that it actually acts more like a **procedu
 Hopefully, using different functions that parse the result from *get_locks*, we can get a more precise idea of the structure and it's contents. From there, it becomes quite easy to hardcode some of the values in the function, so that it always returns with a certan amount of free locks!
 
 # Part 3: Micropatching
+
+These are basic patching tricks used when in certain conditions. It is far from exhaustive.
+
+# 3.1 Unconditional jump
+
+When getting the amount of active VIN locks, we would like the code to always jump to the block "Tuning: Not Locked to vehicle". 
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/uncond.png)
+{: refdef}
+
+In order to do that, we replace the *Branch if equal* instruction by an unconditional *Branch* instruction:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/uncond2.png)
+{: refdef}
+
+
+# 3.2 Condition negation
+
+When verifying the license's signature, we would like the code to always jump to the "Verified: YES" location:
+
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/neg1.png)
+{: refdef}
+
+To do so, we can negate the *Branch if not equal* instrucction, and replace it by *Branch if equal*:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/neg2.png)
+{: refdef}
+
+**Warning:** this is a relatively unstable way of patching. Bear in mind that the code will proceed successfully with any license presenting an **invalid** signature, but will **abort** if presented with a **valid** signature. 
+
+# 3.3 NOP
+
+After the license's verification, the register **R4** contains a boolean, indicating whether the verification has failed or not. If it has failed, it jumps to an error handler, and aborts:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/nop1.png)
+{: refdef}
+
+By replacing the *Branch if Equal* instruction, by a NOP, we make sure this error case is never reached, and the code keeps executing after the comparison:
+
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/nop2.png)
+{: refdef}
+
+As this code is ARM (little endian), the NOP used was:
+
+```
+00 00 A0 E1 MOV R0, R0
+```
 
 # Part 4: Firmware update process
 
