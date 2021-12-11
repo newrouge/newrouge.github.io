@@ -16,7 +16,7 @@ Completion of the primary objective
    <a href="/tags#system"><img src="{{ site.baseurl }}/icons/crypto.png" width="200" title="crypto" ></a>
 </div>
 
-**DISCLAIMER: This blog is aimed towards educative purposes. In no way it is endorsing nor encouraging software piracy**
+**DISCLAIMER: This blog is aimed towards educative purposes. In no way is it endorsing nor encouraging software piracy**
 
 After nearly a year of absence, it is now time to conclude this adventure. Most of what will be described here will seem out of topic if you haven't read:
 
