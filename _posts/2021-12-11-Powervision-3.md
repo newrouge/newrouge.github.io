@@ -225,7 +225,7 @@ Now we just need to connect, and use the **ubiupdatevol** tool with the patched 
 This bypasses the signature verification, as we are now writing directly to the device!
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/Dynojet/boratgs.jpg)
+![_config.yml]({{ site.baseurl }}/images/boratgs.jpg)
 {: refdef}
 
 To summarize, the steps are:
