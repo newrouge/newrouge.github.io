@@ -155,7 +155,7 @@ When verifying the license's signature, we would like the code to always jump to
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/neg1.png)
 {: refdef}
 
-To do so, we can negate the *Branch if not equal* instrucction, and replace it by *Branch if equal*:
+To do so, we can negate the *Branch if not equal* instruction, and replace it by *Branch if equal*:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/neg2.png)
