@@ -65,7 +65,7 @@ q8EgYRN+XZ/88wEyYfAOQEkZ7GPoV/JbtvuYYsUEOhEWH1cyN1i9OvHPyaj945+fgILJUEJNaGgM15YU
 The *cmd* part here contains the command **VL**, that indicates to the PowerVision which VIN it is married to. Controling this field means being able to forge signatures for arbitrary VINs, so it would be jackpot. The *signature*, however, is here in order to prevent exactly this. It contains the **SHA1** of the XML file, encrypted with Dynojet's private key. In order to verify the signature, the PowerVision stores the public key in an encrypted database. It then proceeds to hash the file, and perform a *memcmp* on the resulting hash, and the one obtained using decryption. Here is the overview of the license verification function:
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/Dynojet/license_overview.jpg)
+![_config.yml]({{ site.baseurl }}/images/Dynojet/license_overview.png)
 {: refdef}
 
 ## 2.2: VIN Locks
