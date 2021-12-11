@@ -31,6 +31,12 @@ In <a href="https://therealunicornsecurity.github.io/Powervision-1/">Part 1</a>,
 
 # Part 2: Licensing functions
 
+## 2.1: License
+
+## 2.2: VIN Locks
+
+## 2.3: NVRAM 
+
 # Part 3: Micropatching
 
 # Part 4: Firmware update process
