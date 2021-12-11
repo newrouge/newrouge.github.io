@@ -220,7 +220,7 @@ if __name__ == "__main__":
 
 Now we just need to connect, and use the **ubiupdatevol** tool with the patched file we uploaded
 
-[![asciicast](https://asciinema.org/a/455443.svg)](https://asciinema.org/a/455443)
+<script id="asciicast-455443" src="https://asciinema.org/a/455443.js" async></script>
 
 This bypasses the signature verification, as we are now writing directly to the device!
 
