@@ -31,7 +31,7 @@ In <a href="https://therealunicornsecurity.github.io/Powervision-1/">Part 1</a>,
 
 # 2. Licensing functions
 
-The ultimate goal of the exercice is to be able to use the PowerVision without a valid license. It can be achieved in many different ways: forging a license, or disabling the verification it is subjected to, or deleting/ignoring the VIN locks. For neophytes, the <a href="https://en.wikipedia.org/wiki/Vehicle_identification_number">Vehicle Identification Number</a> is a unique identifier stored in the <a href="https://en.wikipedia.org/wiki/Electronic_control_unit">ECU</a>. A VIN Lock is therefore essentially just an VIN stored in the programmer, used to ensure the device will not be used to program anything else. Here are a few sample VINs for Harley Davidson:
+The ultimate goal of the exercice is to be able to use the PowerVision without a valid license. It can be achieved in many different ways: forging a license, or disabling the verification it is subjected to, or deleting/ignoring the VIN locks. For neophytes, the <a href="https://en.wikipedia.org/wiki/Vehicle_identification_number">Vehicle Identification Number</a> is a unique identifier stored in the <a href="https://en.wikipedia.org/wiki/Electronic_control_unit">ECU</a>. A VIN Lock is therefore essentially just a VIN stored in the programmer, which is used to ensure the device will not be used to program anything else. Here are a few sample VINs for Harley Davidson:
 
 - 1HD1KED10HB661265 — 2017 Harley-Davidson FLHTK / ultra limited - (1.8 Li), Motorcycle - Touring
 - 1HD1BFV14EB015825 — 2014 Harley-Davidson FXSB-103 Breakout (1.7 Li V2), Motorcycle - Custom
@@ -66,7 +66,7 @@ q8EgYRN+XZ/88wEyYfAOQEkZ7GPoV/JbtvuYYsUEOhEWH1cyN1i9OvHPyaj945+fgILJUEJNaGgM15YU
    </Signature>
 </PVLicense>
 ```
-The *cmd* part here contains the command **VL**, that indicates to the PowerVision which VIN it is married to. Controling this field means being able to forge licenses for arbitrary VINs, so it would be jackpot. The *signature*, however, is here in order to prevent exactly this. It contains the **SHA1** of the XML file, encrypted with Dynojet's private key. In order to verify the signature, the PowerVision stores the public key in an encrypted database. It then proceeds to hash the file, and perform a *memcmp* on the resulting hash, and the one obtained using decryption. Here is the overview of the license verification function:
+The *cmd* part here contains the command **VL**, that indicates to the PowerVision which VIN it is coupled to.Controlling the value of this field is the ultimate jackpot, as it enables to forge licenses for arbitrary VINs. The *signature*, however, is here in order to prevent exactly this. It contains the **SHA1** of the XML file, encrypted with Dynojet's private key. In order to verify the signature, the PowerVision stores the public key in an encrypted database. It then proceeds to hash the file, and performs a *memcmp* on the resulting hash, and the one obtained using decryption. Here is the overview of the license verification function:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/license_overview.png)
@@ -93,14 +93,14 @@ The first choice was quickly abandonned for the following reason: the PowerVisio
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/nvram.png)
 {: refdef}
 
-It actually uses a low-level API, developped by the hardware manufacturer (Drew Technol**o**gies). It seems to be linked to the files:
+It actually uses a low-level API, developed by the hardware manufacturer (Drew Technol**o**gies). It seems to be linked to the files:
 
 * usr/lib/libPP2534.so
 * lib/modules/2.6.30/kernel/drivers/char/ermine_arm7_ldisc.ko
 
-A guess it that we'd need the api to communicate with a kernel module, that has the capacity to read and write from the NVRAM. Sounds like a hassle, doesn't it ? We have better ways...
+A guess is that we'd need the api to communicate with a kernel module, that has the capacity to read and write from the NVRAM. Sounds like a hassle, doesn't it ? We have better ways...
 
-Let's take the lazy path, and actually handle the functions that interepret the results gathered from the NVRAM:
+Let's take the lazy path, and consider the functions that interepret the results gathered from the NVRAM:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/getlocks.png)
@@ -165,13 +165,13 @@ To do so, we can negate the *Branch if not equal* instruction, and replace it by
 
 # 3.3 NOP
 
-After the license's verification, the register **R4** contains a boolean, indicating whether the verification has failed or not. If it has failed, it jumps to an error handler, and aborts:
+After the license verification, the register **R4** contains a boolean, indicating whether the verification has failed or not. If it has failed, it jumps to an error handler, and aborts:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/nop1.png)
 {: refdef}
 
-By replacing the *Branch if Equal* instruction, by a NOP, we make sure this error case is never reached, and the code keeps executing after the comparison:
+By replacing the *Branch if Equal* instruction, by a NOP, we make sure this error case is never reached, and the code continues executing after *CMP/NOP* instructions:
 
 
 {:refdef: style="text-align: center;"}
@@ -200,7 +200,7 @@ In the code, we discovered that there is an intergrity check on the uplodaded fi
 0015B3A4 75 62 69 75 70 64+aUbiupdatevolDe DCB "ubiupdatevol /dev/ubi0_0 /flash/NEW_ROOTFS.BIN",0
 0015B3A4 61 74 65 76 6F 6C+                               
 ```
-Connecting with the shell we obtained previously, we were able to confirm the existence, and the purpose, of the **ubiupdatevol** binary. Like it's name indicates, it is used to **write directly** on the /dev/ubi devices, which contain the squashfs file system we want to patch. The only thing needed is therefore a way to upload a file on the PowerVision device. But we **have that too**:
+Connecting with the shell we obtained previously, we were able to confirm the existence, and the purpose, of the **ubiupdatevol** binary. Like its name indicates, it is used to **write directly** on the /dev/ubi devices, which contain the squashfs file system we want to patch. The only thing needed is therefore a way to upload a file on the PowerVision device. But we **have that too**:
 
 ```
 def send_file(path, content):
@@ -237,14 +237,14 @@ To summarize, the steps are:
 - Send patched squashfs to the device using the PVLink api
 - Connect through UART and write to the ubi volume
 
-After a little bit of pimping, we can check that the PowerVision does print the correct "Tuning: Not Locked to vehicle" message:
+After a little bit of pimping, we can see that the PowerVision does print the correct "Tuning: Not Locked to vehicle" message:
 
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/video-1639231798.gif)
 {: refdef}
 
-As some of you may have guessed, this message does not necessarily means that we have bypassed the locks verification. In fact, it only proves that we are able to modify the firmware. To prove that our modifications have deeper implications, we can get the device's information using **pvinfo**:
+As some of you may have guessed, this message does not necessarily mean that we have bypassed the locks verification. In fact, it only proves that we are able to modify the firmware. To prove that our modifications have deeper implications, we can get the device's information using **pvinfo**:
 
 ```
 def do_soap(request):
