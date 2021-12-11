@@ -106,7 +106,7 @@ Let's take the lazy path, and actually handle the functions that interepret the 
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/getlocks.png)
 {: refdef}
 
-The only trick with this function is that it actually acts more like a **procedure**, it modifies a structure by side effect.
+The **get_locks** function gathers data from the NVRAM api, and stores locks data in the following structure:
 
 ```
 00000000 ; ---------------------------------------------------------------------------
@@ -125,7 +125,7 @@ The only trick with this function is that it actually acts more like a **procedu
 00000000 ; ---------------------------------------------------------------------------
 ```
 
-Hopefully, using different functions that parse the result from *get_locks*, we can get a more precise idea of the structure and it's contents. From there, it becomes quite easy to hardcode some of the values in the function, so that it always returns with a certan amount of free locks!
+From there, it becomes quite easy to hardcode some of the values in the **get_locks** function, so that it always returns with a certain amount of free locks!
 
 # Part 3: Micropatching
 
