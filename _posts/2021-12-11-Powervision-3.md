@@ -23,13 +23,13 @@ After nearly a year of absence, it is now time to conclude this adventure. Most 
 * <a href="https://therealunicornsecurity.github.io/Powervision-1/">Part 1</a>
 * <a href="https://therealunicornsecurity.github.io/Powervision-2/">Part 2</a>
 
-# Part 1: Summary
+# 1. Summary
 
 In <a href="https://therealunicornsecurity.github.io/Powervision-1/">Part 1</a>, we decrypted and retrieved the full firmware of the programmer,  in <a href="https://therealunicornsecurity.github.io/Powervision-2/">Part 2</a>, we reverse engineered the communication protocol on the USB link. Now holding all the cards, we can achieve our primary goal, that was **bypassing the licensing system** in place!
 
 
 
-# Part 2: Licensing functions
+# 2. Licensing functions
 
 The ultimate goal of the exercice is to be able to use the PowerVision without a valid license. It can be achieved in many different ways: forging a license, or disabling the verification it is subjected to, or deleting/ignoring the VIN locks. For neophytes, the <a href="https://en.wikipedia.org/wiki/Vehicle_identification_number">Vehicle Identification Number</a> is a unique identifier stored in the <a href="https://en.wikipedia.org/wiki/Electronic_control_unit">ECU</a>. A VIN Lock is therefore essentially just an VIN stored in the programmer, used to ensure the device will not be used to program anything else. Here are a few sample VINs for Harley Davidson:
 
@@ -127,7 +127,7 @@ The **get_locks** function gathers data from the NVRAM api, and stores locks dat
 
 From there, it becomes quite easy to hardcode some of the values in the **get_locks** function, so that it always returns with a certain amount of free locks!
 
-# Part 3: Micropatching
+# 3. Micropatching
 
 These are basic patching tricks used when in certain conditions. It is far from exhaustive.
 
@@ -184,7 +184,7 @@ As this code is ARM (little endian), the NOP used was:
 00 00 A0 E1 MOV R0, R0
 ```
 
-# Part 4: Firmware update process
+# 4. Firmware update process
 
 Now that we have a patched version of the main binary, we can package it to install it on the PowerVision. In [Part 1](https://therealunicornsecurity.github.io/Powervision-1/) we analyzed the content of **PVU** (PowerVision Update) files, they contain:
 
