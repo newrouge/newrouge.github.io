@@ -31,7 +31,42 @@ In <a href="https://therealunicornsecurity.github.io/Powervision-1/">Part 1</a>,
 
 # Part 2: Licensing functions
 
+The ultimate goal of the exercice is to be able to use the PowerVision without a valid license. It can be achieved in many different ways: forging a license, or disabling the verification it is subjected to, or deleting/ignoring the VIN locks. For neophytes, the <a href="https://en.wikipedia.org/wiki/Vehicle_identification_number">Vehicle Identification Number</a> is a unique identifier stored in the <a href="https://en.wikipedia.org/wiki/Electronic_control_unit">ECU</a>. A VIN Lock is therefore essentially just an VIN stored in the programmer, used to ensure the device will not be used to program anything else.
+
 ## 2.1: License
+
+For the Dynojet PowerVision 1, a license file is something of the form:
+
+```XML
+<PVLicense>
+   <Name>
+      PV1
+   </Name>
+   <Company>
+      UNISEC
+   </Company>
+   <Email>
+      none
+   </Email>
+   <LicenseCode>
+      1234
+   </LicenseCode>
+   <ExpireVer>
+      2.1.0
+   </ExpireVer>
+   <Cmd>
+      VL:<VIN>
+   </Cmd>
+   <Signature>
+q8EgYRN+XZ/88wEyYfAOQEkZ7GPoV/JbtvuYYsUEOhEWH1cyN1i9OvHPyaj945+fgILJUEJNaGgM15YUwtlsJQ==
+   </Signature>
+</PVLicense>
+```
+The *cmd* part here contains the command **VL**, that indicates to the PowerVision which VIN it is married to. Controling this field means being able to forge signatures for arbitrary VINs, so it would be jackpot. The *signature*, however, is here in order to prevent exactly this. It contains the **SHA1** of the XML file, encrypted with Dynojet's private key. In order to verify the signature, the PowerVision stores the public key in an encrypted database. It then proceeds to hash the file, and perform a *memcmp* on the resulting hash, and the one obtained using decryption. Here is the overview of the license verification function:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/license_overview.jpg)
+{: refdef}
 
 ## 2.2: VIN Locks
 
