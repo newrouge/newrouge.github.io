@@ -68,6 +68,14 @@ The *cmd* part here contains the command **VL**, that indicates to the PowerVisi
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/license_overview.png)
 {: refdef}
 
+By patching the following code segment, we can easily anticipate how the verification bypass could be implemented:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/Dynojet/license_memcmp.png)
+{: refdef}
+
+While reversing the license verification function, we realized that there could be many other ways to forge a license than just changing the VIN. In fact, the *cmd* field can contain several other functions than the VIN locking one, and they could probably be abused too. Also, one of the easiest ways to defeat the single VIN restriction would be creating a *dealer* license, as they are not submitted to the same constraints.
+
 ## 2.2: VIN Locks
 
 ## 2.3: NVRAM 
