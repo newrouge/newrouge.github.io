@@ -282,7 +282,7 @@ This last part is mainly to show examples of software bypasses (for licenses, bu
 - Being able to read and understand the firmware
 - Being able to write the firmware
 
-We encourage the readers interested in such work to report vulnerabilities and bypasses to the original software publishers. Good work is always valued!
+We encourage the readers interested in such work to report vulnerabilities and bypasses they find to the original software publishers. Good work is always valued!
 
 **WARNING: Modifying the firmware will leave the device in an unstable state. This PoC is not intended to be reproduced, and should NEVER be againt with a real bike. It can damage the ECU, and will likely brick the Powervision.**
 
