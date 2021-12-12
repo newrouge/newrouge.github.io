@@ -273,7 +273,7 @@ And here is a comparison of the two responses (before and after patching) in JSO
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/jsondiff.jpg)
 {: refdef}
 
-# Conclusion
+# 5. Conclusion
 
 The time we spent on this analysis speaks for itself (over a year). The protections in place are quite robust and well thought, and the overall firmware's architecture is complex and interesting. The PowerVision 1 has definitely been a worthy opponent, and we had lots of fun working on it. 
 
