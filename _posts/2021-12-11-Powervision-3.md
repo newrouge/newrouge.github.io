@@ -16,7 +16,8 @@ Completion of the primary objective
    <a href="/tags#system"><img src="{{ site.baseurl }}/icons/crypto.png" width="200" title="crypto" ></a>
 </div>
 
-**DISCLAIMER: This blog is aimed towards educative purposes. In no way is it endorsing nor encouraging software piracy**
+**DISCLAIMER: This blog is aimed towards educative purposes. In no way is it endorsing nor encouraging software piracy.**
+
 
 After nearly a year of absence, it is now time to conclude this adventure. Most of what will be described here will seem out of topic if you haven't read:
 
@@ -271,6 +272,19 @@ And here is a comparison of the two responses (before and after patching) in JSO
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/Dynojet/jsondiff.jpg)
 {: refdef}
+
+# Conclusion
+
+The time we spent on this analysis speaks for itself (over a year). The protections in place are quite robust and well thought, and the overall firmware's architecture is complex and interesting. The PowerVision 1 has definitely been a worthy opponent, and we had lots of fun working on it. 
+
+This last part is mainly to show examples of software bypasses (for licenses, but also security features like anti-vm/anti-debugging functions, or even sometimes debugging) that are generic. The fact that we were able to perform them on this device is not a vulnerability in itself, but merely just the resulting possibilities of two factors:
+
+- Being able to read the firmware
+- Being able to write the firmware
+
+We encourage the readers interested in such work to report vulnerabilities and bypasses to the original software publishers. Good work is always valued!
+
+**WARNING: Modifying the firmware will leave the device in an unstable state. This PoC is not intended to be reproduced, and should NEVER be againt with a real bike. It can damage the ECU, and will likely brick the Powervision.**
 
 ## References
 
