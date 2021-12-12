@@ -279,7 +279,7 @@ The time we spent on this analysis speaks for itself (over a year). The protecti
 
 This last part is mainly to show examples of software bypasses (for licenses, but also security features like anti-vm/anti-debugging functions, or even sometimes debugging) that are generic. The fact that we were able to perform them on this device is not a vulnerability in itself, but merely just the resulting possibilities of two factors:
 
-- Being able to read the firmware
+- Being able to read and understand the firmware
 - Being able to write the firmware
 
 We encourage the readers interested in such work to report vulnerabilities and bypasses to the original software publishers. Good work is always valued!
