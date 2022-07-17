@@ -1,13 +1,13 @@
 ---
 title:  "Secret - HackTheBox"
 layout: post
----
+--- 
+
+![Secret](https://user-images.githubusercontent.com/79413473/160227585-1c832d19-b152-4d08-835e-da9b8bc33809.png)
 
 ## Info:
 
-This machine had pretty sweet learning curve for new comers, exploiting command injection to get foorhold and core-dump abuse to get root on machine. 
-
-![Secret](https://user-images.githubusercontent.com/79413473/160227585-1c832d19-b152-4d08-835e-da9b8bc33809.png)
+This machine had pretty sweet learning curve for new comers, exploiting command injection to get foorhold and core-dump abuse to get root on machine.
 
 ## Recon:
 
