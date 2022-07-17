@@ -1,9 +1,7 @@
 ---
-title:  "Markdown examples"
+title:  "Secret - HackTheBox"
 layout: post
 ---
-
-# Secret Machine(10.10.11.120)
 
 ## Info:
 
