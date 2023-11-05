@@ -2,7 +2,7 @@
 layout: post
 image: /icons/uniseccrypt.png
 tags: reverse crypto
-title: Reverse Engineering Obfuscated Code - CTF Write-Up
+title: FCSC - Keykoolol - Write up
 ---
 
 This is a write up for one of the FCSC (French Cyber Security Challenge) reverse engineering challenges. 
