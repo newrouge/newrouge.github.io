@@ -19,7 +19,7 @@ At long last, the untold stories of the realm's secrets wardens. I hereby presen
 We have been pretty busy lately, mainly with red team engagements. That goes to explain why this blog is growing more and more inactive. On the other hand, we have **plenty** to tell. And so what you will find here is a lot less technical than you might be used to, if you read our posts before. Here lies the main gist, I hope you have a good read:
 
 > &rarr; Beware, reader, as this will **not** be a simple arrogant criticism, but rather a series of comical and relatable situations we found ourselves in, sprinkled with self reflection and introspection: <br>**what could we have done better ?**<br>
-> &rarr; As my fellow Crimson Foes are aware, the technical aspect of the task can easily be overshadowed by haughty manners, or erroneous conveyance. Hence, displaying diplomacy and being understanding is *a very important part of what we do.*<br>
+> &rarr; As my fellow Crimson Foes are aware, the technical aspect of the task can easily be overshadowed by haughty manners, or erroneous conveyance. Hence, displaying diplomacy and being understanding is a **very** important part of what we do.<br>
 > &rarr; As obvious as it can be: no confidential information will displayed here. As a matter of fact: *all characters and events in this tale--even those based on real people--are entirely fictional, any resemblance with actual events is also fortuitous.*<br>
 
 # Chapter 1 - The forbidden scroll of truth
@@ -108,9 +108,17 @@ It was there, the **forbidden scroll of truth**, the holy grail, containing ever
 I thought, looking at the ocean as if it carried answers.
 
 > "A.: Why can't I be the bearer of good news for once alas?"
-> "Lord.exe: The path you chose ultimately bequeathed on you this very duty, as you shall be the bringer of doom and despair, for a slighty higher salary."
+> "Lord.exe: The path you chose ultimately bequeathed upon you this very duty, as you shall be the bringer of doom and despair, for a slighty higher salary."
 
-I knew what I had to do.
+M. looked at me like he felt compassion. He knew I had to find the person responsible, and bring that very issue to them. It might not be pleasant. But it is our mission. From there, the sequence of steps drew itself quite easily and quickly in my mind:
+
+1. root the printer
+2. access the printing queue history
+3. find the originating IP that printed the unholy document
+4. find who was behind this
+5. understand what might possibly have brought them down to that path
+
+In this very specific case, direct confrontation is pointless. It might actually even might make things worst. Diplomacy, measure, and understanding have to be used, so that **this** never happends again.
 
 Stay classy netsecurios
 
