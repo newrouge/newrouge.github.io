@@ -38,6 +38,16 @@ As we, the Crimson Foes, enter the small village, the mist settles downs slowly 
 
 We are warmly greeted at the entrance of the building. A cheerful lady shows us the premises, and introduces us to the local workers. We even have our own room for ourselves. The day can start. The hack can happen.
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/hack.jpg)
+{: refdef}
+
+8 A.M: we enter the main network. By lunch time we have the castle's keys. Nothing too surprising so far, they were not expecting *us*. Most things go just as usual.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/coffee.jpg)
+{: refdef}
+
 Stay classy netsecurios
 
 ### Tales of the Crimson Foes
