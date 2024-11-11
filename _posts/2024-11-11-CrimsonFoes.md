@@ -91,7 +91,7 @@ His grinning smile made me understand only but one thing: Whatever he found will
 {: refdef}
 
 A leftover artifact in a printing machine, common and usually harmless. Except this time. <br>
-The printer was located in a public area of the premises, which was commonly visited by villagers and travelers. Needless to say that the risk is only made greater by that single observation. But the content of the file is what made this story the legend we will tell our grandchildren:
+The printer was located in a public area of the premises, which was commonly visited by villagers and travelers. Needless to say that the risk is only made far greater by that single observation. But the content of the file is what made this story the legend we will tell our grandchildren:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/crimson/scroll.jpg)
