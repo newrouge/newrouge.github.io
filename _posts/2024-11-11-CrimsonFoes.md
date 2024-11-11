@@ -155,10 +155,17 @@ It is what it is, what is done is done and now we deal with it.
 
 The words were sharp, but respectful. Strong enough to teach, soft enough to show understanding. This is the way of the Crimson Foes.
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/five.jpg)
+{: refdef}
 
+Our work was done here. Nobody else needed to know about that. We like the idea that people can make mistakes, without everybody knowing about it and shaming them, even passively. So we show decendy. <br>
 
+The mission was over, we left as we arrived, discreetly. The lady thanked us warmly again before we left. Our trouble was long gone. Now she had all the keys.
 
-Stay classy netsecurios
+Thats all folks.
+
+Stay classy netsecurios!
 
 ### Tales of the Crimson Foes
 ---
