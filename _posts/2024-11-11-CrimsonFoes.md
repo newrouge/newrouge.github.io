@@ -73,7 +73,7 @@ As the darkness now fully surrounds the little beach town, the mist has come bac
 
 > "M.: A., come. You should see this."<br>
 
-M. is a very moderate man of a few words. A quiet and sharp man, as we like to call in our country "vis tranquilla". He does not exaggerate. He does not embellish. He uses people's attention very wisely. I knew better than not to take his advise seriously.
+M. is a very moderate man of a few words. A quiet and sharp man, as we like to call in our country "une force tranquille". He does not exaggerate. He does not embellish. He uses people's attention very wisely. I knew better than not to take his advise seriously.
 
 > "A.: What is it that delays my ale my dear companion?"<br>
 > "M.: They left an artifact."<br>
