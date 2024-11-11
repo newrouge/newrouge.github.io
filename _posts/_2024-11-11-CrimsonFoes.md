@@ -12,3 +12,10 @@ At long last, the stories of the wardens of the realm's security. I hereby prese
  <a href="/tags#crypto"><img src="{{ site.baseurl }}/icons/crypto.png" width="200" title="crypto" ></a>
 </div>
 
+Stay classy netsecurios
+
+### Tales of the Crimson Foes
+---
+11 November 2024
+Happy Rememberance Day to all
+---
