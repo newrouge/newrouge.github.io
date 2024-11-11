@@ -71,6 +71,10 @@ However M. is restless. Like most Crimson Foes, his mind is always on the lookou
 
 As the darkness now fully surrounds the little beach town, the mist has come back. A soft call breaks the silence like a sharpened sword swiftly shreds thin paper sheets.
 
+> "A., come. You should see this."
+
+M. is a very moderate man of a few words. A quiet and sharp man, as we like to call in our country "une force tranquille". He does not exaggerate. He does not embellish. He uses people's attention very wisely.
+
 Stay classy netsecurios
 
 ### Tales of the Crimson Foes
