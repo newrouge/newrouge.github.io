@@ -144,16 +144,18 @@ This sad truth hurt more than it should, as us Crimson Foes know already. These 
 
 She asked, anguishly. Visibly she was not used to have her questions addressed.
 
-> "A.: In due time, we will, my lady. But first, let me address another aspect of our little issue."
-> "Lady: Please, proceed"
-> "A.: Now you are aware that this printer is accessible by commoners? Why print there?"
-> "Lady: No choice was mine then sir, as the other printers were out of ink."
+> "A.: In due time, we will, my lady. But first, let me address another aspect of our little issue."<br>
+> "Lady: Please, proceed"<br>
+> "A.: Now you are aware that this printer is accessible by commoners? Why print there?"<br>
+> "Lady: No choice was mine then sir, as the other printers were out of ink."<br>
 
 It is what it is, what is done is done and now we deal with it.
 
-> "A.: What is your most precious ressource cannot be thrown to wolves. Shall it never happen again."
+> "A.: What is your most precious ressource cannot be thrown to wolves. Shall it never happen again."<br>
 
 The words were sharp, but respectful. Strong enough to teach, soft enough to show understanding. This is the way of the Crimson Foes.
+
+
 
 
 Stay classy netsecurios
