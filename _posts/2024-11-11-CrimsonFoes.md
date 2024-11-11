@@ -118,7 +118,7 @@ M. looked at me like he felt compassion. He knew I had to find the person respon
 4. find who was behind this
 5. understand what might possibly have brought them down to that path
 
-In this very specific case, direct confrontation is pointless. It might actually even might make things worse. Diplomacy, measure, and understanding have to be used, so that **this** never happens again.
+In this very specific case, direct confrontation is pointless. It might actually even make things worse. Diplomacy, measure, and understanding have to be used, so that **this** never happens again.
 <br><br>
 
 The **hunt** was on, and it was not long before M. and I found the culprit: the lady that greeted us on the very first morning.
