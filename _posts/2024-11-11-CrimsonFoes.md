@@ -71,15 +71,15 @@ However M. is restless. Like most Crimson Foes, his mind is always on the lookou
 
 As the darkness now fully surrounds the little beach town, the mist has come back. A soft call breaks the silence like a sharpened sword swiftly shreds thin paper sheets.
 
-> "M.: A., come. You should see this."
+> "M.: A., come. You should see this."<br>
 
 M. is a very moderate man of a few words. A quiet and sharp man, as we like to call in our country "une force tranquille". He does not exaggerate. He does not embellish. He uses people's attention very wisely. I know better not to take his advise seriously.
 
-> "A.: What is it that delays my ale my dear companion?"
-> "M.: They left an artifact."
+> "A.: What is it that delays my ale my dear companion?"<br>
+> "M.: They left an artifact."<br>
 he said, mincing his words.
-> "M.: You will like it."
-His grinning smile made me understand only but one thing: Whatever he found will lead us to **more work**.
+> "M.: You will like it."<br>
+His grinning smile made me understand only but one thing: Whatever he found will ultimately lead us to **more work**.
 
 
 
