@@ -97,18 +97,18 @@ The printer was located in a public area of the premises, which was commonly vis
 ![_config.yml]({{ site.baseurl }}/images/crimson/scroll.jpg)
 {: refdef}
 
-It was there, the **forbidden scroll of truth**, the holy grail, containing every local workers personal information and ***plaintext currently valid passwords**. We knew exactly how **valid** and **currently used** they were, as we had spent a part of the afternoon breaking them using the dark prowess of the legendary RTX 4090.
+It was there, the **forbidden scroll of truth**, the holy grail, containing every local workers personal information and **plaintext currently valid passwords**. We knew exactly how **valid** and **currently used** they were, as we had spent a part of the afternoon breaking them using the dark prowess of the legendary RTX 4090.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/crimson/ocean.jpg)
 {: refdef}
 
-> "A.: Lord, why choose me?"
+> "A.: Lord, why choose me?"<br>
 
 I thought, looking at the ocean as if it carried answers.
 
-> "A.: Why can't I be the bearer of good news for once alas?"
-> "Lord.exe: The path you chose ultimately bequeathed upon you this very duty, as you shall be the bringer of doom and despair, for a slighty higher salary."
+> "A.: Why can't I be the bearer of good news for once alas?"<br>
+> "Lord.exe: The path you chose ultimately bequeathed upon you this very duty, as you shall be the bringer of doom and despair, for a slighty higher salary."<br>
 
 M. looked at me like he felt compassion. He knew I had to find the person responsible, and bring that very issue to them. It might not be pleasant. But it is our mission. From there, the sequence of steps drew itself quite easily and quickly in my mind:
 
@@ -119,6 +119,42 @@ M. looked at me like he felt compassion. He knew I had to find the person respon
 5. understand what might possibly have brought them down to that path
 
 In this very specific case, direct confrontation is pointless. It might actually even might make things worst. Diplomacy, measure, and understanding have to be used, so that **this** never happens again.
+<br><br>
+
+The **hunt** was on, and it was not long before M. and I found the culprit: the lady that greeted us on the very first morning.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/lens.jpg)
+{: refdef}
+
+As I entered her office, the look in her eyes changed. It was not the warming and cheerful lady we had met a few days back. Warmth had been replaced by anxiety.
+
+> "A.: We found a document, on Monday. A document no living soul should own."
+
+She knew, she was not here to fight. She wanted anwsers to the many questions she had had for all these years, without anybody ever providing anything.
+
+> "Lady: I know I shouldn't have done this, but how else am I supposed to manage accounts?"
+
+This sad truth hurt more than it should, as us Crimson Foes know already. These responsibilities often land on people that did not ask for, nor know how to do it. Now was the time to show that seeking guidance is the correct path, and guidance we provide.
+
+> "A.: My lady, several problems arise from our discoveries. The main one being that **you should not know your workers passwords**"<br>
+> "Lady: But my fellow IT provider assured me that setting one time passwords for everybody would take weeks"<br>
+> "A.: Liars my lady, I am afraid. 'Tis only but one box to tick."<br>
+> "Lady: Can you show me?"<br>
+
+She asked, anguishly. Visibly she was not used to have her questions addressed.
+
+> "A.: In due time, we will, my lady. But first, let me address another aspect of our little issue."
+> "Lady: Please, proceed"
+> "A.: Now you are aware that this printer is accessible by commoners? Why print there?"
+> "Lady: No choice was mine then sir, as the other printers were out of ink."
+
+It is what it is, what is done is done and now we deal with it.
+
+> "A.: What is your most precious ressource cannot be thrown to wolves. Shall it never happen again."
+
+The words were sharp, but respectful. Strong enough to teach, soft enough to show understanding. This is the way of the Crimson Foes.
+
 
 Stay classy netsecurios
 
