@@ -56,7 +56,7 @@ As the operation can be quite costly on the long run, our brains start to run dr
 
 Even more eyes lay on the Crimson Foes as they replenish themselves with what does not seem to be a local meal, nor is it consumed frequently in these surroundings. Villagers grow wary, and curious. This won't stop us. We are on a mission.
 
-The end of the day arrives mechanically, without thinking about the passage of time. By then, most local workers in the premises we occupy have left for home already. It has already been dark for a long time before I realize it. I am pretty sure M. hasn't even noticed yet. He too, is on a mission. 
+The end of the day arrives mechanically, without thinking about the passage of time. By then, most local workers in the premises we occupy have left for home. It has already been dark for a long time before I realize it. I am pretty sure M. hasn't even noticed yet. He too, is on a mission. 
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/crimson/night.jpg)
