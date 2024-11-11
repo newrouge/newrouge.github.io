@@ -4,7 +4,8 @@ tags: redteam
 title: Tales of the Crimson Foes
 ---
 
-The Tales of the Crimson Foes, *a compilation of red team stories*.
+The Tales of the Crimson Foes
+*A compilation of red team stories*
 
 
 {:refdef: style="text-align: center;"}
