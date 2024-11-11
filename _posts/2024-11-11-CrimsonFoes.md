@@ -24,8 +24,11 @@ We have been pretty busy lately, mainly with red team engagements. That goes to 
 
 # Chapter 1 - The forbidden scroll of truth
 
+It was a chill morning in November, and although I strongly dislike the cold gusts of wind that make the traveller's nose runny, I was excited to visit a new place I had never seen before. This mission was important. As I always do, I made sure I had the right companionship with me. That time, it was a man named M. He was the one who taught me the arts and crafts of Windows and Active Directory, at least most of it. So I knew we were the right force for the matter at hands.
 
-
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/beach.jpg)
+{: refdef}
 
 
 
