@@ -73,7 +73,7 @@ As the darkness now fully surrounds the little beach town, the mist has come bac
 
 > "M.: A., come. You should see this."<br>
 
-M. is a very moderate man of a few words. A quiet and sharp man, as we like to call in our country "une force tranquille". He does not exaggerate. He does not embellish. He uses people's attention very wisely. I knew better than not to take his advise seriously.
+M. is a very moderate man of a few words. A quiet and sharp man, as we like to call in our country "vis tranquilla". He does not exaggerate. He does not embellish. He uses people's attention very wisely. I knew better than not to take his advise seriously.
 
 > "A.: What is it that delays my ale my dear companion?"<br>
 > "M.: They left an artifact."<br>
@@ -84,7 +84,33 @@ he said, mincing his words.
 
 His grinning smile made me understand only but one thing: Whatever he found will ultimately lead us to **more work**.
 
-> "M.: 'Tis a scroll, a most perilous one. The most perilous in fact."
+> "M.: 'Tis a scroll, a most perilous one."
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/printer.jpg)
+{: refdef}
+
+A leftover artifact in a printing machine, common and usually harmless. Except this time. <br>
+The printer was located in a public area of the premises, which was commonly visited by villagers and travelers. Needless to say that the risk is only made greater by that single observation. But the content of the file is what made this story the legend we will tell our grandchildren:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/scroll.jpg)
+{: refdef}
+
+It was there, the **forbidden scroll of truth**, the holy grail, containing every local workers personal information and ***plaintext currently valid passwords**. We knew exactly how **valid** and **currently used** they were, as we had spent a part of the afternoon breaking them using the dark prowess of the legendary RTX 4090.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/ocean.jpg)
+{: refdef}
+
+> "A.: Lord, why choose me?"
+
+I thought, looking at the ocean as if it carried answers.
+
+> "A.: Why can't I be the bearer of good news for once alas?"
+> "Lord.exe: The path you chose ultimately bequeathed on you this very duty, as you shall be the bringer of doom and despair, for a slighty higher salary."
+
+I knew what I had to do.
 
 Stay classy netsecurios
 
