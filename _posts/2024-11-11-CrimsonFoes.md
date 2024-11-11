@@ -169,7 +169,7 @@ Thats all folks.
 
 # Epilogue
 
-I initially wanted to write several anecdotes but got carried away with AI images generation and this one took me a **lot** longer than expected. If that type of content pleases you, feel free to let me know, as we Crimson Foes have many other to tell.
+I initially wanted to write several anecdotes but got carried away with AI images generation and this one took me a **lot** longer than expected. If that type of content pleases you, feel free to let me know, as we Crimson Foes have many other tales to tell.
 
 
 
