@@ -5,14 +5,14 @@ title: Tales of the Crimson Foes
 ---
 
 The Tales of the Crimson Foes<br>
-*A compilation of red team stories*
+*A compilation of red team and pentest stories*
 
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/crimson/crimson.jpg)
 {: refdef}
 
-At long last, the untold stories of the realm's secrets wardens. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team stories*.
+At long last, the untold stories of the realm's secrets wardens. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team and pentest stories*.
 
 # Prologue
 
@@ -30,7 +30,13 @@ It was a chill morning in November, and although I strongly dislike the cold gus
 ![_config.yml]({{ site.baseurl }}/images/crimson/beach.jpg)
 {: refdef}
 
+As we, the Crimson Foes, enter the small village, the mist settles downs slowly and the sun starts shining in an eerie way. Faces turn and eyes are curious: we are seemingly out of place.
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/village.jpg)
+{: refdef}
+
+We are warmly greeted at the entrance of the building. A cheerful lady shows us the premises, and introduces us to the local workers. We even have our own room for ourselves. The day can start. The hack can happen.
 
 Stay classy netsecurios
 
