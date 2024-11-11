@@ -62,6 +62,8 @@ The end of the day arrives mechanically, without thinking about the time passing
 ![_config.yml]({{ site.baseurl }}/images/crimson/night.jpg)
 {: refdef}
 
+I call it a night. We have a few more days, let's not burn everything too quickly, we will likely need more energy in the coming days. Especially with what we were about to discover.
+However M. is restless. Like most Crimson Foes, his mind is always on the lookout for details, leftover information, for us to explore and exploit.
 
 
 Stay classy netsecurios
