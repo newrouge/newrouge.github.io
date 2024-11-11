@@ -84,7 +84,7 @@ he said, mincing his words.
 
 His grinning smile made me understand only but one thing: Whatever he found will ultimately lead us to **more work**.
 
-
+> "M.: 'Tis a scroll, a most perilous one. The most perilous in fact."
 
 Stay classy netsecurios
 
