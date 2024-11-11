@@ -21,7 +21,7 @@ At long last, the untold stories of the wardens of the realm's secrets. I hereby
 
 # Chapter 1 - The forbidden scroll of truth
 
-# TLDR;
+# Lo, if thou wouldst spare thyself the tale entire, here be the gist:
 
 > &rarr; Beware, reader, as this will **not** be a simple arrogant criticism, but rather a series of comical and relatable situations we found ourselves in, sprinkled with self reflection and introspection: *what could we have done better ?*
 
