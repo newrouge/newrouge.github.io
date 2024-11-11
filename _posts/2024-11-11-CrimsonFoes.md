@@ -161,7 +161,7 @@ The words were sharp, but respectful. Strong enough to teach, soft enough to sho
 ![_config.yml]({{ site.baseurl }}/images/crimson/five.jpg)
 {: refdef}
 
-Our work was done here. Nobody else needed to know about that. We like the idea that people can make mistakes, without everybody knowing about it and shaming them, even passively. So we show decency. <br>
+Our work was done here. Nobody else needed to know about that. We like the idea that people can make mistakes, without everybody knowing about it and shaming them, even passively. So we show decency. Up until one point, obviously, when mistakes are commonly spread and repeated disregarding of the support, the tone has to change.<br> It was not the case then.
 
 The mission was over, we left as we arrived, discreetly. The lady thanked us warmly again before we left. Our trouble was long gone. Now she had all the keys.
 
