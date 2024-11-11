@@ -20,7 +20,7 @@ We have been pretty busy lately, mainly with red team engagements. That goes to 
 
 > &rarr; Beware, reader, as this will **not** be a simple arrogant criticism, but rather a series of comical and relatable situations we found ourselves in, sprinkled with self reflection and introspection: <br>**what could we have done better ?**<br>
 > &rarr; As my fellow Crimson Foes are aware, the technical aspect of the task can easily be overshadowed by haughty manners, or erroneous conveyance. Hence, displaying diplomacy and being understanding is a **very** important part of what we do.<br>
-> &rarr; As obvious as it can be: no confidential information will displayed here. As a matter of fact: *all characters and events in this tale--even those based on real people--are entirely fictional, any resemblance with actual events is also fortuitous.*<br>
+> &rarr; As obvious as it can be: no confidential information will be displayed here. As a matter of fact: *all characters and events in this tale --even those based on real people-- are entirely fictional, any resemblance with actual events is also fortuitous.*<br>
 
 # Chapter 1 - The forbidden scroll of truth
 
@@ -30,7 +30,7 @@ It was a chill morning in November, and although I strongly dislike the cold gus
 ![_config.yml]({{ site.baseurl }}/images/crimson/beach.jpg)
 {: refdef}
 
-As we, the Crimson Foes, enter the small village, the mist settles downs slowly and the sun starts shining in an eerie way. Faces turn and eyes are curious: we are seemingly out of place.
+As we, the Crimson Foes, enter the small village, the mist settles down slowly and the sun starts shining in an eerie way. Faces turn and eyes are curious: we are seemingly out of place.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/crimson/village.jpg)
@@ -54,9 +54,9 @@ As the operation can be quite costly on the long run, our brains start to run dr
 ![_config.yml]({{ site.baseurl }}/images/crimson/kebab.jpg)
 {: refdef}
 
-Even more eyes on the Crimson Foes as they replenish themselves with what does not seem to be a local meal, neither is it consumed frequently in these surroundings. Villagers grow wary, and curious. This won't stop us. We are on a mission.
+Even more eyes lay on the Crimson Foes as they replenish themselves with what does not seem to be a local meal, nor is it consumed frequently in these surroundings. Villagers grow wary, and curious. This won't stop us. We are on a mission.
 
-The end of the day arrives mechanically, without thinking about the time passing by. By then, most local workers in the premises we occupy have left home already. It has already been dark for a long time before I realize it. I am pretty sure M. hasn't even noticed yet. He too, is on a mission. 
+The end of the day arrives mechanically, without thinking about the passage of time. By then, most local workers in the premises we occupy have left home already. It has already been dark for a long time before I realize it. I am pretty sure M. hasn't even noticed yet. He too, is on a mission. 
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/crimson/night.jpg)
@@ -73,7 +73,7 @@ As the darkness now fully surrounds the little beach town, the mist has come bac
 
 > "M.: A., come. You should see this."<br>
 
-M. is a very moderate man of a few words. A quiet and sharp man, as we like to call in our country "une force tranquille". He does not exaggerate. He does not embellish. He uses people's attention very wisely. I knew better than not to take his advise seriously.
+M. is a very moderate man of a few words. A quiet and sharp man, as we like to call it in our country "une force tranquille". He does not exaggerate. He does not embellish. He uses people's attention very wisely. I knew better than not to take his advise seriously.
 
 > "A.: What is it that delays my ale my dear companion?"<br>
 > "M.: They left an artifact."<br>
@@ -118,7 +118,7 @@ M. looked at me like he felt compassion. He knew I had to find the person respon
 4. find who was behind this
 5. understand what might possibly have brought them down to that path
 
-In this very specific case, direct confrontation is pointless. It might actually even might make things worst. Diplomacy, measure, and understanding have to be used, so that **this** never happens again.
+In this very specific case, direct confrontation is pointless. It might actually even might make things worse. Diplomacy, measure, and understanding have to be used, so that **this** never happens again.
 <br><br>
 
 The **hunt** was on, and it was not long before M. and I found the culprit: the lady that greeted us on the very first morning.
@@ -127,11 +127,11 @@ The **hunt** was on, and it was not long before M. and I found the culprit: the 
 ![_config.yml]({{ site.baseurl }}/images/crimson/lens.jpg)
 {: refdef}
 
-As I entered her office, the look in her eyes changed. It was not the warming and cheerful lady we had met a few days back. Warmth had been replaced by anxiety.
+As I entered her office, the look in her eyes changed. It was not the warming and cheerful lady we had met a few days back. Warmth had been replaced with anxiety.
 
 > "A.: We found a document, on Monday. A document no living soul should own."
 
-She knew, she was not here to fight. She wanted anwsers to the many questions she had had for all these years, without anybody ever providing anything.
+She knew, she was not here to fight. She wanted answers to the many questions she had had for all these years, without anybody ever providing anything.
 
 > "Lady: I know I shouldn't have done this, but how else am I supposed to manage accounts?"
 
@@ -151,7 +151,7 @@ She asked, anguishly. Visibly she was not used to have her questions addressed.
 
 It is what it is, what is done is done and now we deal with it.
 
-> "A.: What is your most precious ressource cannot be thrown to wolves. Shall it never happen again."<br>
+> "A.: What is your most precious resource cannot be thrown to wolves. Shall it never happen again."<br>
 
 The words were sharp, but respectful. Strong enough to teach, soft enough to show understanding. This is the way of the Crimson Foes.
 
