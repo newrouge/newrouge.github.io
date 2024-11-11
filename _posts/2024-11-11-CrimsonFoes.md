@@ -1,6 +1,6 @@
 ---
 layout: post
-tags: redteam
+tags: redteamico
 title: Tales of the Crimson Foes
 ---
 
