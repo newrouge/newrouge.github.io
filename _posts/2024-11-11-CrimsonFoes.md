@@ -65,6 +65,11 @@ The end of the day arrives mechanically, without thinking about the time passing
 I call it a night. We have a few more days, let's not burn everything too quickly, we will likely need more energy in the coming days. Especially with what we were about to discover.
 However M. is restless. Like most Crimson Foes, his mind is always on the lookout for details, leftover information, for us to explore and exploit.
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/call.jpg)
+{: refdef}
+
+As the darkness now fully surrounds the little beach town, the mist has come back. A soft call breaks the silence like a sharpened sword swiftly shreds thin paper sheets.
 
 Stay classy netsecurios
 
