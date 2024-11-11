@@ -48,6 +48,22 @@ We are warmly greeted at the entrance of the building. A cheerful lady shows us 
 ![_config.yml]({{ site.baseurl }}/images/crimson/coffee.jpg)
 {: refdef}
 
+As the operation can be quite costly on the long run, our brains start to run dry. We decide to go for food and refreshments, as the clock strikes 12. The weather has now cleared, as it often does during the day in this region of the country. A local tavern quickly catches our interest, as it serves Turkish specialties us Crimson Foes relish.
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/kebab.jpg)
+{: refdef}
+
+Even more eyes on the Crimson Foes as they replenish themselves with what does not seem to be a local meal, neither is it consumed frequently in these surroundings. Villagers grow wary, and curious. This won't stop us. We are on a mission.
+
+The end of the day arrives mechanically, without thinking about the time passing by. By then, most local workers in the premises we occupy have left home already. It has already been dark for a long time before I realize it. I am pretty M. hasn't even noticed yet. He too, is on a mission. 
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/night.jpg)
+{: refdef}
+
+
+
 Stay classy netsecurios
 
 ### Tales of the Crimson Foes
