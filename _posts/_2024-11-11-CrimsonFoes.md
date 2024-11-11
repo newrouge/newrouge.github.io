@@ -4,6 +4,9 @@ tags: system reverse crypto
 title: Tales of the Crimson Foes
 ---
 
+The Tales of the Crimson Foes, *a compilation of red team stories*.
+
+
 At long last, the stories of the wardens of the realm's security. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team stories*.
 
 <div style="text-align: center;">
