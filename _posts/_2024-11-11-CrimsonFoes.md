@@ -22,7 +22,7 @@ At long last, the untold stories of the wardens of the realm's secrets. I hereby
 
 > &rarr; Beware, reader, as this will **not** be a simple arrogant criticism, but rather a series of comical and relatable situations we found ourselves in, sprinkled with self reflection and introspection: *what could we have done better ?*
 > &rarr; As my fellow Crimson Foes are aware, the technical aspect of the task can easily be overshadowed by haughty manners, or erroneous conveyance. Hence, displaying diplomacy and being understanding is *a very important aspect of what we do.*
-> &rarr; As obvious as it can be: no confidential information will displayed here. As a matter of fact: *all characters and events in this tale--even those based on real people--are entirely fictional, any resemblance with actual event is also fortuitous.*
+> &rarr; As obvious as it can be: no confidential information will displayed here. As a matter of fact: *all characters and events in this tale--even those based on real people--are entirely fictional, any resemblance with actual events is also fortuitous.*
 
 # Chapter 1 - The forbidden scroll of truth
 
