@@ -16,6 +16,5 @@ Stay classy netsecurios
 
 ### Tales of the Crimson Foes
 ---
-11 November 2024
-Happy Rememberance Day to all
+11 November 2024 | Happy Rememberance Day to all
 ---
