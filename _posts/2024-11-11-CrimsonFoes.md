@@ -15,9 +15,9 @@ At long last, the untold stories of the realm's secrets wardens. I hereby presen
 
 # Prologue
 
-> &rarr; Beware, reader, as this will **not** be a simple arrogant criticism, but rather a series of comical and relatable situations we found ourselves in, sprinkled with self reflection and introspection: *what could we have done better ?*
-> &rarr; As my fellow Crimson Foes are aware, the technical aspect of the task can easily be overshadowed by haughty manners, or erroneous conveyance. Hence, displaying diplomacy and being understanding is *a very important aspect of what we do.*
-> &rarr; As obvious as it can be: no confidential information will displayed here. As a matter of fact: *all characters and events in this tale--even those based on real people--are entirely fictional, any resemblance with actual events is also fortuitous.*
+> &rarr; Beware, reader, as this will **not** be a simple arrogant criticism, but rather a series of comical and relatable situations we found ourselves in, sprinkled with self reflection and introspection: *what could we have done better ?*<br>
+> &rarr; As my fellow Crimson Foes are aware, the technical aspect of the task can easily be overshadowed by haughty manners, or erroneous conveyance. Hence, displaying diplomacy and being understanding is *a very important aspect of what we do.*<br>
+> &rarr; As obvious as it can be: no confidential information will displayed here. As a matter of fact: *all characters and events in this tale--even those based on real people--are entirely fictional, any resemblance with actual events is also fortuitous.*<br>
 
 # Chapter 1 - The forbidden scroll of truth
 
@@ -30,5 +30,5 @@ Stay classy netsecurios
 
 ### Tales of the Crimson Foes
 ---
-11 November 2024 | Happy Rememberance Day to all
+11 November 2024 | Happy Remembrance Day to all
 ---
