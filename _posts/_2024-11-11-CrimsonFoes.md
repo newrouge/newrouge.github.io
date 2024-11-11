@@ -7,7 +7,7 @@ title: Tales of the Crimson Foes
 The Tales of the Crimson Foes, *a compilation of red team stories*.
 
 
-At long last, the stories of the wardens of the realm's security. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team stories*.
+At long last, the untold stories of the wardens of the realm's secrets. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team stories*.
 
 <div style="text-align: center;">
  <a href="/tags#system"><img src="{{ site.baseurl }}/icons/system.png" width="200" title="system" ></a>
