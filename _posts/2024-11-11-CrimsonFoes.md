@@ -108,7 +108,7 @@ It was there, the **forbidden scroll of truth**, the holy grail, containing ever
 I thought, looking at the ocean as if it carried answers.
 
 > "A.: Why can't I be the bearer of good news for once alas?"<br>
-> "Lord.exe: The path you chose ultimately bequeathed upon you this very duty, as you shall be the bringer of doom and despair, for a slighty higher salary."<br>
+> "Lord.exe: The path you chose ultimately bequeathed upon you this very duty, as you shall be the bringer of doom and despair, for a slightly higher salary."<br>
 
 M. looked at me like he felt compassion. He knew I had to find the person responsible, and bring that very issue to them. It might not be pleasant. But it is our mission. From there, the sequence of steps drew itself quite easily and quickly in my mind:
 
