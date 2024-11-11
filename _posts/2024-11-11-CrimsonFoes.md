@@ -14,7 +14,7 @@ The Tales of the Crimson Foes, *a compilation of red team stories*.
 ![_config.yml]({{ site.baseurl }}/images/crimson/crimson.jpg)
 {: refdef}
 
-At long last, the untold stories of the wardens of the realm's secrets. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team stories*.
+At long last, the untold stories of the realm's secrets wardens. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team stories*.
 
 # Prologue
 
