@@ -155,6 +155,8 @@ It is what it is, what is done is done and now we deal with it.
 
 The words were sharp, but respectful. Strong enough to teach, soft enough to show understanding. This is the way of the Crimson Foes.
 
+# Resolution
+
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/crimson/five.jpg)
 {: refdef}
@@ -164,6 +166,12 @@ Our work was done here. Nobody else needed to know about that. We like the idea 
 The mission was over, we left as we arrived, discreetly. The lady thanked us warmly again before we left. Our trouble was long gone. Now she had all the keys.
 
 Thats all folks.
+
+# Epilogue
+
+I initially wanted to write several anecdotes but got carried away with AI images generation and this one took me a **lot** longer than expected. If that type of content pleases you, feel free to let me know, as we Crimson Foes have many other to tell.
+
+
 
 Stay classy netsecurios!
 
