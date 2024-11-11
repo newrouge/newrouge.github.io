@@ -7,7 +7,7 @@ title: Tales of the Crimson Foes
 The Tales of the Crimson Foes, *a compilation of red team stories*.
 
 <div style="text-align: center;">
- <a href="/tags#reverse"><img src="{{ site.baseurl }}/icons/redteam.png" width="200" title="reverse" ></a>
+ <a href="/tags#redteam"><img src="{{ site.baseurl }}/icons/redteam.png" width="200" title="redteam" ></a>
 </div>
 
 {:refdef: style="text-align: center;"}
