@@ -18,12 +18,14 @@ The Tales of the Crimson Foes, *a compilation of red team stories*.
 
 At long last, the untold stories of the wardens of the realm's secrets. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team stories*.
 
+# Prologue
+
+> &rarr; Beware, reader, as this will **not** be a simple arrogant criticism, but rather a series of comical and relatable situations we found ourselves in, sprinkled with self reflection and introspection: *what could we have done better ?*
+> &rarr; As my fellow Crimson Foes are aware, the technical aspect of the task can easily be overshadowed by haughty manners, or erroneous conveyance. Hence, displaying diplomacy and being understanding is *a very important side of what we do.*
 
 # Chapter 1 - The forbidden scroll of truth
 
-# Lo, if thou wouldst spare thyself the tale entire, here be the gist:
 
-> &rarr; Beware, reader, as this will **not** be a simple arrogant criticism, but rather a series of comical and relatable situations we found ourselves in, sprinkled with self reflection and introspection: *what could we have done better ?*
 
 
 
