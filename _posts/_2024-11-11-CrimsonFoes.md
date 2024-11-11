@@ -12,6 +12,10 @@ The Tales of the Crimson Foes, *a compilation of red team stories*.
  <a href="/tags#crypto"><img src="{{ site.baseurl }}/icons/crypto.png" width="200" title="crypto" ></a>
 </div>
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson/crimson.jpg)
+{: refdef}
+
 At long last, the untold stories of the wardens of the realm's secrets. I hereby present to you: The Tales of the Crimson Foes, *a compilation of red team stories*.
 
 
