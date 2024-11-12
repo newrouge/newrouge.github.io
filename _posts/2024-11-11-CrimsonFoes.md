@@ -151,7 +151,7 @@ She asked, anguishly. Visibly she was not used to having her questions addressed
 
 It is what it is, what is done is done and now we deal with it.
 
-> "A.: What is your most precious resource cannot be thrown to wolves. Shall it never happen again."<br>
+> "A.: What is your most precious resource cannot be thrown to the wolves. Shall it never happen again."<br>
 
 The words were sharp, but respectful. Strong enough to teach, soft enough to show understanding. This is the way of the Crimson Foes.
 
