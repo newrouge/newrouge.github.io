@@ -14,7 +14,7 @@ The Tales of the Crimson Foes - Part 2<br>
 
 # Prologue
 
-Sometimes missions involve many more soft and hard skills than just the "computer stuff". It is especially true for red team engagements. This story highlights the importance of adaptability, improvisation, and quick thinking when under pressure. It is a tale of good and bad surprises, as well as gigantic failures, both on the blue team's side and the Crimson Foes' too. I hope you have a good read:
+Sometimes missions require many more soft and hard skills than just the classic "computer stuff". It is especially true for red team engagements. This story highlights the importance of adaptability, improvisation, and quick thinking when under pressure. It is a tale of good and bad surprises, as well as gigantic failures, both on the blue team's side and the Crimson Foes'. I hope you have a good read:
 
 
 # Chapter 2 - The forbidden scroll of truth
