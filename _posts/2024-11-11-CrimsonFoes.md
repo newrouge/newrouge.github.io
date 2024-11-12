@@ -142,7 +142,7 @@ This sad truth hurt more than it should, as us Crimson Foes know already. These 
 > "A.: Liars my lady, I am afraid. 'Tis only but one box to tick."<br>
 > "Lady: Can you show me?"<br>
 
-She asked, anguishly. Visibly she was not used to have her questions addressed.
+She asked, anguishly. Visibly she was not used to having her questions addressed.
 
 > "A.: In due time, we will, my lady. But first, let me address another aspect of our little issue."<br>
 > "Lady: Please, proceed"<br>
