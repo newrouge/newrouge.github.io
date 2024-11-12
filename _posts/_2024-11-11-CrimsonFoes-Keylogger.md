@@ -21,6 +21,9 @@ Sometimes missions require many more soft and hard skills than just the classic 
 
 ## Preamble - The snare
 
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/crimson2/keylogger.jpg)
+{: refdef}
 
 Stay classy netsecurios!
 
