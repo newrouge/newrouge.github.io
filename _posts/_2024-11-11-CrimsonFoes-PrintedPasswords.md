@@ -1,7 +1,7 @@
 ---
 layout: post
-tags: redteam hardware
-title: Tales of the Crimson Foes
+tags: redteam
+title: Tales of the Crimson Foes - Part 1
 ---
 
 The Tales of the Crimson Foes<br>
