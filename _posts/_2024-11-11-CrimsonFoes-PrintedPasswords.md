@@ -1,6 +1,6 @@
 ---
 layout: post
-tags: redteam
+tags: redteam hardware
 title: Tales of the Crimson Foes
 ---
 
