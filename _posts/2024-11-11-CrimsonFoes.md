@@ -69,7 +69,7 @@ However M. is restless. Like most Crimson Foes, his mind is always on the lookou
 ![_config.yml]({{ site.baseurl }}/images/crimson/call.jpg)
 {: refdef}
 
-As the darkness now fully surrounds the little beach town, the mist has come back. A soft call breaks the silence like a sharpened sword swiftly shreds thin paper sheets.
+As the darkness now fully surrounds the little beach town, the mist has come back. A soft call breaks the silence like a sharpened sword swiftly slices through thin paper sheets.
 
 > "M.: A., come. You should see this."<br>
 
