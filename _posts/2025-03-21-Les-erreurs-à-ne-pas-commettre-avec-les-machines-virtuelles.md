@@ -63,7 +63,7 @@ mount /dev/nbd0p1 /mnt/vm/
 et paf, les secrets Windows locaux sont lisibles depuis Linux:
 
 {:refdef: style="text-align: center;"}
-![_config.yml]({{ site.baseurl }}/images/vms/poof.png)
+![_config.yml]({{ site.baseurl }}/images/vms/poof.jpg)
 {: refdef}
 
 Ceci, couplé avec une mauvaise pratique de réutilisation de mots de passes locaux, peut avoir des effets **dévastateurs**
