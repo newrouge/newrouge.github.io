@@ -30,7 +30,7 @@ Pour celles et ceux qui ne seraient pas familiers avec le cloisonnement dans Act
 
 Ce modèle de sécurité est conçu de manière à ce que les administrateurs séparent les rôles et les comptes en fonction du niveau avec lequel ils travaillent. Cela garantit, par exemple, que la compromission d’un ordinateur portable et des comptes connectés dessus ne mène pas immédiatement à la chute de tout le système.
 
-# 1. Unencrypted VM storage
+# 1. Stockage de données non chiffré
 
 C'est un des exemples les plus courants.
 
