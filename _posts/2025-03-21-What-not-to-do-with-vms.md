@@ -7,7 +7,7 @@ title: What not to do with on prem virtualization
 
 Common misconfigurations in on prem VM environments <br>
 
-During intrusion tests and red teams, we have realized that more often than not, it was possible to find simple attack paths using the way local virtual machines were handled. This posts main topic revolves around one idea: **Broken Tiering**
+During intrusion tests and red teams, we have realized that more often than not, it was possible to find virtual machines artifacts, active profiles, unencrypted backups... This posts main topic revolves around one idea: **Broken Tiering**
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/loop.png)
@@ -28,7 +28,17 @@ For those unfamiliar with the tiering in Active Directory, here is how it works:
 * Tier 1: Meant mostly for server's management. It contains less critical assets than the previous one, but will likely represent a higher risk at the business level.
 * Tier 2: Workstations, phones, printers
 
-This security model is made in such a way that administrators separate 
+This security model is made in such a way that administrators separate roles and account. This ensures, for example, that compromising a laptop, and all accounts logged into it, will not immediately lead to the fall of the castle.
+
+# 1. Unencrypted VM storage
+
+This one is the most commonly seen:
+
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/vms/scrap.png)
+{: refdef}
+
 
 
 
