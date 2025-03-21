@@ -28,7 +28,7 @@ For those unfamiliar with the tiering in Active Directory, here is how it works:
 * Tier 1: Meant mostly for server's management. It contains less critical assets than the previous one, but will likely represent a higher risk at the business level.
 * Tier 2: Workstations, phones, printers
 
-This security model is made in such a way that administrators separate roles and account. This ensures, for example, that compromising a laptop, and all accounts logged into it, will not immediately lead to the fall of the castle.
+This security model is made in such a way that administrators separate roles and accounts, depending on the tier they work with. This ensures, for example, that compromising a laptop, and all accounts logged into it, will not immediately lead to the fall of the whole castle.
 
 # 1. Unencrypted VM storage
 
