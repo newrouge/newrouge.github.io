@@ -57,6 +57,15 @@ qemu-nbd --connect=/dev/nbd0 vm.qcow2
 mount /dev/nbd0p1 /mnt/vm/
 ```
 
+and poof, the local Windows secrets are readable from a Linux machine:
+
+{:refdef: style="text-align: center;"}
+![_config.yml]({{ site.baseurl }}/images/vms/poof.png)
+{: refdef}
+
+This, coupled with Windows systems sharing the same local passwords, can be **devastating**.
+
+
 
 
 
