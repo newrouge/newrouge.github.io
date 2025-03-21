@@ -39,7 +39,7 @@ This one is the most commonly seen.
 ![_config.yml]({{ site.baseurl }}/images/vms/scrap.png)
 {: refdef}
 
-The virtual machines backups, snapshots, images, virtual disks, all contain **secrets**. The image above tries to summarize which kind of secrets are generally stored in those files, while being loosely based on a Krebs article [Krebs article](https://krebsonsecurity.com/2012/10/the-scrap-value-of-a-hacked-pc-revisited/).
+The virtual machines backups, snapshots, images, virtual disks, all contain **secrets**. The image above tries to summarize which kind of secrets are generally stored in those files, while being loosely based on a [Krebs article](https://krebsonsecurity.com/2012/10/the-scrap-value-of-a-hacked-pc-revisited/).
 
 It is important to note that any local authentication secret, application configuration, api token, used in a virtual system, will possibly be available in a snapshot. Evidently, exposing those backups and virtual disks (which are just binary files, sometimes tedious to parse but still **files**) on a network with no or weak authentication and access control poses a problem.
 
