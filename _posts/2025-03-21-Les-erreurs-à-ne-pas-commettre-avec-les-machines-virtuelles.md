@@ -2,133 +2,134 @@
 layout: post
 image: /icons/uniseccrypt.png
 tags: system
-title: What not to do with on prem virtualization
+title: Les erreurs à ne pas commettre avec les machines virtuelles
 ---
 
-Common misconfigurations in on prem VM environments <br>
+Erreurs courantes liées à la virtualisation, et exemples d'exploitation<br>
 
-During intrusion tests and red teams, we have realized that more often than not, it was possible to find virtual machines artifacts, active profiles, unencrypted backups... This posts main topic revolves around one idea: **Broken Tiering**
+Lors des tests d'intrusion et des exercices de red team, nous avons constaté que, bien souvent, il était possible de trouver des artefacts de machines virtuelles, des profils actifs, des sauvegardes non chiffrées... Le sujet principal de cet article tourne autour d'une idée : **Le cloisonnement défaillant**.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/loop.png)
 {: refdef}
 
-Why does it matter you may ask ? For one thing, the hierarchy of privileges is supposed to be a tree. So if you find a loop in a tree it's never a good sign. But enough with the theory. We will see here examples showing how to exploit common misconfigurations in virtualized environments. Note that they are not specific to one technology (VMWare, HyperV, ...) and may pretty much apply to any of them.
+Pourquoi est-ce important, me direz-vous ? D’une part, la hiérarchie des privilèges est censée suivre une structure en arbre. Ainsi, si vous trouvez une boucle dans un arbre, ce n’est jamais bon signe. Mais assez de théorie. Nous allons voir ici des exemples montrant comment exploiter des erreurs de configuration courantes dans les environnements virtualisés. Notez que ces failles ne sont pas spécifiques à une technologie en particulier (VMWare, HyperV, ...) et peuvent s’appliquer à presque toutes.
 
-> TL;DR<br>
-> &rarr; Storing unencrypted VM backups and disks equates exposing plaintext credentials<br>
-> &rarr; Managing hypervisors and EDR consoles within Active Directory often breaks the tiering<br>
-> &rarr; When using disk images, user profiles or backups, don't forget about integrity<br>
+> **TL;DR**<br>  
+> &rarr; Stocker des sauvegardes et disques de machines virtuelles non chiffrés revient à exposer des identifiants en clair<br>  
+> &rarr; Gérer les hyperviseurs et les consoles EDR au sein d'Active Directory rompt souvent le cloisonnement<br>  
+> &rarr; Lors de l'utilisation d'images disque, de profils utilisateurs ou de sauvegardes, ne pas négliger l'intégrité<br>
 
 # 0. Intro: Tiering
 
-For those unfamiliar with the tiering in Active Directory, here is how it works:
+Pour celles et ceux qui ne seraient pas familiers avec le cloisonnement dans Active Directory, ou tiering, voici comment il fonctionne :  
 
-* Tier 0: Contains anything linked to Domain Controllers and Domain administrators. Basically, it should only be accessed when making changes at the domain level (password policies, GPOs, ...)
-* Tier 1: Meant mostly for server's management. It contains less critical assets than the previous one, but will likely represent a higher risk at the business level.
-* Tier 2: Workstations, phones, printers
+* **Tier 0** : Contient tout ce qui est lié aux contrôleurs de domaine et aux administrateurs du domaine. En principe, il ne devrait être accessible que pour des modifications au niveau du domaine (politiques de mot de passe, GPOs, …).  
+* **Tier 1** : Principalement destiné à la gestion des serveurs. Il contient des actifs moins critiques que le niveau précédent, mais représente généralement un risque plus élevé pour l’entreprise.  
+* **Tier 2** : Regroupe les postes de travail, téléphones, imprimantes.  
 
-This security model is made in such a way that administrators separate roles and account. This ensures, for example, that compromising a laptop, and all accounts logged into it, will not immediately lead to the fall of the castle.
+Ce modèle de sécurité est conçu de manière à ce que les administrateurs séparent les rôles et les comptes en fonction du niveau avec lequel ils travaillent. Cela garantit, par exemple, que la compromission d’un ordinateur portable et des comptes connectés dessus ne mène pas immédiatement à la chute de tout le système.
 
 # 1. Unencrypted VM storage
 
-This one is the most commonly seen.
+C'est un des exemples les plus courants.
 
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/scrap.png)
 {: refdef}
 
-The virtual machines backups, snapshots, images, virtual disks, all contain **secrets**. The image above tries to summarize which kind of secrets are generally stored in those files, while being loosely based on a Krebs article [Krebs article](https://krebsonsecurity.com/2012/10/the-scrap-value-of-a-hacked-pc-revisited/).
+Les sauvegardes de machines virtuelles, snapshots, images et disques virtuels contiennent tous des **secrets**. L’image ci-dessus tente de résumer les types de secrets généralement stockés dans ces fichiers, en s’inspirant librement d’un article de Krebs [Krebs article](https://krebsonsecurity.com/2012/10/the-scrap-value-of-a-hacked-pc-revisited/).  
 
-It is important to note that any local authentication secret, application configuration, api token, used in a virtual system, will possibly be available in a snapshot. Evidently, exposing those backups and virtual disks (which are just binary files, sometimes tedious to parse but still **files**) on a network with no or weak authentication and access control poses a problem.
+Il est important de noter que tout secret lié à l’authentification locale, à la configuration d’une application ou à un jeton API utilisé dans un système virtualisé pourrait se retrouver dans un snapshot. Évidemment, exposer ces sauvegardes et disques virtuels (qui ne sont que des fichiers binaires, parfois complexes à analyser mais toujours **lisibles**) sur un réseau avec une authentification et un contrôle d’accès faibles représente un risque majeur.  
 
-For instance, a very common attack path for privilege escalation within a network containing virtual systems would follow these steps:
+Par exemple, un chemin d’attaque très courant pour l’élévation de privilèges dans un réseau contenant des systèmes virtualisés suivrait ces étapes :  
 
-* Identify Hypervisors
-* Identify shares containing virtual machines drives and images
-    * It can be done by looking for specific extensions (eg. vhdx, qcow2, ...)
-* Mount/read the volumes
-    *  for .vhdx, using libguestfs: `guestmount --add vm.vhdx --inspector --ro /mnt/vm/ `
-    *  for .qcow2: (adjust the partition number to match the main system's one)
+* **Identifier les hyperviseurs**  
+* **Identifier les partages contenant des disques et images de machines virtuelles**  
+    * Cela peut être fait en recherchant des extensions spécifiques (ex. vhdx, qcow2, …)  
+* **Monter/lire les volumes**  
+    * Pour `.vhdx`, en utilisant **libguestfs** :  
+      ```bash
+      guestmount --add vm.vhdx --inspector --ro /mnt/vm/
+      ```  
+    * Pour `.qcow2` : (ajuster le numéro de partition pour correspondre au système principal)
 ```bash
 modprobe nbd max_part=8
 qemu-nbd --connect=/dev/nbd0 vm.qcow2
 mount /dev/nbd0p1 /mnt/vm/
 ```
 
-and poof, the local Windows secrets are readable from a Linux machine:
+et paf, les secrets Windows locaux sont lisibles depuis Linux:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/poof.png)
 {: refdef}
 
-This, coupled with Windows systems sharing the same local passwords, can be **devastating**.
+Ceci, couplé avec une mauvaise pratique de réutilisation de mots de passes locaux, peut avoir des effets **dévastateurs**
 
-# 2. Exploiting broken tiering
+# 2. Exploiter un mauvais cloisonnement
 
-As mentionned earlier, hypervisors should not host VMs with a higher tier than themselves. Here is why:
+Comment mentionné précédemment, aucun hyperviseur ne devrait héberger un système d'un niveau supérieur au sien. Voici pourquoi:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/tiering.png)
 {: refdef}
 
-It creates a privilege escalation from tier 1 to tier 0. It is usually easily exploitable, following similar same steps as before, but with a different ending:
+Cela crée une élévation de privilèges du niveau 1 au niveau 0. Cela est généralement facilement exploitable, suivant des étapes similaires à celles mentionnées précédemment, mais avec une fin différente :  
 
-* Identify the hypervisors
-* Identify the ones hosting a Domain Controller
-* Generate a backup image
-* Decrypt the NTDS.DIT file
+* **Identifier les hyperviseurs**  
+* **Identifier ceux hébergeant un contrôleur de domaine**  
+* **Générer une image de sauvegarde**  
+* **Décrypter le fichier NTDS.DIT**  
 
-But during audits, we have mostly used this loop for another purpose: extending the attack **outside of Active Directory**. For instance, on a large network, after administrative access to all the systems in Active Directory, what is left to do ? Auditing network equipments (switches, WiFi APs), accessing surveillance cameras, getting a root shell on Linux servers... <br>
+Mais lors des audits, nous avons principalement utilisé cette boucle dans un autre but : **étendre l'attaque en dehors d'Active Directory**. Par exemple, sur un grand réseau, après avoir obtenu un accès administratif à tous les systèmes d'Active Directory, que reste-t-il à faire ? Auditer les équipements réseau (commutateurs, points d'accès WiFi), accéder aux caméras de surveillance, obtenir un shell root sur les serveurs Linux... <br>  
 
-Well, with an EDR, it can be actually made simpler, as it is often possible to execute commands on all local running agents (even Linux ones) from the main console:
+Eh bien, avec un EDR, cela peut être en réalité simplifié, car il est souvent possible d'exécuter des commandes sur tous les agents locaux en cours d'exécution (même ceux sous Linux) depuis la console principale :
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/edr.png)
 {: refdef}
 
-And yes, an EDR is a security tool, but any additional component **increases the attack surface**.
+Oui, un EDR est un outil de sécurité, mais l'intégration de tout nouveau système complexifie et **augmente la surface d'attaque**.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/isolate.png)
 {: refdef}
 
-In order to make sure these elevations do not happen, it is necessary to **isolate the hypervisors for sensitive systems**.
+Afin d'assurer que ces élévations ne puissent pas être possibles, il est important d'isoler les socles de virtualisation sensibles.
 
 
-# 3. Active backdooring
+# 3. Porte dérobée active
 
-This one is a variant of the first point, but in this case we target an active session of a user. In this case, instead of browing the virtual machines artifacts for reusable secrets in the hope they are still relevant, we backdoor an active system to steal the user's sessions:
+Ceci est une variante du premier point, mais dans ce cas, nous ciblons une session active d'un utilisateur. Au lieu de parcourir les artefacts des machines virtuelles à la recherche de secrets réutilisables dans l'espoir qu'ils soient toujours valides, nous installons une porte dérobée sur un système actif pour voler les sessions de l'utilisateur :  
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/bd.png)
-{: refdef}
+{: refdef}  
 
-One concrete example of this attack, that can be easily implemented using the multidrop plugin from metasploit framework:
+Un exemple concret de cette attaque, qui peut être facilement mis en œuvre en utilisant le plugin multidrop du framework Metasploit :  
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/multidrop.png)
-{: refdef}
+{: refdef}  
 
-Simply by replacing or adding static files containing a UNC path on the desktop of the victim is enough to steal an active Active Directory session, and replay it on the domain.
+Il suffit de remplacer ou d'ajouter des fichiers statiques contenant un chemin UNC sur le bureau de la victime pour voler une session Active Directory active et la rejouer sur le domaine.  
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/bd2.png)
-{: refdef}
+{: refdef}  
 
-While there is a lot of countermeasures to this (protected users, SMB signing, ...), the best practice to highlight here still concerns access control and integrity for virtual systems images.
-
-# 4. Underrated problem ?
-
-We see this everywhere. The more complex a system is, the more likely things like this will appear. And knowing that HyperV does not even natively support disks and snapshots encryption, it becomes very evident that a lot of system administrators are not even aware of the issue.
-
-One potential leaad that needs more investigation is the ability to omit certain files and folders from the snapshots. For example, not including SAM, nor SECURITY or NTDS.DIT files from VHDX files would greatly improve the security of on premise systems. Yet, this is, once again, not supported by HyperV.
+Bien qu'il existe de nombreuses contre-mesures à cela (utilisateurs protégés, signature SMB, ...), la meilleure pratique à souligner ici concerne toujours le contrôle d'accès et l'intégrité des images des systèmes virtuels.
 
 
+# 4. Problème sous côté ?
 
-Stay classy netsecurios.
+Nous voyons cela partout. Plus un système est complexe, plus il est probable que des problèmes comme celui-ci apparaissent. Et sachant que HyperV ne prend même pas en charge nativement le chiffrement des disques et des snapshots, il devient très évident que de nombreux administrateurs système ne sont même pas conscients du problème.  
+
+Une piste potentielle qui mérite davantage d'investigation est la possibilité d'ommettre certains fichiers et dossiers des snapshots. Par exemple, ne pas inclure les fichiers SAM, SECURITY ou NTDS.DIT dans les fichiers VHDX améliorerait considérablement la sécurité des systèmes sur site. Pourtant, cela n'est, une fois de plus, pas pris en charge par HyperV.
+
 
 ---
-What not to do with on prem virtual machines
+Les erreurs à ne pas commettre avec des machines virtuelles
 ---
