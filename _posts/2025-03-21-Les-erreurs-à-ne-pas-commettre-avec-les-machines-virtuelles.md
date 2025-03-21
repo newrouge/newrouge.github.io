@@ -7,7 +7,7 @@ title: Les erreurs à ne pas commettre avec les machines virtuelles
 
 Erreurs courantes liées à la virtualisation, et exemples d'exploitation<br>
 
-Lors des tests d'intrusion et des exercices de red team, nous avons constaté que, bien souvent, il était possible de trouver des artefacts de machines virtuelles, des profils actifs, des sauvegardes non chiffrées... Le sujet principal de cet article tourne autour d'une idée : **Le cloisonnement défaillant**.
+Lors des tests d'intrusion et des exercices de red team, nous avons constaté que, bien souvent, il était possible de trouver des artefacts de machines virtuelles, des profils actifs, des sauvegardes non chiffrées... Le sujet principal de cet article tourne autour d'une idée : **Une mauvaise compréhension du niveau d'exposition des VMs**.
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/loop.png)
