@@ -5,10 +5,7 @@ tags: system
 title: What not to do with on prem virtualization
 ---
 
-
-<div style="text-align: center;">
- <a href="/tags#system"><img src="{{ site.baseurl }}/icons/system.png" width="200" title="system" ></a>
-</div>
+Common misconfigurations in on prem VM environments <br/>
 
 During intrusion tests and red teams, we have realized that more often than not, it was possible to find simple attack paths using the way local virtual machines were handled. This posts main topic revolves around one idea: **Broken Tiering**
 
