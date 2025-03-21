@@ -15,7 +15,7 @@ During intrusion tests and red teams, we have realized that more often than not,
 
 Why does it matter you may ask ? For one thing, the hierarchy of privileges is supposed to be a tree. So if you find a loop in a tree it's never a good sign. But enough with the theory. We will see here examples showing how to exploit common misconfigurations in virtualized environments. Note that they are not specific to one technology (VMWare, HyperV, ...) and may pretty much apply to any of them.
 
-> TL;DR
+> TL;DR<br>
 > &rarr; Storing unencrypted VM backups and disks equates exposing plaintext credentials<br>
 > &rarr; Managing hypervisors and EDR consoles within Active Directory often breaks the tiering<br>
 > &rarr; When using disk images, user profiles or backups, don't forget about integrity<br>
