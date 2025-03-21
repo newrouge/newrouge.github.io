@@ -16,9 +16,9 @@ Lors des tests d'intrusion et des exercices de red team, nous avons constaté qu
 Pourquoi est-ce important, me direz-vous ? D’une part, la hiérarchie des privilèges est censée suivre une structure en arbre. Ainsi, si vous trouvez une boucle dans un arbre, ce n’est jamais bon signe. Mais assez de théorie. Nous allons voir ici des exemples montrant comment exploiter des erreurs de configuration courantes dans les environnements virtualisés. Notez que ces failles ne sont pas spécifiques à une technologie en particulier (VMWare, HyperV, ...) et peuvent s’appliquer à presque toutes.
 
 > **TL;DR**<br>  
-> &rarr; Stocker des sauvegardes et disques de machines virtuelles non chiffrés revient à exposer des identifiants en clair<br>  
-> &rarr; Gérer les hyperviseurs et les consoles EDR au sein d'Active Directory rompt souvent le cloisonnement<br>  
-> &rarr; Lors de l'utilisation d'images disque, de profils utilisateurs ou de sauvegardes, ne pas négliger l'intégrité<br>
+> Stocker des sauvegardes et disques de machines virtuelles non chiffrés revient à exposer des identifiants en clair<br>  
+> Gérer les hyperviseurs et les consoles EDR au sein d'Active Directory rompt souvent le cloisonnement<br>  
+> Lors de l'utilisation d'images disque, de profils utilisateurs ou de sauvegardes, ne pas négliger l'intégrité<br>
 
 # 0. Intro: Tiering
 
