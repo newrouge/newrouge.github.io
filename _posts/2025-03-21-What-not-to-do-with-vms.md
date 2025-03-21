@@ -99,7 +99,7 @@ In order to make sure these elevations do not happen, it is necessary to **isola
 
 # 3. Active backdooring
 
-This one is a variant of the first point, but in this case we target an active session of a user. In this case, instead of browing the virtual machines artifacts for reusable secrets in the hope they are still relevant, we backdoor an active system to steal the user's sessions:
+This one is a variant of the first point, but in this case we target an active session of a user. Instead of broswing the virtual machines artifacts for reusable secrets in the hope they are still relevant, we backdoor an active system to steal the user's sessions:
 
 {:refdef: style="text-align: center;"}
 ![_config.yml]({{ site.baseurl }}/images/vms/bd.png)
