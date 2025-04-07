@@ -7,7 +7,7 @@ pre.highlight {
   box-shadow: 3px 3px rgba(0,0,0,0.1);
   margin: 20px 0 20px 0;
   overflow: auto;
-  color: #333; /* darker default */
+  color: #111; /* darker default text */
 }
 
 code {
@@ -15,71 +15,71 @@ code {
   font-family:'Bitstream Vera Sans Mono','Courier', monospace;
 }
 
-.highlight .c { color: #586E75 } /* Comment */
-.highlight .err { color: #93A1A1 }
-.highlight .g { color: #444 } /* Generic */
-.highlight .k { color: #859900 } /* Keyword */
-.highlight .l { color: #444 } /* Literal */
-.highlight .n { color: #444 } /* Name */
-.highlight .o { color: #859900 } /* Operator */
-.highlight .x { color: #CB4B16 }
-.highlight .p { color: #444 } /* Punctuation */
-.highlight .cm { color: #586E75 }
-.highlight .cp { color: #859900 }
-.highlight .c1 { color: #586E75 }
-.highlight .cs { color: #859900 }
-.highlight .gd { color: #2AA198 }
-.highlight .ge { color: #444; font-style: italic }
-.highlight .gr { color: #DC322F }
-.highlight .gh { color: #CB4B16 }
-.highlight .gi { color: #859900 }
-.highlight .go { color: #444 }
-.highlight .gp { color: #444 }
-.highlight .gs { color: #444; font-weight: bold }
-.highlight .gu { color: #CB4B16 }
-.highlight .gt { color: #444 }
-.highlight .kc { color: #CB4B16 }
-.highlight .kd { color: #268BD2 }
-.highlight .kn { color: #859900 }
-.highlight .kp { color: #859900 }
-.highlight .kr { color: #268BD2 }
-.highlight .kt { color: #DC322F }
-.highlight .ld { color: #93A1A1 }
-.highlight .m { color: #2AA198 }
-.highlight .s { color: #2AA198 }
-.highlight .na { color: #93A1A1 }
-.highlight .nb { color: #B58900 }
-.highlight .nc { color: #268BD2 }
-.highlight .no { color: #CB4B16 }
-.highlight .nd { color: #268BD2 }
-.highlight .ni { color: #CB4B16 }
-.highlight .ne { color: #CB4B16 }
-.highlight .nf { color: #268BD2 }
-.highlight .nl { color: #444 }
-.highlight .nn { color: #444 }
-.highlight .nx { color: #555 }
-.highlight .py { color: #444 }
-.highlight .nt { color: #268BD2 }
-.highlight .nv { color: #268BD2 }
-.highlight .ow { color: #859900 }
-.highlight .w { color: #555 }
-.highlight .mf { color: #2AA198 }
-.highlight .mh { color: #2AA198 }
-.highlight .mi { color: #2AA198 }
-.highlight .mo { color: #2AA198 }
-.highlight .sb { color: #586E75 }
-.highlight .sc { color: #2AA198 }
-.highlight .sd { color: #93A1A1 }
-.highlight .s2 { color: #2AA198 }
-.highlight .se { color: #CB4B16 }
-.highlight .sh { color: #93A1A1 }
-.highlight .si { color: #2AA198 }
-.highlight .sx { color: #2AA198 }
-.highlight .sr { color: #DC322F }
-.highlight .s1 { color: #2AA198 }
-.highlight .ss { color: #2AA198 }
-.highlight .bp { color: #268BD2 }
-.highlight .vc { color: #268BD2 }
-.highlight .vg { color: #268BD2 }
-.highlight .vi { color: #268BD2 }
-.highlight .il { color: #2AA198 }
+.highlight .c { color: #405c65 } /* Comment */
+.highlight .err { color: #5c7f7f }
+.highlight .g { color: #222 } /* Generic */
+.highlight .k { color: #556B00 } /* Keyword */
+.highlight .l { color: #222 } /* Literal */
+.highlight .n { color: #222 } /* Name */
+.highlight .o { color: #556B00 } /* Operator */
+.highlight .x { color: #A03010 }
+.highlight .p { color: #222 } /* Punctuation */
+.highlight .cm { color: #405c65 }
+.highlight .cp { color: #556B00 }
+.highlight .c1 { color: #405c65 }
+.highlight .cs { color: #556B00 }
+.highlight .gd { color: #007A75 }
+.highlight .ge { color: #222; font-style: italic }
+.highlight .gr { color: #B22222 }
+.highlight .gh { color: #A03010 }
+.highlight .gi { color: #556B00 }
+.highlight .go { color: #222 }
+.highlight .gp { color: #222 }
+.highlight .gs { color: #222; font-weight: bold }
+.highlight .gu { color: #A03010 }
+.highlight .gt { color: #222 }
+.highlight .kc { color: #A03010 }
+.highlight .kd { color: #005a9c }
+.highlight .kn { color: #556B00 }
+.highlight .kp { color: #556B00 }
+.highlight .kr { color: #005a9c }
+.highlight .kt { color: #B22222 }
+.highlight .ld { color: #5c7f7f }
+.highlight .m { color: #007A75 }
+.highlight .s { color: #007A75 }
+.highlight .na { color: #5c7f7f }
+.highlight .nb { color: #8B7500 }
+.highlight .nc { color: #005a9c }
+.highlight .no { color: #A03010 }
+.highlight .nd { color: #005a9c }
+.highlight .ni { color: #A03010 }
+.highlight .ne { color: #A03010 }
+.highlight .nf { color: #005a9c }
+.highlight .nl { color: #222 }
+.highlight .nn { color: #222 }
+.highlight .nx { color: #333 }
+.highlight .py { color: #222 }
+.highlight .nt { color: #005a9c }
+.highlight .nv { color: #005a9c }
+.highlight .ow { color: #556B00 }
+.highlight .w { color: #333 }
+.highlight .mf { color: #007A75 }
+.highlight .mh { color: #007A75 }
+.highlight .mi { color: #007A75 }
+.highlight .mo { color: #007A75 }
+.highlight .sb { color: #405c65 }
+.highlight .sc { color: #007A75 }
+.highlight .sd { color: #5c7f7f }
+.highlight .s2 { color: #007A75 }
+.highlight .se { color: #A03010 }
+.highlight .sh { color: #5c7f7f }
+.highlight .si { color: #007A75 }
+.highlight .sx { color: #007A75 }
+.highlight .sr { color: #B22222 }
+.highlight .s1 { color: #007A75 }
+.highlight .ss { color: #007A75 }
+.highlight .bp { color: #005a9c }
+.highlight .vc { color: #005a9c }
+.highlight .vg { color: #005a9c }
+.highlight .vi { color: #005a9c }
+.highlight .il { color: #007A75 }
