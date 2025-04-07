@@ -84,9 +84,12 @@ code {
 .highlight .vi { color: #005a9c }
 .highlight .il { color: #007A75 }
 
-pre.highlight ::selection,
-pre.highlight ::-moz-selection {
-  background: #264f78;
-  color: #ffffff;
+pre.highlight code {
+  user-select: text !important;
 }
 
+pre.highlight code::selection,
+pre.highlight code::-moz-selection {
+  background: #007acc;
+  color: #ffffff;
+}
