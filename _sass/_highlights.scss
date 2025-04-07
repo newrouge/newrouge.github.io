@@ -84,12 +84,27 @@ code {
 .highlight .vi { color: #005a9c }
 .highlight .il { color: #007A75 }
 
-pre.highlight code {
-  user-select: text !important;
+.pre-wrapper {
+  position: relative;
 }
 
-pre.highlight code::selection,
-pre.highlight code::-moz-selection {
-  background: #007acc;
-  color: #ffffff;
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  z-index: 5;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
 }
+
+.copy-btn:hover {
+  opacity: 1;
+}
+
