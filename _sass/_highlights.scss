@@ -83,3 +83,10 @@ code {
 .highlight .vg { color: #005a9c }
 .highlight .vi { color: #005a9c }
 .highlight .il { color: #007A75 }
+
+pre.highlight ::selection,
+pre.highlight ::-moz-selection {
+  background: #264f78;
+  color: #ffffff;
+}
+
