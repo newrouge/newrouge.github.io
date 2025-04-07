@@ -55,13 +55,14 @@
     document.querySelectorAll('pre > code').forEach((codeBlock) => {
       const button = document.createElement('button');
       button.className = 'copy-button';
-      button.innerHTML = '📋 Copy';
+      button.innerHTML = '<svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16"><path fill="currentColor" d="M16 1H8v2H3v20h18V3h-5V1zm-6 2h4v2h-4V3zm8 18H6V5h2v2h8V5h2v16z"/></svg> Copy';
 
       button.addEventListener('click', () => {
-        const text = codeBlock.innerText;
-        navigator.clipboard.writeText(text).then(() => {
+        navigator.clipboard.writeText(codeBlock.innerText).then(() => {
           button.innerHTML = '✅ Copied!';
-          setTimeout(() => (button.innerHTML = '📋 Copy'), 1500);
+          setTimeout(() => {
+            button.innerHTML = '<svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16"><path fill="currentColor" d="M16 1H8v2H3v20h18V3h-5V1zm-6 2h4v2h-4V3zm8 18H6V5h2v2h8V5h2v16z"/></svg> Copy';
+          }, 1500);
         });
       });
 
@@ -71,6 +72,7 @@
     });
   });
 </script>
+
 
 
   </body>
