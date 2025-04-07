@@ -50,31 +50,28 @@
 
     {% include analytics.html %}
 
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('pre.highlight').forEach((pre) => {
-    const button = document.createElement('button');
-    button.innerText = 'Copy';
-    button.className = 'copy-btn';
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('pre > code').forEach((codeBlock) => {
+      const button = document.createElement('button');
+      button.className = 'copy-button';
+      button.innerHTML = '📋 Copy';
 
-    button.addEventListener('click', function () {
-      const code = pre.querySelector('code');
-      if (!code) return;
-      const text = code.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        button.innerText = 'Copied!';
-        setTimeout(() => (button.innerText = 'Copy'), 1500);
+      button.addEventListener('click', () => {
+        const text = codeBlock.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          button.innerHTML = '✅ Copied!';
+          setTimeout(() => (button.innerHTML = '📋 Copy'), 1500);
+        });
       });
-    });
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'pre-wrapper';
-    pre.parentNode.insertBefore(wrapper, pre);
-    wrapper.appendChild(button);
-    wrapper.appendChild(pre);
+      const pre = codeBlock.parentNode;
+      pre.style.position = 'relative';
+      pre.appendChild(button);
+    });
   });
-});
 </script>
+
 
   </body>
 </html>
