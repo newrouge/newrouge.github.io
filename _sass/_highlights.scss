@@ -113,3 +113,62 @@ code {
   font-family: 'Courier New', monospace;
 }
 
+.search-container {
+  margin: 20px 0;
+}
+
+#search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#search-input:focus {
+  outline: none;
+  border-color: #007cba;
+}
+
+#results-container {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+  max-width: 400px;
+}
+
+#results-container li {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-top: none;
+  padding: 10px;
+}
+
+#results-container li:first-child {
+  border-top: 1px solid #ddd;
+  border-radius: 4px 4px 0 0;
+}
+
+#results-container li:last-child {
+  border-radius: 0 0 4px 4px;
+}
+
+#results-container li:only-child {
+  border-radius: 4px;
+}
+
+#results-container li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+#results-container li:hover {
+  background: #f0f0f0;
+}
+
+#results-container li a:hover {
+  color: #007cba;
+}
