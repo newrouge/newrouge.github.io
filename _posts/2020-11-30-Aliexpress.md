@@ -6,9 +6,8 @@ title: AliExpress Captcha Reuse
 
 Captcha reuse in Aliexpress login form
 
-<div style="text-align: center;">
- <a href="/tags#system"><img src="{{ site.baseurl }}/icons/web.png" width="200" title="web" ></a>
-</div>
+![WhatsApp Image 2025-09-02 at 11 10 49 PM](https://github.com/user-attachments/assets/3c711889-e229-4c09-a4d3-0a246985c76e)
+
 
 I recently noticed (thanks to Chrome's form cache) that AliExpress login captcha's were not random. Instead, it seems they are using a set of pre-generated images and sending users a random one from this set. This is, of course, not the right way to use captchas, especially if we add the fact that those are text captchas, quite easy to solve with OCR.  
 My goal here is not to demonstrate a successful attack against Aliexpress's login form, but rather just showing a simple PoC to demonstrate these captcha's weaknesses.   
